@@ -3,21 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_quibla">
+    app:startDestination="@id/navigation_dashboard">
 
     <fragment
         android:id="@+id/navigation_quibla"
         android:name="com.qubitech.ramadanapp.ui.quibla.CompassFragment"
         android:label="@string/title_quibla"
-        tools:layout="@layout/fragment_quibla" >
+        tools:layout="@layout/fragment_quibla">
         <action
             android:id="@+id/action_quibla_to_dashboard"
             app:destination="@id/navigation_dashboard"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
-            app:popUpTo="@id/navigation_quibla"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quibla"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -25,15 +25,15 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.qubitech.ramadanapp.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
+        tools:layout="@layout/fragment_dashboard">
         <action
             android:id="@+id/action_dashboard_to_quibla"
             app:destination="@id/navigation_quibla"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
-            app:popUpTo="@id/navigation_dashboard"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dashboard"
             app:popUpToInclusive="true" />
     </fragment>
 

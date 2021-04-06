@@ -48,7 +48,7 @@
                         android:layout_marginEnd="16dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:src="@mipmap/app" />
+                        app:srcCompat="@mipmap/app" />
 
                     <TextView
                         android:id="@+id/textView"
@@ -174,7 +174,6 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginTop="16dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.06"
                         app:layout_constraintStart_toStartOf="parent"
@@ -186,18 +185,16 @@
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_marginTop="24dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintBottom_toBottomOf="@+id/textView5"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                        app:srcCompat="@drawable/sunrise" />
+                        app:srcCompat="@drawable/midnight" />
 
                     <ImageView
                         android:id="@+id/imageView7"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintBottom_toBottomOf="@+id/textView7"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +205,6 @@
                         android:id="@+id/imageView8"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintBottom_toBottomOf="@+id/textView9"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -219,29 +215,26 @@
                         android:id="@+id/imageView9"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintBottom_toBottomOf="@+id/textView11"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView11"
-                        app:srcCompat="@drawable/sunrise" />
+                        app:srcCompat="@drawable/sunset" />
 
                     <ImageView
                         android:id="@+id/imageView10"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintBottom_toBottomOf="@+id/textView13"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView13"
-                        app:srcCompat="@drawable/sunrise" />
+                        app:srcCompat="@drawable/midnight" />
 
                     <ImageView
                         android:id="@+id/imageView4"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.44"
@@ -254,7 +247,6 @@
                         android:id="@+id/imageView5"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/dial"
                         app:layout_constraintBottom_toBottomOf="@+id/imageView4"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.76"
