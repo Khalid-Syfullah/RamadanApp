@@ -129,5 +129,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="underdevelopment">ডেভলপমেন্ট চলছে</string>
+    <string name="nearby_mosques">নিকটবর্তী মসজিদ</string>
+    <string name="digital_tasbih">আজকের তাসবীহ</string>
+    <string name="daily_checklist">দৈনিক চেকলিস্ট</string>
+    <string name="important_dua">প্রয়োজনীয় দুআ</string>
 
 </resources>

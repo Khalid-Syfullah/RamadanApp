@@ -127,6 +127,10 @@
     <string name="today">Today</string>
     <string name="app_bar_title">Muslim VAi</string>
     <string name="underdevelopment">Under Development</string>
+    <string name="nearby_mosques">Nearby Mosques</string>
+    <string name="digital_tasbih">Digital Tasbih</string>
+    <string name="daily_checklist">Daily Checklist</string>
+    <string name="important_dua">Important Dua</string>
 
 
 </resources>
