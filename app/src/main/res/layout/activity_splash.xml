@@ -28,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
-        android:text="Ramadan App"
+        android:text="@string/app_name"
         android:textColor="@color/Python"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,7 +45,7 @@
         android:layout_marginTop="8dp"
 
 
-        android:text="Under Development"
+        android:text="@string/underdevelopment"
         android:textColor="@color/R"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"

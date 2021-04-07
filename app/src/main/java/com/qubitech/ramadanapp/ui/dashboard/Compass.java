@@ -1,4 +1,4 @@
-package com.qubitech.ramadanapp.ui.quibla;
+package com.qubitech.ramadanapp.ui.dashboard;
 
 import android.content.Context;
 import android.hardware.Sensor;
@@ -95,7 +95,7 @@ public class Compass implements SensorEventListener {
                 float orientation[] = new float[3];
                 SensorManager.getOrientation(R, orientation);
                 // Log.d(TAG, "azimuth (rad): " + azimuth);
-                azimuth = (float) Math.toDegrees(orientation[0]);
+                azimuth = (float) Math.toDegrees(orientation[0]); // orientation
                 azimuth = (azimuth + azimuthFix + 360) % 360;
                 // Log.d(TAG, "azimuth (deg): " + azimuth);
                 if (listener != null) {

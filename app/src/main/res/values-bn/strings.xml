@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Muslim VAi</string>
+    <string name="app_name">মুসলিম ভাই</string>
 
-    <string name="dashboard">Dashboard</string>
-    <string name="calendar">Calendar</string>
-    <string name="quran">Quran</string>
-    <string name="dua">Dua</string>
-    <string name="quibla">Quibla</string>
+    <string name="dashboard">আজকের সূচী</string>
+    <string name="calendar">ক্যালেন্ডার</string>
+    <string name="quran">কুরআন</string>
+    <string name="dua">দুআ</string>
+    <string name="quibla">কিবলা</string>
 
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">সেটিংস</string>
     <string name="compass_dial" translatable="false">Compass Dial</string>
     <string name="compass_hands" translatable="false">Compass Hands</string>
 
@@ -21,20 +22,23 @@
     <string name="sotw_southeast">SE</string>
     <string name="sotw_southwest">SW</string>
 
-    <string name="are_you_sure">Are you sure?</string>
-    <string name="change_language">Change Language</string>
-    <string name="cancel">Cancel</string>
-    <string name="yes">Yes</string>
+    <string name="are_you_sure">নিশ্চিত?</string>
+    <string name="change_language">ভাষা পরিবর্তন</string>
+    <string name="cancel">বাতিল করুন</string>
+    <string name="yes">হ্যা‍</string>
 
-    <string name="prayertimes">Prayer Times</string>
+    <string name="prayertimes">সালাতের সময়সূচী</string>
     <string name="sunrise" />
     <string name="sunset" />
     <string name="midnight" />
-    <string name="fajr">Fajr</string>
-    <string name="dhuhr">Dhuhr</string>
-    <string name="asr">Asr</string>
-    <string name="maghrib">Maghrib</string>
-    <string name="isha">Isha</string>
+    <string name="fajr">ফজর</string>
+    <string name="dhuhr">যুহর</string>
+    <string name="asr">আসর</string>
+    <string name="maghrib">মাগরিব</string>
+    <string name="isha">ইশা</string>
+    <string name="today">আজ</string>
+    <string name="app_bar_title">Muslim VAi</string>
+
     <string name="large_text">
         "Material is the metaphor.\n\n"
 
@@ -124,9 +128,6 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
-    <string name="today">Today</string>
-    <string name="app_bar_title">Muslim VAi</string>
-    <string name="underdevelopment">Under Development</string>
-
+    <string name="underdevelopment">ডেভলপমেন্ট চলছে</string>
 
 </resources>

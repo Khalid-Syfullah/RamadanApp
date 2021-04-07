@@ -8,14 +8,11 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
-import com.qubitech.ramadanapp.ui.quibla.CompassFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -25,16 +22,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    public static final String Language_pref="Language";
-    public static final String Selected_language="Selected Language";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,16 +48,60 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
                 int nv = navController.getCurrentDestination().getId();
 
-                if(nv == R.id.navigation_quibla){
-                    if(id == R.id.navigation_dashboard){
-                        navController.navigate(R.id.action_quibla_to_dashboard);
-                    }
-                }
                 if(nv == R.id.navigation_dashboard){
-                    if(id == R.id.navigation_quibla){
-                        navController.navigate(R.id.action_dashboard_to_quibla);
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_dashboard_to_navigation_calendar);
                     }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_dashboard_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_dua){
+                        navController.navigate(R.id.action_navigation_dashboard_to_navigation_dua);
+                    }
+
                 }
+
+                if(nv == R.id.navigation_calendar){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_calendar_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_calendar_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_dua){
+                        navController.navigate(R.id.action_navigation_calendar_to_navigation_dua);
+                    }
+
+                }
+
+                if(nv == R.id.navigation_quran){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_quran_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_quran_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_dua){
+                        navController.navigate(R.id.action_navigation_quran_to_navigation_dua);
+                    }
+
+                }
+
+                if(nv == R.id.navigation_dua){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_dua_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_dua_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_dua_to_navigation_quran);
+                    }
+
+                }
+
+
+
                 return false;
             }
         });
@@ -76,37 +113,17 @@ public class MainActivity extends AppCompatActivity {
                 int id = item.getItemId();
 
                 if(id == R.id.english){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.drawer_layout,new DashboardFragment()).addToBackStack("dashboard").commit();
-
-                    if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                    }
-                    else{
-                        drawerLayout.openDrawer(GravityCompat.START);
-                    }
+                  languageAlertDialog("en");
                 }
                 else if(id == R.id.bangla){
-                    getSupportFragmentManager().beginTransaction().replace(R.id.drawer_layout,new CompassFragment()).addToBackStack("quibla").commit();
-
-                    if(drawerLayout.isDrawerOpen(GravityCompat.START)){
-                        drawerLayout.closeDrawer(GravityCompat.START);
-                    }
-                    else{
-                        drawerLayout.openDrawer(GravityCompat.START);
-                    }
+                   languageAlertDialog("bn");
                 }
 
-//                else if (id == R.id.english) {
-//                    languageAlertDialog("en");
-//                }
-//                else if (id == R.id.bangla) {
-//                    languageAlertDialog("bn");
-//                }
                 else if (id == R.id.shareApp){
                     Intent shareIntent=new Intent((Intent.ACTION_SEND));
                     shareIntent.setType("text/plain");
-                    String shareBody="CashTrack app: Plasma+\n http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName();
-                    String shareSub="CashTrack+";
+                    String shareBody="RamadanApp: +\n http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName();
+                    String shareSub="RamadanApp+";
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
                     shareIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
                     startActivity(Intent.createChooser(shareIntent,"Share Using"));
@@ -126,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 else if(id == R.id.sendReview){
-                    Uri uri = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSd3RqJLIIQ5iot2rqdhBJIEogKZQj8h484rMWbAF4spy1fWBQ/viewform?usp=sf_link");
+                    Uri uri = Uri.parse("https://docs.google.com/forms/d/e/98sd9f8s9f8sd9f8v89s8df/viewform?usp=sf_link");
                     Intent review = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(review);
                 }
@@ -156,13 +173,8 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        Toast.makeText(getApplicationContext(),"BackStack Entry Count: "+fragmentManager.getBackStackEntryCount(),Toast.LENGTH_SHORT).show();
-
         if(fragmentManager.getBackStackEntryCount() > 0) {
-            if(fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount()-1).getName().equals("quibla")) {
-                fragmentManager.popBackStack("quibla", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                fragmentManager.beginTransaction().remove(new CompassFragment()).commit();
-            }
+
             if(fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount()-1).getName().equals("dashboard")) {
                 fragmentManager.popBackStack("dashboard", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentManager.beginTransaction().remove(new DashboardFragment()).commit();
@@ -194,19 +206,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void setLocale(String lang) {
-        Locale myLocale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        SharedPreferences langPrefs=getSharedPreferences(Language_pref,MODE_PRIVATE);
-        SharedPreferences.Editor langPrefsEditor = langPrefs.edit();
-        langPrefsEditor.putString(Selected_language, lang);
-        langPrefsEditor.apply();
-        conf.locale = myLocale;
-        res.updateConfiguration(conf, dm);
-        Intent refresh = new Intent(this, MainActivity.class);
-        startActivity(refresh);
+    public void setLocale(String localeString) {
+
+        Locale myLocale = new Locale(localeString);
+        Resources resources = getResources();
+        DisplayMetrics displayMetrics = resources.getDisplayMetrics();
+        Configuration configuration = resources.getConfiguration();
+        configuration.locale = myLocale;
+        resources.updateConfiguration(configuration, displayMetrics);
+
+        SharedPreferences localePreferences = getSharedPreferences("Language",MODE_PRIVATE);
+        SharedPreferences.Editor localePreferencesEditor = localePreferences.edit();
+        localePreferencesEditor.putString("Current_Language", localeString);
+        localePreferencesEditor.apply();
+
+        Intent intent =new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
         finish();
     }
 

@@ -4,13 +4,23 @@
 
     <item
         android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:icon="@drawable/home"
+        android:title="@string/dashboard" />
 
     <item
-        android:id="@+id/navigation_quibla"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_quibla" />
+        android:id="@+id/navigation_quran"
+        android:icon="@drawable/quran"
+        android:title="@string/quran" />
+
+    <item
+        android:id="@+id/navigation_calendar"
+        android:icon="@drawable/calendar"
+        android:title="@string/calendar" />
+
+    <item
+        android:id="@+id/navigation_dua"
+        android:icon="@drawable/add"
+        android:title="@string/dua" />
 
 
 
