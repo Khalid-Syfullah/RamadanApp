@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
 
         android:scaleType="fitCenter"
-        android:src="@mipmap/app"
+        android:src="@drawable/headericon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="64dp"
         android:text="@string/app_name"
-        android:textColor="@color/Python"
+        android:textColor="@color/lime"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

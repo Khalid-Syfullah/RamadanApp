@@ -16,21 +16,27 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_dashboard_to_navigation_quran"
             app:destination="@id/navigation_quran"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quran"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_dashboard_to_navigation_dua"
             app:destination="@id/navigation_dua"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -45,21 +51,27 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quran"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_calendar_to_navigation_dua"
             app:destination="@id/navigation_dua"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dua"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_calendar_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -74,21 +86,27 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_quran_to_navigation_calendar"
             app:destination="@id/navigation_calendar"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_quran_to_navigation_dua"
             app:destination="@id/navigation_dua"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dua"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -103,21 +121,27 @@
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_dua_to_navigation_calendar"
             app:destination="@id/navigation_calendar"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_navigation_dua_to_navigation_quran"
             app:destination="@id/navigation_quran"
             app:enterAnim="@anim/fade_in"
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quran"
+            app:popUpToInclusive="true" />
     </fragment>
 
 

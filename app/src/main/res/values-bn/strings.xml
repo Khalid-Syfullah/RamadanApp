@@ -133,5 +133,12 @@
     <string name="digital_tasbih">আজকের তাসবীহ</string>
     <string name="daily_checklist">দৈনিক চেকলিস্ট</string>
     <string name="important_dua">প্রয়োজনীয় দুআ</string>
+    <string name="calibrate">ক্যালিব্রেট</string>
+    <string name="waqt">ওয়াক্ত</string>
+    <string name="next_sahri">পরবর্তী সাহরীর শেষ</string>
+    <string name="alarm">অ্যালার্ম</string>
+    <string name="next_iftar">পরবর্তী ইফতারের শুরু</string>
+    <string name="time_remaining">সময় বাকি</string>
+    <string name="nav_header_subtitle">অ্যাপটির ডেভলপমেন্ট চলছে</string>
 
 </resources>

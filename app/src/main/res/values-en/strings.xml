@@ -131,5 +131,12 @@
     <string name="digital_tasbih">Digital Tasbih</string>
     <string name="daily_checklist">Daily Checklist</string>
     <string name="important_dua">Important Dua</string>
+    <string name="calibrate">calibrate</string>
+    <string name="waqt">Waqt</string>
+    <string name="next_sahri">Last Time for Upcoming Sahri</string>
+    <string name="alarm">Alarm</string>
+    <string name="next_iftar">Start Time for Next Iftar</string>
+    <string name="time_remaining">Time Remaining</string>
+    <string name="nav_header_subtitle">Under Development</string>
 
 </resources>
