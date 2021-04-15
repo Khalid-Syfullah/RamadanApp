@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-270" />
-                            <option name="y" value="297" />
+                            <option name="x" value="-60" />
+                            <option name="y" value="284" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -65,6 +65,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_navigation_dashboard_to_navigation_tasbih">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -106,8 +111,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-47" />
-                            <option name="y" value="289" />
+                            <option name="x" value="-256" />
+                            <option name="y" value="283" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -123,6 +128,42 @@
                               </value>
                             </entry>
                             <entry key="action_navigation_quran_to_navigation_dua">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="navigation_tasbih">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-251" />
+                            <option name="y" value="-66" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_navigation_tasbih_to_navigation_calendar">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_navigation_tasbih_to_navigation_dashboard">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_navigation_tasbih_to_navigation_dua">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_navigation_tasbih_to_navigation_quran">
                               <value>
                                 <LayoutPositions />
                               </value>

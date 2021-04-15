@@ -11,6 +11,9 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:buttonStyle">@style/button</item>
+        <item name="android:textViewStyle">@style/text</item>
+
         <!-- Customize your theme here. -->
     </style>
 
@@ -22,5 +25,29 @@
         <item name="android:activityOpenExitAnimation">@anim/fade_out</item>
         <item name="android:activityCloseEnterAnimation">@anim/fade_in</item>
         <item name="android:activityCloseExitAnimation">@anim/fade_out</item>
+    </style>
+
+    <style name="button" parent="@android:style/Widget.Button">
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:shadowColor">#FF000000</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">-1</item>
+        <item name="android:shadowRadius">0.2</item>
+        <item name="android:textSize">16dip</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@color/lime</item>
+        <item name="android:focusable">true</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="text" parent="@android:style/Widget.TextView">
+
+        <item name="android:fontFamily">@font/alegreya_sc</item>
+        <item name="android:text">@string/app_name</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">normal</item>
+
     </style>
 </resources>

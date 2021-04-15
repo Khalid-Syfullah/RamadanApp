@@ -20,4 +20,5 @@
     <color name="lime">#67CE22</color>
     <color name="CPP">#EF5350</color>
     <color name="Java">#29B6F6</color>
+    <color name="background">#E4E4E4</color>
 </resources>

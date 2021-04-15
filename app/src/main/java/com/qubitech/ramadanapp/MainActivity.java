@@ -1,22 +1,31 @@
 package com.qubitech.ramadanapp;
 
+import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewAnimationUtils;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
+import com.qubitech.ramadanapp.ui.tasbih.TasbihFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
@@ -27,6 +36,7 @@ import androidx.navigation.ui.NavigationUI;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
+
 
 
     @Override
@@ -41,12 +51,27 @@ public class MainActivity extends AppCompatActivity {
         navController.setGraph(R.navigation.mobile_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
+        if (ContextCompat.checkSelfPermission(
+                MainActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat
+                    .requestPermissions(
+                            MainActivity.this,
+                            new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION },
+                            100);
+        }
+
+
+
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
                 int id = item.getItemId();
                 int nv = navController.getCurrentDestination().getId();
+
 
                 if(nv == R.id.navigation_dashboard){
                     if(id == R.id.navigation_calendar){
@@ -59,6 +84,18 @@ public class MainActivity extends AppCompatActivity {
                         navController.navigate(R.id.action_navigation_dashboard_to_navigation_dua);
                     }
 
+                }
+
+                if(nv == R.id.navigation_tasbih){
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_dua){
+                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_dua);
+                    }
                 }
 
                 if(nv == R.id.navigation_calendar){
@@ -168,6 +205,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public void onBackPressed() {
 
@@ -178,6 +217,10 @@ public class MainActivity extends AppCompatActivity {
             if(fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount()-1).getName().equals("dashboard")) {
                 fragmentManager.popBackStack("dashboard", FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 fragmentManager.beginTransaction().remove(new DashboardFragment()).commit();
+            }
+            if(fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount()-1).getName().equals("tasbih")) {
+                fragmentManager.popBackStack("tasbih", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                hideFAB(findViewById(R.id.cardView10));
             }
         }
         else {
@@ -224,6 +267,28 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private void hideFAB(View view) {
+
+        int cx = view.getWidth();
+        int cy = view.getHeight() ;
+        float initialRadius = (float) Math.hypot(cx, cy);
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, 0, initialRadius, 0);
+        anim.setDuration(500);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.GONE);
+                NavController navController = Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment);
+                navController.navigate(R.id.action_navigation_tasbih_to_navigation_dashboard);
+            }
+        });
+        anim.start();
+    }
+
+
+
 
 }
 

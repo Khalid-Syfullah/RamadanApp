@@ -27,7 +27,7 @@
     <string name="cancel">বাতিল করুন</string>
     <string name="yes">হ্যা‍</string>
 
-    <string name="prayertimes">সালাতের সময়সূচী</string>
+    <string name="prayertimes">ওয়াক্ত সমূহ</string>
     <string name="sunrise" />
     <string name="sunset" />
     <string name="midnight" />
@@ -140,5 +140,14 @@
     <string name="next_iftar">পরবর্তী ইফতারের শুরু</string>
     <string name="time_remaining">সময় বাকি</string>
     <string name="nav_header_subtitle">অ্যাপটির ডেভলপমেন্ট চলছে</string>
+    <string name="slash_33">/৩৩</string>
+    <string name="zero">০</string>
+    <string name="loop_no">লুপ নংঃ </string>
+    <string name="total">সর্বমোটঃ </string>
+    <string name="reset">রিসেট</string>
+    <string name="feedback">ফিডব্যাক</string>
+    <string name="six_oclock">০৬:০০</string>
+    <string name="save">সেভ</string>
+    <string name="saved">সেভ হয়েছে</string>
 
 </resources>

@@ -1,12 +1,20 @@
 package com.qubitech.ramadanapp.ui.dashboard;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -14,24 +22,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
+import com.qubitech.ramadanapp.ComingSoonActivity;
 import com.qubitech.ramadanapp.R;
+import com.qubitech.ramadanapp.ui.tasbih.TasbihFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class DashboardFragment extends Fragment {
+public class DashboardFragment extends Fragment implements View.OnClickListener{
+
+    Double latitude,longitude;
+    Intent locationIntent;
 
     private DashboardViewModel dashboardViewModel;
-    public String prayerUrl = "https://api.pray.zone/v2/times/today.json?city=Rajshahi";
+    public String prayerUrl = "";
     public TextView sunriseTextView, sunsetTextView, midnightTextView, fajrTextView, dhuhrTextView, asrTextView, maghribTextView, ishaTextView;
     public String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="";
     SharedPreferences localePreferences;
@@ -40,11 +64,12 @@ public class DashboardFragment extends Fragment {
     private Compass compass;
     private ImageView arrowView;
     private TextView sotwLabel;
-
+    private CardView cardView4,cardView5,cardView6,cardView7;
     private float currentAzimuth;
 
     private static final int[] sides = {0, 45, 90, 135, 180, 225, 270, 315, 360};
     private static String[] names = null;
+
 
 
 
@@ -64,6 +89,12 @@ public class DashboardFragment extends Fragment {
         maghribTextView = root.findViewById(R.id.textView12);
         ishaTextView = root.findViewById(R.id.textView14);
 
+        cardView4 = root.findViewById(R.id.cardView4);
+        cardView5 = root.findViewById(R.id.cardView5);
+        cardView6 = root.findViewById(R.id.cardView6);
+        cardView7 = root.findViewById(R.id.cardView7);
+
+
         sunriseTextView.setText("");
         sunsetTextView.setText("");
         midnightTextView.setText("");
@@ -74,8 +105,7 @@ public class DashboardFragment extends Fragment {
         ishaTextView.setText("");
 
         localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
-
-        new apiData().execute();
+        locationIntent = new Intent(getActivity().getApplicationContext(), LocationService.class);
 
         arrowView = root.findViewById(R.id.imageView25);
         sotwLabel = root.findViewById(R.id.dashboard_quibla_sotw);
@@ -83,7 +113,58 @@ public class DashboardFragment extends Fragment {
         initLocalizedNames(getActivity().getApplicationContext());
         setupCompass();
 
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
+        try {
+            Date waqtDate = simpleDateFormat.parse("18:45:00");
+            Date currentDate = Calendar.getInstance().getTime();
+
+            Long time = currentDate.getTime()-waqtDate.getTime();
+
+            int timeInSeconds = (int) (time / 1000);
+            int hours, minutes, seconds;
+            hours = timeInSeconds / 3600;
+            timeInSeconds = timeInSeconds - (hours * 3600);
+            minutes = timeInSeconds / 60;
+            timeInSeconds = timeInSeconds - (minutes * 60);
+            seconds = timeInSeconds;
+
+
+            //String diffTime = (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + " h";
+
+
+            Log.d("DateTime",""+hours+":"+minutes+":"+seconds);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        cardView4.setOnClickListener(this);
+        cardView5.setOnClickListener(this);
+        cardView6.setOnClickListener(this);
+        cardView7.setOnClickListener(this);
+
+
         return root;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.cardView4:
+            case R.id.cardView5:
+            case R.id.textView4:
+            case R.id.imageView4:
+                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
+                navController.navigate(R.id.action_navigation_dashboard_to_navigation_tasbih);
+                break;
+            case R.id.cardView6:
+            case R.id.cardView7:
+                Intent intent = new Intent(getActivity().getApplicationContext(), ComingSoonActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 
     @Override
@@ -97,12 +178,18 @@ public class DashboardFragment extends Fragment {
     public void onPause() {
         super.onPause();
         compass.stop();
+        getActivity().unregisterReceiver(broadcastReceiver);
+        getActivity().stopService(locationIntent);
     }
 
     @Override
     public void onResume() {
         super.onResume();
         compass.start();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+        getActivity().startService(locationIntent);
+
+
     }
 
     @Override
@@ -110,6 +197,8 @@ public class DashboardFragment extends Fragment {
         super.onStop();
         Log.d("Dashboard", "stop compass");
         compass.stop();
+        getActivity().stopService(locationIntent);
+
     }
 
     private class apiData extends AsyncTask<Void,Void,Void> {
@@ -163,9 +252,9 @@ public class DashboardFragment extends Fragment {
                 String locale = localePreferences.getString("Current_Language","");
                 if(locale.equals("bn")){
 
-                    banglaTimeFormatter(sunrise, sunriseTextView);
-                    banglaTimeFormatter(sunset, sunsetTextView);
-                    banglaTimeFormatter(midnight, midnightTextView);
+//                    banglaTimeFormatter(sunrise, sunriseTextView);
+//                    banglaTimeFormatter(sunset, sunsetTextView);
+//                    banglaTimeFormatter(midnight, midnightTextView);
                     banglaTimeFormatter(fajr, fajrTextView);
                     banglaTimeFormatter(dhuhr, dhuhrTextView);
                     banglaTimeFormatter(asr, asrTextView);
@@ -175,9 +264,9 @@ public class DashboardFragment extends Fragment {
                 }
                 else if(locale.equals("en")){
 
-                    englishTimeFormatter(sunrise, sunriseTextView);
-                    englishTimeFormatter(sunset, sunsetTextView);
-                    englishTimeFormatter(midnight, midnightTextView);
+//                    englishTimeFormatter(sunrise, sunriseTextView);
+//                    englishTimeFormatter(sunset, sunsetTextView);
+//                    englishTimeFormatter(midnight, midnightTextView);
                     englishTimeFormatter(fajr, fajrTextView);
                     englishTimeFormatter(dhuhr, dhuhrTextView);
                     englishTimeFormatter(asr, asrTextView);
@@ -206,6 +295,9 @@ public class DashboardFragment extends Fragment {
             switch (character){
                 case ':':
                     stringBuilder.append(":");
+                    break;
+                case '-':
+                    stringBuilder.append("-");
                     break;
                 case '0':
                     stringBuilder.append("০");
@@ -386,4 +478,49 @@ public class DashboardFragment extends Fragment {
         }
         return index1;
     }
+
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+            Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").setRegion("US").build();
+            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), aLocale);
+
+            latitude = Double.valueOf(intent.getStringExtra("latitude"));
+            longitude = Double.valueOf(intent.getStringExtra("longitude"));
+
+            prayerUrl = "https://api.pray.zone/v2/times/today.json?latitude="+latitude+"&longitude="+longitude;
+            new apiData().execute();
+
+            List<Address> addresses = null;
+
+            try {
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                String cityName = addresses.get(0).getAddressLine(0);
+                String stateName = addresses.get(0).getAddressLine(1);
+                String countryName = addresses.get(0).getAddressLine(2);
+
+                Log.d("Location",addresses.get(0).getAdminArea()+"");
+                Log.d("Location",stateName+"");
+                Log.d("Location",cityName+"");
+                Log.d("Location",addresses+"");
+
+
+
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+
+            Log.d("Location",latitude+"");
+            Log.d("Location",longitude+"");
+
+
+        }
+    };
+
+
 }
