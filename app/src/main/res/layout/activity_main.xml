@@ -41,7 +41,7 @@
                 android:layout_marginEnd="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/menu" />
+                app:srcCompat="@drawable/menu_button" />
 
             <TextView
                 android:id="@+id/textView15"
@@ -92,9 +92,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
         android:animateLayoutChanges="true"
-        android:visibility="gone"
+        android:fitsSystemWindows="true"
+        android:visibility="visible"
         app:headerLayout="@layout/drawer_nav_header"
         app:menu="@menu/drawer_nav_menu" />
 

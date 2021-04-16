@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
@@ -42,6 +43,7 @@ import static com.qubitech.ramadanapp.R.drawable.tasbih_reset_button;
 public class TasbihFragment extends Fragment implements View.OnClickListener{
 
 
+    TasbihViewModel tasbihViewModel;
     ImageView closeBtn, resetBtn, feedbackBtn;
     ImageButton tasbihBtn;
     TextView tasbihText, loopText, totalText, resetText, feedbackText;
@@ -68,6 +70,8 @@ public class TasbihFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_tasbih, container, false);
+        tasbihViewModel = new ViewModelProvider(this).get(TasbihViewModel.class);
+
         cardView = view.findViewById(R.id.cardView10);
 
         tasbihText = view.findViewById(R.id.textView26);

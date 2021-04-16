@@ -18,9 +18,9 @@
         android:title="@string/calendar" />
 
     <item
-        android:id="@+id/navigation_dua"
+        android:id="@+id/navigation_extras"
         android:icon="@drawable/add"
-        android:title="@string/dua" />
+        android:title="@string/extras" />
 
 
 

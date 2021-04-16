@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -18,7 +20,9 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,22 +55,28 @@ import okhttp3.Response;
 
 public class DashboardFragment extends Fragment implements View.OnClickListener{
 
+
+
+    DashboardViewModel dashboardViewModel;
+    NavController navController;
+
     Double latitude,longitude;
     Intent locationIntent;
-
-    private DashboardViewModel dashboardViewModel;
-    public String prayerUrl = "";
-    public TextView sunriseTextView, sunsetTextView, midnightTextView, fajrTextView, dhuhrTextView, asrTextView, maghribTextView, ishaTextView;
-    public String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="";
+    String prayerUrl = "";
+    TextView fajrTextView, dhuhrTextView, asrTextView, maghribTextView, ishaTextView, currentWaqtTextView, currentWaqtTimeTextView, waqtTimeLeftTextView;
+    String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="";
+    int progress=0;
     SharedPreferences localePreferences;
 
 
-    private Compass compass;
-    private ImageView arrowView;
-    private TextView sotwLabel;
-    private CardView cardView4,cardView5,cardView6,cardView7;
-    private float currentAzimuth;
+    Compass compass;
+    ImageView arrowView;
+    TextView sotwLabel;
+    CardView cardView,cardView2,cardView4,cardView5,cardView6,cardView7;
+    Button waqtBtn,waqtBtn2, calibrateBtn, alarmBtn;
+    ProgressBar waqtTimeLeftProgressBar;
 
+    float currentAzimuth;
     private static final int[] sides = {0, 45, 90, 135, 180, 225, 270, 315, 360};
     private static String[] names = null;
 
@@ -78,68 +88,56 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
-        sunriseTextView = root.findViewById(R.id.textView16);
-        sunsetTextView = root.findViewById(R.id.textView17);
-        midnightTextView = root.findViewById(R.id.textView18);
+        navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
 
         fajrTextView = root.findViewById(R.id.textView6);
         dhuhrTextView = root.findViewById(R.id.textView8);
         asrTextView = root.findViewById(R.id.textView10);
         maghribTextView = root.findViewById(R.id.textView12);
         ishaTextView = root.findViewById(R.id.textView14);
+        currentWaqtTextView = root.findViewById(R.id.textView16);
+        currentWaqtTimeTextView = root.findViewById(R.id.textView43);
+        waqtTimeLeftTextView = root.findViewById(R.id.textView45);
+        waqtTimeLeftProgressBar = root.findViewById(R.id.progressBar2);
 
+        cardView = root.findViewById(R.id.cardView);
+        cardView2 = root.findViewById(R.id.cardView2);
         cardView4 = root.findViewById(R.id.cardView4);
         cardView5 = root.findViewById(R.id.cardView5);
         cardView6 = root.findViewById(R.id.cardView6);
         cardView7 = root.findViewById(R.id.cardView7);
 
+        waqtBtn = root.findViewById(R.id.button);
+        waqtBtn2 = root.findViewById(R.id.button4);
+        calibrateBtn = root.findViewById(R.id.button2);
+        alarmBtn = root.findViewById(R.id.button3);
 
-        sunriseTextView.setText("");
-        sunsetTextView.setText("");
-        midnightTextView.setText("");
+        arrowView = root.findViewById(R.id.imageView25);
+        sotwLabel = root.findViewById(R.id.dashboard_quibla_sotw);
+
+
         fajrTextView.setText("");
         dhuhrTextView.setText("");
         asrTextView.setText("");
         maghribTextView.setText("");
         ishaTextView.setText("");
 
+        waqtTimeLeftProgressBar.setProgress(progress);
+
         localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
         locationIntent = new Intent(getActivity().getApplicationContext(), LocationService.class);
 
-        arrowView = root.findViewById(R.id.imageView25);
-        sotwLabel = root.findViewById(R.id.dashboard_quibla_sotw);
 
         initLocalizedNames(getActivity().getApplicationContext());
         setupCompass();
 
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss");
-        try {
-            Date waqtDate = simpleDateFormat.parse("18:45:00");
-            Date currentDate = Calendar.getInstance().getTime();
-
-            Long time = currentDate.getTime()-waqtDate.getTime();
-
-            int timeInSeconds = (int) (time / 1000);
-            int hours, minutes, seconds;
-            hours = timeInSeconds / 3600;
-            timeInSeconds = timeInSeconds - (hours * 3600);
-            minutes = timeInSeconds / 60;
-            timeInSeconds = timeInSeconds - (minutes * 60);
-            seconds = timeInSeconds;
-
-
-            //String diffTime = (hours<10 ? "0" + hours : hours) + ":" + (minutes < 10 ? "0" + minutes : minutes) + ":" + (seconds < 10 ? "0" + seconds : seconds) + " h";
-
-
-            Log.d("DateTime",""+hours+":"+minutes+":"+seconds);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
+        waqtBtn.setOnClickListener(this);
+        waqtBtn2.setOnClickListener(this);
+        calibrateBtn.setOnClickListener(this);
+        alarmBtn.setOnClickListener(this);
+        cardView.setOnClickListener(this);
+        cardView2.setOnClickListener(this);
         cardView4.setOnClickListener(this);
         cardView5.setOnClickListener(this);
         cardView6.setOnClickListener(this);
@@ -152,17 +150,33 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch(view.getId()){
+
+            case R.id.button:
+                cardView.setVisibility(View.VISIBLE);
+                cardView2.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.button2:
+                navController.navigate(R.id.action_navigation_dashboard_to_navigation_calibrate);
+                break;
+            case R.id.button3:
+                Intent intent = new Intent(getActivity().getApplicationContext(),ComingSoonActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.button4:
+                cardView.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.VISIBLE);
+                break;
             case R.id.cardView4:
+                navController.navigate(R.id.action_navigation_dashboard_to_navigation_mosques);
+                break;
             case R.id.cardView5:
-            case R.id.textView4:
-            case R.id.imageView4:
-                NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment);
                 navController.navigate(R.id.action_navigation_dashboard_to_navigation_tasbih);
                 break;
             case R.id.cardView6:
+                navController.navigate(R.id.action_navigation_dashboard_to_navigation_checklist);
+                break;
             case R.id.cardView7:
-                Intent intent = new Intent(getActivity().getApplicationContext(), ComingSoonActivity.class);
-                startActivity(intent);
+                navController.navigate(R.id.action_navigation_dashboard_to_navigation_dua);
                 break;
         }
     }
@@ -234,6 +248,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     asr = jsonObject3.getString("Asr");
                     maghrib = jsonObject3.getString("Maghrib");
                     isha = jsonObject3.getString("Isha");
+
                 }
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -276,13 +291,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             }
 
 
+            currentWaqt();
+
+
+
 
 
         }
 
     }
 
-    public String banglaTimeConverter(String eng){
+    public String banglaStringConverter(String eng){
 
         char[] charArray = eng.toCharArray();
         StringBuilder stringBuilder = new StringBuilder(charArray.length);
@@ -342,18 +361,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         int hours = Integer.parseInt(units[0]);
         int minutes = Integer.parseInt(units[1]);
 
-        String hoursBn = banglaTimeConverter(units[0]);
-        String minutesBn = banglaTimeConverter(units[1]);
+        String hoursBn = banglaStringConverter(units[0]);
+        String minutesBn = banglaStringConverter(units[1]);
 
         if(hours >= 1 && hours <= 12){
-            view.setText(hoursBn+":"+minutesBn+" মিনিট");
+            view.setText(hoursBn+":"+minutesBn+" মি.");
         }
         else if (hours == 0){
-            view.setText(hoursBn+":"+minutesBn+" মিনিট");
+            view.setText(hoursBn+":"+minutesBn+" মি.");
         }
         else if(hours > 12){
 
-            view.setText(banglaTimeConverter(Integer.toString(hours-12))+":"+minutesBn+" মিনিট");
+            view.setText(banglaStringConverter(Integer.toString(hours-12))+":"+minutesBn+" মি.");
         }
     }
 
@@ -381,6 +400,177 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         compass = new Compass(getActivity().getApplicationContext());
         Compass.CompassListener cl = getCompassListener();
         compass.setListener(cl);
+    }
+
+    private void currentWaqt(){
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+        String [] salahTimes = new String[]{fajr,dhuhr,asr,maghrib,isha};
+        String [] salahWaqts = new String[]{getResources().getString(R.string.fajr),getResources().getString(R.string.dhuhr),
+                getResources().getString(R.string.asr),getResources().getString(R.string.maghrib),getResources().getString(R.string.isha)};
+
+        String currentTime = simpleDateFormat.format(Calendar.getInstance().getTime());
+        String upcomingWaqt="",upcomingWaqtTime="",timeLeft="";
+        int minutesLeft=0, totalMinutes=0;
+
+        for(int i=0;i<4;i++) {
+
+            String prevWaqtTime = salahTimes[i];
+            String nextWaqtTime = salahTimes[i+1];
+
+            String[] prevWaqtTimeSplit = prevWaqtTime.split(":");
+            int prevWaqtHours = Integer.parseInt(prevWaqtTimeSplit[0]);
+            int prevWaqtMinutes = Integer.parseInt(prevWaqtTimeSplit[1]);
+
+            String[] currentTimeSplit = currentTime.split(":");
+            int currentTimeHours = Integer.parseInt(currentTimeSplit[0]);
+            int currentTimeMinutes = Integer.parseInt(currentTimeSplit[1]);
+
+            String[] nextWaqtTimeSplit = nextWaqtTime.split(":");
+            int nextWaqtHours = Integer.parseInt(nextWaqtTimeSplit[0]);
+            int nextWaqtMinutes = Integer.parseInt(nextWaqtTimeSplit[1]);
+
+            if(prevWaqtHours < currentTimeHours){
+                if(currentTimeHours < nextWaqtHours) {
+                    upcomingWaqt = salahWaqts[i+1];
+                    upcomingWaqtTime = nextWaqtTime;
+                    if(nextWaqtMinutes >= currentTimeMinutes) {
+                        timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(nextWaqtMinutes - currentTimeMinutes);
+                        minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (nextWaqtMinutes - currentTimeMinutes);
+
+                    }
+                    else{
+                        timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(currentTimeMinutes - nextWaqtMinutes);
+                        minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (currentTimeMinutes - nextWaqtMinutes);
+
+
+                    }
+                    totalMinutes = (nextWaqtHours - prevWaqtHours) * 60 + (nextWaqtMinutes - prevWaqtMinutes);
+                    progress = (minutesLeft * 100) / totalMinutes;
+                    break;
+
+                }
+                else if(currentTimeHours == nextWaqtHours){
+                    if(currentTimeMinutes < nextWaqtMinutes){
+                        upcomingWaqt = salahWaqts[i+1];
+                        upcomingWaqtTime = nextWaqtTime;
+                        if(nextWaqtMinutes >= currentTimeMinutes) {
+                            timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(nextWaqtMinutes - currentTimeMinutes);
+                            minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (nextWaqtMinutes - currentTimeMinutes);
+
+                        }
+                        else{
+                            timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(currentTimeMinutes - nextWaqtMinutes);
+                            minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (currentTimeMinutes - nextWaqtMinutes);
+
+                        }
+                        totalMinutes = (nextWaqtHours - prevWaqtHours) * 60 + (nextWaqtMinutes - prevWaqtMinutes);
+                        progress = (minutesLeft * 100) / totalMinutes;
+                        break;
+
+                    }
+                }
+
+            }
+            else if(prevWaqtHours == currentTimeHours){
+                if(prevWaqtMinutes < currentTimeMinutes){
+                    upcomingWaqt = salahWaqts[i+1];
+                    upcomingWaqtTime = nextWaqtTime;
+                    if(nextWaqtMinutes >= currentTimeMinutes) {
+                        timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(nextWaqtMinutes - currentTimeMinutes);
+                        minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (nextWaqtMinutes - currentTimeMinutes);
+
+                    }
+                    else{
+                        timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(currentTimeMinutes - nextWaqtMinutes);
+                        minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (currentTimeMinutes - nextWaqtMinutes);
+                    }
+                    totalMinutes = (nextWaqtHours - prevWaqtHours) * 60 + (nextWaqtMinutes - prevWaqtMinutes);
+                    progress = (minutesLeft * 100) / totalMinutes;
+                    break;
+
+                }
+            }
+           if(i == 3){
+                upcomingWaqt = getResources().getString(R.string.fajr);
+                upcomingWaqtTime = fajr;
+
+                prevWaqtTime = isha;
+                prevWaqtTimeSplit = prevWaqtTime.split(":");
+                prevWaqtHours = Integer.parseInt(prevWaqtTimeSplit[0]);
+                prevWaqtMinutes = Integer.parseInt(prevWaqtTimeSplit[1]);
+
+                nextWaqtTime = fajr;
+                nextWaqtTimeSplit = nextWaqtTime.split(":");
+                nextWaqtHours = Integer.parseInt(nextWaqtTimeSplit[0]);
+                nextWaqtMinutes = Integer.parseInt(nextWaqtTimeSplit[1]);
+
+                if(currentTimeHours <= nextWaqtHours) {
+                    if (currentTimeMinutes <= nextWaqtMinutes) {
+                        timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(nextWaqtMinutes - currentTimeMinutes);
+                        minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (nextWaqtMinutes - currentTimeMinutes);
+
+                    } else {
+                        timeLeft = String.valueOf(nextWaqtHours - currentTimeHours) + ":" + String.valueOf(currentTimeMinutes - nextWaqtMinutes);
+                        minutesLeft = (nextWaqtHours - currentTimeHours) * 60 + (currentTimeMinutes - nextWaqtMinutes);
+                    }
+
+                }
+                else if(currentTimeHours > nextWaqtHours){
+                    if (currentTimeMinutes <= nextWaqtMinutes) {
+                        timeLeft = String.valueOf(24 - currentTimeHours + nextWaqtHours) + ":" + String.valueOf(nextWaqtMinutes - currentTimeMinutes);
+                        minutesLeft = (24 - currentTimeHours + nextWaqtHours) * 60 + (nextWaqtMinutes - currentTimeMinutes);
+
+                    } else {
+                        timeLeft = String.valueOf(24 - currentTimeHours + nextWaqtHours) + ":" + String.valueOf(currentTimeMinutes - nextWaqtMinutes);
+                        minutesLeft = (24 - currentTimeHours + nextWaqtHours) * 60 + (currentTimeMinutes - nextWaqtMinutes);
+                    }
+
+                }
+                totalMinutes = (24 - prevWaqtHours - nextWaqtHours) * 60 + (prevWaqtMinutes - nextWaqtMinutes);
+                progress = (minutesLeft * 100) / totalMinutes;
+            }
+
+            Log.d("DateTime", "Waqt "+i+" Time: " + prevWaqtTime);
+        }
+
+
+
+        Log.d("DateTime", "Current Time: " + currentTime);
+        Log.d("DateTime", "Upcoming Waqt: " + upcomingWaqt);
+        Log.d("DateTime", "Upcoming Waqt Time: " + upcomingWaqtTime);
+        Log.d("DateTime", "Upcoming Waqt Time Left: " + timeLeft);
+        Log.d("DateTime", "Upcoming Waqt Minutes Left: " + minutesLeft);
+        Log.d("DateTime", "Upcoming Waqt Total Minutes: " + totalMinutes);
+        Log.d("DateTime", "Upcoming Waqt Progress: " + progress);
+
+
+
+        currentWaqtTextView.setText(upcomingWaqt);
+        progress = 100 - progress;
+        waqtTimeLeftProgressBar.setProgress(progress);
+
+
+
+        if(localePreferences.contains("Current_Language")) {
+            String locale = localePreferences.getString("Current_Language", "");
+            if (locale.equals("bn")) {
+
+                banglaTimeFormatter(upcomingWaqtTime,currentWaqtTimeTextView);
+                waqtTimeLeftTextView.setText(banglaStringConverter(timeLeft)+" মি.");
+
+
+            }
+            else if(locale.equals("en")){
+                englishTimeFormatter(upcomingWaqtTime,currentWaqtTextView);
+                englishTimeFormatter(timeLeft,waqtTimeLeftTextView);
+
+
+            }
+        }
+
+
+
     }
 
 
@@ -521,6 +711,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
         }
     };
+
+
 
 
 }

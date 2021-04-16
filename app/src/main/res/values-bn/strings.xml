@@ -149,5 +149,10 @@
     <string name="six_oclock">০৬:০০</string>
     <string name="save">সেভ</string>
     <string name="saved">সেভ হয়েছে</string>
+    <string name="random_time">৮৮:৮৮:৮৮</string>
+    <string name="extras">অন্যান্য</string>
+    <string name="time_left">সময় বাকি</string>
+    <string name="reset_clock">88:88</string>
+    <string name="upcoming_in">শুরু হতে বাকী</string>
 
 </resources>

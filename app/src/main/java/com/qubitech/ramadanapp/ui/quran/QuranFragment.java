@@ -17,6 +17,7 @@ import com.qubitech.ramadanapp.R;
 public class QuranFragment extends Fragment {
 
 
+    private QuranViewModel mViewModel;
     public static QuranFragment newInstance() {
         return new QuranFragment();
     }
@@ -30,7 +31,7 @@ public class QuranFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TODO: Use the ViewModel
+        mViewModel = new ViewModelProvider(this).get(QuranViewModel.class);
     }
 
 }

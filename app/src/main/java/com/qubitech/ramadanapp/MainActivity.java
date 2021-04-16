@@ -15,11 +15,11 @@ import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
+import android.widget.ImageView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
-import com.qubitech.ramadanapp.ui.tasbih.TasbihFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -35,19 +35,24 @@ import androidx.navigation.ui.NavigationUI;
 
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DrawerLayout drawerLayout = findViewById(R.id.drawer_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView drawerNavigationView = findViewById(R.id.nav_drawer_view);
         BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
+        ImageView menu = findViewById(R.id.imageView12);
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+
         navController.setGraph(R.navigation.mobile_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
@@ -61,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
                             new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION },
                             100);
         }
+
+        menu.setOnClickListener(this);
 
 
 
@@ -80,23 +87,13 @@ public class MainActivity extends AppCompatActivity {
                     if(id == R.id.navigation_quran){
                         navController.navigate(R.id.action_navigation_dashboard_to_navigation_quran);
                     }
-                    if(id == R.id.navigation_dua){
-                        navController.navigate(R.id.action_navigation_dashboard_to_navigation_dua);
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_dashboard_to_navigation_extras);
                     }
 
                 }
 
-                if(nv == R.id.navigation_tasbih){
-                    if(id == R.id.navigation_quran){
-                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_quran);
-                    }
-                    if(id == R.id.navigation_calendar){
-                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_calendar);
-                    }
-                    if(id == R.id.navigation_dua){
-                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_dua);
-                    }
-                }
+
 
                 if(nv == R.id.navigation_calendar){
                     if(id == R.id.navigation_dashboard){
@@ -105,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
                     if(id == R.id.navigation_quran){
                         navController.navigate(R.id.action_navigation_calendar_to_navigation_quran);
                     }
-                    if(id == R.id.navigation_dua){
-                        navController.navigate(R.id.action_navigation_calendar_to_navigation_dua);
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_calendar_to_navigation_extras);
                     }
 
                 }
@@ -118,23 +115,71 @@ public class MainActivity extends AppCompatActivity {
                     if(id == R.id.navigation_calendar){
                         navController.navigate(R.id.action_navigation_quran_to_navigation_calendar);
                     }
-                    if(id == R.id.navigation_dua){
-                        navController.navigate(R.id.action_navigation_quran_to_navigation_dua);
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_quran_to_navigation_extras);
                     }
 
                 }
 
-                if(nv == R.id.navigation_dua){
+                if(nv == R.id.navigation_extras){
                     if(id == R.id.navigation_dashboard){
-                        navController.navigate(R.id.action_navigation_dua_to_navigation_dashboard);
+                        navController.navigate(R.id.action_navigation_extras_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_extras_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_extras_to_navigation_quran);
+                    }
+
+                }
+
+                if(nv == R.id.navigation_mosques){
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_mosques_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_mosques_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_mosques_to_navigation_extras);
+                    }
+                }
+
+                if(nv == R.id.navigation_tasbih){
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_extras);
+                    }
+                }
+
+                if(nv == R.id.navigation_checklist){
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_checklist_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_checklist_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_checklist_to_navigation_extras);
+                    }
+                }
+
+                if(nv == R.id.navigation_dua){
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_dua_to_navigation_quran);
                     }
                     if(id == R.id.navigation_calendar){
                         navController.navigate(R.id.action_navigation_dua_to_navigation_calendar);
                     }
-                    if(id == R.id.navigation_quran){
-                        navController.navigate(R.id.action_navigation_dua_to_navigation_quran);
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_dua_to_navigation_extras);
                     }
-
                 }
 
 
@@ -203,6 +248,21 @@ public class MainActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.imageView12:
+
+                if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+                else{
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                }
+                break;
+        }
     }
 
 
@@ -286,7 +346,6 @@ public class MainActivity extends AppCompatActivity {
         });
         anim.start();
     }
-
 
 
 
