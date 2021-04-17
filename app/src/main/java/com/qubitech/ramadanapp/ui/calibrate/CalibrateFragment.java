@@ -1,9 +1,17 @@
 package com.qubitech.ramadanapp.ui.calibrate;
 
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,16 +19,44 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.qubitech.ramadanapp.R;
+import com.qubitech.ramadanapp.ui.dashboard.Compass;
+import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
+import com.qubitech.ramadanapp.ui.dashboard.LocationService;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public class CalibrateFragment extends Fragment {
 
-    private CalibrateViewModel mViewModel;
+    CalibrateViewModel mViewModel;
+    boolean revealFlag = false;
+    Double latitude,longitude;
+
+    CardView cardView;
+    ImageView closeBtn, arrowView;
+    Compass compass;
+    TextView sotwLabel, countryTextView, cityTextView;
+    SharedPreferences localePreferences;
+    Intent locationIntent;
+
+    float currentAzimuth;
+    private static final int[] sides = {0, 45, 90, 135, 180, 225, 270, 315, 360};
+    private static String[] names = null;
 
     public static CalibrateFragment newInstance() {
         return new CalibrateFragment();
@@ -29,14 +65,186 @@ public class CalibrateFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_calibrate, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_calibrate, container, false);
+        cardView = view.findViewById(R.id.cardView14);
+        closeBtn = view.findViewById(R.id.imageView17);
+        arrowView = view.findViewById(R.id.imageView20);
+        sotwLabel = view.findViewById(R.id.textView32);
+        countryTextView = view.findViewById(R.id.textView29);
+        cityTextView = view.findViewById(R.id.textView30);
+
+        localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
+        locationIntent = new Intent(getActivity().getApplicationContext(), LocationService.class);
+        initLocalizedNames(getActivity().getApplicationContext());
+        setupCompass();
+
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideFAB(cardView);
+            }
+        });
+
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if(!revealFlag) {
+                    revealFAB(cardView);
+                    Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
+                    animation.setDuration(500);
+                    closeBtn.setAnimation(animation);
+                    revealFlag = true;
+                }
+            }
+        });
+
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(CalibrateViewModel.class);
-        // TODO: Use the ViewModel
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Calibrate", "Starting Compass");
+        compass.start();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        compass.stop();
+        getActivity().unregisterReceiver(broadcastReceiver);
+        getActivity().stopService(locationIntent);
+
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        compass.start();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+        getActivity().startService(locationIntent);
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("Calibrate", "Compass Stopped");
+        compass.stop();
+        getActivity().stopService(locationIntent);
+
+    }
+
+    private void setupCompass() {
+        compass = new Compass(getActivity().getApplicationContext());
+        Compass.CompassListener cl = getCompassListener();
+        compass.setListener(cl);
+    }
+
+    private void adjustArrow(float azimuth) {
+//        Log.d("Dashboard", "will set rotation from " + currentAzimuth + " to "
+//                + azimuth);
+
+        Animation an = new RotateAnimation(-currentAzimuth-90, -azimuth-90,
+                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
+                0.5f);
+        currentAzimuth = azimuth;
+
+        an.setDuration(500);
+        an.setRepeatCount(0);
+        an.setFillAfter(true);
+
+        arrowView.startAnimation(an);
+    }
+
+    private void adjustSotwLabel(float azimuth) {
+        sotwLabel.setText(format(azimuth));
+    }
+
+    private Compass.CompassListener getCompassListener() {
+        return new Compass.CompassListener() {
+            @Override
+            public void onNewAzimuth(final float azimuth) {
+
+
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adjustArrow(azimuth);
+                        adjustSotwLabel(azimuth);
+                    }
+                });
+            }
+        };
+    }
+
+
+    public String format(float azimuth) {
+        int iAzimuth = (int)azimuth;
+        int index = findClosestIndex(iAzimuth);
+        return iAzimuth + "° " + names[index];
+    }
+
+    private void initLocalizedNames(Context context) {
+
+
+        if (names == null) {
+            names = new String[]{
+                    context.getString(R.string.sotw_north),
+                    context.getString(R.string.sotw_northeast),
+                    context.getString(R.string.sotw_east),
+                    context.getString(R.string.sotw_southeast),
+                    context.getString(R.string.sotw_south),
+                    context.getString(R.string.sotw_southwest),
+                    context.getString(R.string.sotw_west),
+                    context.getString(R.string.sotw_northwest),
+                    context.getString(R.string.sotw_north)
+            };
+        }
+    }
+
+    private static int findClosestIndex(int target) {
+
+
+        int i = 0, j = sides.length, mid = 0;
+        while (i < j) {
+            mid = (i + j) / 2;
+
+            if (target < sides[mid]) {
+
+                if (mid > 0 && target > sides[mid - 1]) {
+                    return getClosest(mid - 1, mid, target);
+                }
+
+                j = mid;
+            } else {
+                if (mid < sides.length-1 && target < sides[mid + 1]) {
+                    return getClosest(mid, mid + 1, target);
+                }
+                i = mid + 1;
+            }
+        }
+
+        return mid;
+    }
+
+
+    private static int getClosest(int index1, int index2, int target) {
+        if (target - sides[index1] >= sides[index2] - target) {
+            return index2;
+        }
+        return index1;
     }
 
     private void revealFAB(View view) {
@@ -69,5 +277,62 @@ public class CalibrateFragment extends Fragment {
         anim.start();
 
     }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+
+            Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").setRegion("US").build();
+            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), aLocale);
+
+            latitude = Double.valueOf(intent.getStringExtra("latitude"));
+            longitude = Double.valueOf(intent.getStringExtra("longitude"));
+
+            String [] districts_bn = getResources().getStringArray(R.array.division_bn);
+            String [] districts_en = getResources().getStringArray(R.array.division_en);
+
+            HashMap<String, String> hashMap = new HashMap<String, String>();
+
+            for(int i=0;i<districts_bn.length;i++) {
+                hashMap.put(districts_bn[i], districts_en[i]);
+            }
+
+
+            List<Address> addresses = null;
+
+            try {
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                String city_bn = addresses.get(0).getLocality();
+                String countryName = addresses.get(0).getCountryName();
+                String city_en="";
+
+
+                for (Map.Entry<String, String> entry :
+                        hashMap.entrySet()) {
+                    if (entry.getKey().equals(city_bn)) {
+                        city_en = entry.getValue();
+                    }
+                }
+
+                if(localePreferences.contains("Current_Language")) {
+                    String locale = localePreferences.getString("Current_Language", "");
+                    if (locale.equals("bn")) {
+                        cityTextView.setText(city_bn);
+                    } else if (locale.equals("en")) {
+                        cityTextView.setText(city_en);
+                    }
+                }
+
+
+
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+
+
+        }
+    };
 
 }

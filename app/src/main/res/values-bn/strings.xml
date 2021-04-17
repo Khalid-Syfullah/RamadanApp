@@ -154,5 +154,12 @@
     <string name="time_left">সময় বাকি</string>
     <string name="reset_clock">88:88</string>
     <string name="upcoming_in">শুরু হতে বাকী</string>
+    <string name="bangladesh">বাংলাদেশ</string>
+    <string name="city">শহর</string>
+    <string name="degree">০°</string>
+    <string name="north">উত্তর</string>
+    <string name="nearby_mosque">নিকটবর্তী মসজিদ</string>
+    <string name="mosque">মসজিদ</string>
+    <string name="current_location">বর্তমান লোকেশন</string>
 
 </resources>

@@ -36,6 +36,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.qubitech.ramadanapp.ComingSoonActivity;
 import com.qubitech.ramadanapp.R;
+import com.qubitech.ramadanapp.ui.calibrate.CalibrateFragment;
 import com.qubitech.ramadanapp.ui.tasbih.TasbihFragment;
 
 import org.json.JSONException;
@@ -46,8 +47,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -68,13 +71,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     int progress=0;
     SharedPreferences localePreferences;
 
-
     Compass compass;
     ImageView arrowView;
     TextView sotwLabel;
     CardView cardView,cardView2,cardView4,cardView5,cardView6,cardView7;
     Button waqtBtn,waqtBtn2, calibrateBtn, alarmBtn;
     ProgressBar waqtTimeLeftProgressBar;
+
 
     float currentAzimuth;
     private static final int[] sides = {0, 45, 90, 135, 180, 225, 270, 315, 360};
@@ -85,6 +88,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
         View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
@@ -681,21 +685,43 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             latitude = Double.valueOf(intent.getStringExtra("latitude"));
             longitude = Double.valueOf(intent.getStringExtra("longitude"));
 
-            prayerUrl = "https://api.pray.zone/v2/times/today.json?latitude="+latitude+"&longitude="+longitude;
-            new apiData().execute();
+            String [] districts_bn = getResources().getStringArray(R.array.division_bn);
+            String [] districts_en = getResources().getStringArray(R.array.division_en);
+
+            HashMap<String, String> hashMap = new HashMap<String, String>();
+
+            for(int i=0;i<districts_bn.length;i++) {
+                hashMap.put(districts_bn[i], districts_en[i]);
+            }
+
 
             List<Address> addresses = null;
 
             try {
                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                String cityName = addresses.get(0).getAddressLine(0);
-                String stateName = addresses.get(0).getAddressLine(1);
-                String countryName = addresses.get(0).getAddressLine(2);
+                String cityName = addresses.get(0).getLocality();
+                String stateName = addresses.get(0).getSubAdminArea();
+                String countryName = addresses.get(0).getCountryName();
+                String city="";
 
-                Log.d("Location",addresses.get(0).getAdminArea()+"");
-                Log.d("Location",stateName+"");
-                Log.d("Location",cityName+"");
-                Log.d("Location",addresses+"");
+
+                for (Map.Entry<String, String> entry :
+                        hashMap.entrySet()) {
+                    if (entry.getKey().equals(cityName)) {
+                        city = entry.getValue();
+                    }
+                }
+
+                Log.d("Location","Admin Area: "+addresses.get(0).getAdminArea());
+                Log.d("Location","City Name: "+cityName);
+                Log.d("Location","City Name Translated: "+city);
+                Log.d("Location","State Name: "+stateName);
+                Log.d("Location","Country Name: "+countryName);
+                Log.d("Location","Addresses: "+addresses);
+
+
+                //prayerUrl = "https://api.pray.zone/v2/times/today.json?latitude="+latitude+"&longitude="+longitude;
+                prayerUrl = "https://api.pray.zone/v2/times/today.json?city="+city;
 
 
 
@@ -704,6 +730,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                 e1.printStackTrace();
             }
 
+            new apiData().execute();
 
             Log.d("Location",latitude+"");
             Log.d("Location",longitude+"");

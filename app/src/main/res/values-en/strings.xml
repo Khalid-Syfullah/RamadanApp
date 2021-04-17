@@ -152,5 +152,12 @@
     <string name="time_left">Time Left</string>
     <string name="reset_clock">88:88</string>
     <string name="upcoming_in">Upcoming in</string>
+    <string name="bangladesh">Bangladesh</string>
+    <string name="city">City</string>
+    <string name="degree">0°</string>
+    <string name="north">North</string>
+    <string name="nearby_mosque">Nearby Mosque</string>
+    <string name="mosque">Mosque</string>
+    <string name="current_location">Current Location</string>
 
 </resources>

@@ -152,6 +152,231 @@
     <string name="time_left">Time Left</string>
     <string name="reset_clock">88:88</string>
     <string name="upcoming_in">Upcoming in</string>
+    <string name="bangladesh">Bangladesh</string>
+    <string name="city">City</string>
+    <string name="degree">0°</string>
+    <string name="north">North</string>
+    <string name="nearby_mosque">Nearby Mosque</string>
+    <string name="mosque">Mosque</string>
+    <string name="current_location">Current Location</string>
+
+
+    <string-array name="division_en">
+        <item>Dhaka</item>
+        <item>Rajshahi</item>
+        <item>Rangpur</item>
+        <item>Khulna</item>
+        <item>Chittagong</item>
+        <item>Mymensingh</item>
+        <item>Barisal</item>
+        <item>Sylhet</item>
+    </string-array>
+
+    <string-array name="division_bn">
+        <item>ঢাকা</item>
+        <item>রাজশাহী</item>
+        <item>রংপুর</item>
+        <item>খুলনা</item>
+        <item>চট্টগ্রাম</item>
+        <item>ময়মনসিংহ</item>
+        <item>বরিশাল</item>
+        <item>সিলেট</item>
+    </string-array>
+
+
+    <string-array name="dhaka_en">
+        <item>Dhaka</item>
+        <item>Narsingdi</item>
+        <item>Gazipur</item>
+        <item>Shariatpur</item>
+        <item>Narayanganj</item>
+        <item>Tangail</item>
+        <item>Kishoreganj</item>
+        <item>Manikganj</item>
+        <item>Munshiganj</item>
+        <item>Rajbari</item>
+        <item>Madaripur</item>
+        <item>Gopalganj</item>
+        <item>Faridpur</item>
+
+    </string-array>
+
+    <string-array name="dhaka_bn">
+        <item>Dhaka</item>
+        <item>Narsingdi</item>
+        <item>Gazipur</item>
+        <item>Shariatpur</item>
+        <item>Narayanganj</item>
+        <item>Tangail</item>
+        <item>Kishoreganj</item>
+        <item>Manikganj</item>
+        <item>Munshiganj</item>
+        <item>Rajbari</item>
+        <item>Madaripur</item>
+        <item>Gopalganj</item>
+        <item>Faridpur</item>
+
+    </string-array>
+
+    <string-array name="rajshahi_en">
+        <item>Rajshahi</item>
+        <item>Sirajganj</item>
+        <item>Pabna</item>
+        <item>Bogra</item>
+        <item>Natore</item>
+        <item>Joypurhat</item>
+        <item>Chapainawabganj</item>
+        <item>Naogaon</item>
+
+
+    </string-array>
+
+    <string-array name="rajshahi_bn">
+        <item>Rajshahi</item>
+        <item>Sirajganj</item>
+        <item>Pabna</item>
+        <item>Bogra</item>
+        <item>Natore</item>
+        <item>Joypurhat</item>
+        <item>Chapainawabganj</item>
+        <item>Naogaon</item>
+
+
+    </string-array>
+
+    <string-array name="rangpur_en">
+        <item>Rangpur</item>
+        <item>Panchagarh</item>
+        <item>Dinajpur</item>
+        <item>Lalmonirhat</item>
+        <item>Nilphamari</item>
+        <item>Gaibandha</item>
+        <item>Thakurgaon</item>
+        <item>Kurigram</item>
+
+
+    </string-array>
+
+    <string-array name="rangpur_bn">
+        <item>Rangpur</item>
+        <item>Panchagarh</item>
+        <item>Dinajpur</item>
+        <item>Lalmonirhat</item>
+        <item>Nilphamari</item>
+        <item>Gaibandha</item>
+        <item>Thakurgaon</item>
+        <item>Kurigram</item>
+
+
+    </string-array>
+
+    <string-array name="khulna_en">
+        <item>Khulna</item>
+        <item>Jessore</item>
+        <item>Satkhira</item>
+        <item>Meherpur</item>
+        <item>Narail</item>
+        <item>Chuadanga</item>
+        <item>kushtia</item>
+        <item>Magura</item>
+        <item>Bagerhat</item>
+        <item>Jhenaidah</item>
+    </string-array>
+
+    <string-array name="khulna_bn">
+        <item>Khulna</item>
+        <item>Jessore</item>
+        <item>Satkhira</item>
+        <item>Meherpur</item>
+        <item>Narail</item>
+        <item>Chuadanga</item>
+        <item>kushtia</item>
+        <item>Magura</item>
+        <item>Bagerhat</item>
+        <item>Jhenaidah</item>
+    </string-array>
+
+    <string-array name="chittagong_en">
+        <item>Chittagong</item>
+        <item>Comilla</item>
+        <item>Feni</item>
+        <item>Brahmanbaria</item>
+        <item>Rangamati</item>
+        <item>Noakhali</item>
+        <item>Chandpur</item>
+        <item>Lakshmipur</item>
+        <item>Coxbazar</item>
+        <item>Khagrachhari</item>
+        <item>Bandarban</item>
+    </string-array>
+
+    <string-array name="chittagong_bn">
+        <item>Chittagong</item>
+        <item>Comilla</item>
+        <item>Feni</item>
+        <item>Brahmanbaria</item>
+        <item>Rangamati</item>
+        <item>Noakhali</item>
+        <item>Chandpur</item>
+        <item>Lakshmipur</item>
+        <item>Coxbazar</item>
+        <item>Khagrachhari</item>
+        <item>Bandarban</item>
+    </string-array>
+
+    <string-array name="mymensingh_en">
+        <item>Mymensingh</item>
+        <item>Sherpur</item>
+        <item>Jamalpur</item>
+        <item>Netrokona</item>
+
+    </string-array>
+
+    <string-array name="mymensingh_bn">
+        <item>Mymensingh</item>
+        <item>Sherpur</item>
+        <item>Jamalpur</item>
+        <item>Netrokona</item>
+
+    </string-array>
+
+    <string-array name="barisal_en">
+        <item>Barisal</item>
+        <item>Jhalakathi</item>
+        <item>Patuakhali</item>
+        <item>Pirojpur</item>
+        <item>Bhola</item>
+        <item>Barguna</item>
+
+    </string-array>
+
+    <string-array name="barisal_bn">
+        <item>Barisal</item>
+        <item>Jhalakathi</item>
+        <item>Patuakhali</item>
+        <item>Pirojpur</item>
+        <item>Bhola</item>
+        <item>Barguna</item>
+
+    </string-array>
+
+    <string-array name="sylhet_en">
+        <item>Sylhet</item>
+        <item>Moulvibazar</item>
+        <item>Habiganj</item>
+        <item>Sunamganj</item>
+
+
+    </string-array>
+
+    <string-array name="sylhet_bn">
+        <item>Sylhet</item>
+        <item>Moulvibazar</item>
+        <item>Habiganj</item>
+        <item>Sunamganj</item>
+
+
+    </string-array>
 
 
 </resources>
