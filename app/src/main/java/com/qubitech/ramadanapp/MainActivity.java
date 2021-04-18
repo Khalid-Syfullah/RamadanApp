@@ -56,16 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         navController.setGraph(R.navigation.mobile_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-        if (ContextCompat.checkSelfPermission(
-                MainActivity.this,
-                Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat
-                    .requestPermissions(
-                            MainActivity.this,
-                            new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_BACKGROUND_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION },
-                            100);
-        }
 
         menu.setOnClickListener(this);
 

@@ -43,6 +43,11 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation "com.squareup.okhttp3:okhttp:4.9.0"
+    implementation 'com.google.maps:google-maps-services:0.18.0'
+    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation group: 'com.github.seratch', name: 'java-time-backport', version: '1.0.0'
+
+
 
 
 }
