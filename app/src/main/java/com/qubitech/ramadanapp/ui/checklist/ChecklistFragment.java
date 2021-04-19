@@ -11,6 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -18,9 +22,19 @@ import android.view.ViewGroup;
 
 import com.qubitech.ramadanapp.R;
 
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 public class ChecklistFragment extends Fragment {
 
     private ChecklistViewModel mViewModel;
+    Handler handler, handler2;
+    HandlerThread handlerThread, handlerThread2;
+    Thread thread3, thread4;
+    ThreadPoolExecutor executor;
+    Runnable runnable;
+
 
     public static ChecklistFragment newInstance() {
         return new ChecklistFragment();
@@ -29,6 +43,53 @@ public class ChecklistFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+        int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                for(int i=0;i<100;i++) {
+                    Log.d("Thread", i+" Thread is :" + Thread.currentThread().getName());
+                }
+            }
+        };
+
+        handlerThread = new HandlerThread("handler");
+        handlerThread2 = new HandlerThread("handler2");
+        handlerThread.start();
+        handlerThread2.start();
+
+        executor = new ThreadPoolExecutor(
+                NUMBER_OF_CORES*2,
+                NUMBER_OF_CORES*2,
+                60L,
+                TimeUnit.SECONDS,
+                new LinkedBlockingQueue<Runnable>()
+        );
+        thread3 = new Thread(){
+            @Override
+            public void run() {
+
+                Looper.prepare();
+                Handler handler = new Handler();
+                handler.post(runnable);
+                Looper.loop();
+            }
+        };
+        thread4 = new Thread(runnable);
+        handler = new Handler(handlerThread.getLooper());
+        handler2 = new Handler(handlerThread2.getLooper());
+
+        executor.execute(runnable);
+        thread3.start();
+        thread4.start();
+        handler.post(runnable);
+        handler2.post(runnable);
+
+
+
         return inflater.inflate(R.layout.fragment_checklist, container, false);
     }
 
@@ -36,7 +97,39 @@ public class ChecklistFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(ChecklistViewModel.class);
-        // TODO: Use the ViewModel
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        handlerThread.quit();
+        handlerThread2.quit();
+        thread3.interrupt();
+        thread4.interrupt();
+        executor.shutdown();
     }
 
     private void revealFAB(View view) {

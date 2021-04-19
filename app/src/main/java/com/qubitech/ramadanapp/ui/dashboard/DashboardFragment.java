@@ -1,17 +1,13 @@
 package com.qubitech.ramadanapp.ui.dashboard;
 
 import android.Manifest;
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.ColorStateList;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -19,7 +15,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
@@ -33,23 +28,17 @@ import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-import androidx.navigation.ui.NavigationUI;
 
 import com.qubitech.ramadanapp.ComingSoonActivity;
-import com.qubitech.ramadanapp.MainActivity;
 import com.qubitech.ramadanapp.R;
-import com.qubitech.ramadanapp.ui.calibrate.CalibrateFragment;
-import com.qubitech.ramadanapp.ui.tasbih.TasbihFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -79,7 +68,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="",imsak="";
     String sunriseNext="",sunsetNext="",midnightNext="",fajrNext="",dhuhrNext="",asrNext="",maghribNext="",ishaNext="",imsakNext="";
 
-    String[] salahTimes = new String[]{fajr, dhuhr, asr, maghrib, isha};
+    String[] salahTimes;
     String[] salahWaqts;
 
     int progress=0;
@@ -88,7 +77,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     Compass compass;
     ImageView arrowView;
     TextView sotwLabel;
-    CardView cardView,cardView2,cardView4,cardView5,cardView6,cardView7;
+    CardView cardView,cardView2,cardView3,cardView4,cardView5,cardView6,cardView7,cardView8,cardView9;
     Button waqtBtn,waqtBtn2, calibrateBtn, alarmBtn;
     ProgressBar waqtTimeLeftProgressBar, nextIftarTimeLeftProgressBar;
     apiData apiData;
@@ -127,10 +116,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
         cardView = root.findViewById(R.id.cardView);
         cardView2 = root.findViewById(R.id.cardView2);
+        cardView3 = root.findViewById(R.id.cardView3);
         cardView4 = root.findViewById(R.id.cardView4);
         cardView5 = root.findViewById(R.id.cardView5);
         cardView6 = root.findViewById(R.id.cardView6);
         cardView7 = root.findViewById(R.id.cardView7);
+        cardView8 = root.findViewById(R.id.cardView8);
+        cardView9 = root.findViewById(R.id.cardView9);
 
         waqtBtn = root.findViewById(R.id.button);
         waqtBtn2 = root.findViewById(R.id.button4);
@@ -144,6 +136,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                 getResources().getString(R.string.asr), getResources().getString(R.string.maghrib), getResources().getString(R.string.isha)};
 
         simpleDateFormat = new SimpleDateFormat("HH:mm");
+
+        cardView.setBackgroundResource(R.drawable.cardview_topleftcorner);
+        cardView2.setBackgroundResource(R.drawable.cardview_topleftcorner);
+        cardView3.setBackgroundResource(R.drawable.cardview_toprightcorner);
+        cardView6.setBackgroundResource(R.drawable.cardview_bottomleftcorner);
+        cardView7.setBackgroundResource(R.drawable.cardview_bottomrightcorner);
+        cardView8.setBackgroundResource(R.drawable.cardview_leftcorner);
+        cardView9.setBackgroundResource(R.drawable.cardview_rightcorner);
+
 
         fajrTextView.setText("");
         dhuhrTextView.setText("");
@@ -231,9 +232,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         getActivity().unregisterReceiver(broadcastReceiver);
         getActivity().stopService(locationIntent);
 
-        if(apiData != null){
-            apiData.cancel(true);
-        }
     }
 
     @Override
@@ -254,11 +252,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         getActivity().stopService(locationIntent);
 
 
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -368,6 +361,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     isha = jsonObject3.getString("Isha");
                     imsak = jsonObject3.getString("Imsak");
 
+                    salahTimes = new String[]{fajr, dhuhr, asr, maghrib, isha};
+
 
                 }
             } catch (IOException | JSONException e) {
@@ -423,25 +418,29 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     }
 
     public void dailyWaqtTime(){
-        if(localePreferences.contains("Current_Language")){
-            String locale = localePreferences.getString("Current_Language","");
-            if(locale.equals("bn")){
 
-                banglaTimeFormatter(fajr, fajrTextView);
-                banglaTimeFormatter(dhuhr, dhuhrTextView);
-                banglaTimeFormatter(asr, asrTextView);
-                banglaTimeFormatter(maghrib, maghribTextView);
-                banglaTimeFormatter(isha, ishaTextView);
+        try {
+            if (localePreferences.contains("Current_Language")) {
+                String locale = localePreferences.getString("Current_Language", "");
+                if (locale.equals("bn")) {
 
+                    banglaTimeFormatter(fajr, fajrTextView);
+                    banglaTimeFormatter(dhuhr, dhuhrTextView);
+                    banglaTimeFormatter(asr, asrTextView);
+                    banglaTimeFormatter(maghrib, maghribTextView);
+                    banglaTimeFormatter(isha, ishaTextView);
+
+                } else if (locale.equals("en")) {
+
+                    englishTimeFormatter(fajr, fajrTextView);
+                    englishTimeFormatter(dhuhr, dhuhrTextView);
+                    englishTimeFormatter(asr, asrTextView);
+                    englishTimeFormatter(maghrib, maghribTextView);
+                    englishTimeFormatter(isha, ishaTextView);
+                }
             }
-            else if(locale.equals("en")){
-
-                englishTimeFormatter(fajr, fajrTextView);
-                englishTimeFormatter(dhuhr, dhuhrTextView);
-                englishTimeFormatter(asr, asrTextView);
-                englishTimeFormatter(maghrib, maghribTextView);
-                englishTimeFormatter(isha, ishaTextView);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
