@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.qubitech.ramadanapp.R;
+import com.qubitech.ramadanapp.ui.mosques.MosquesFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,6 +58,17 @@ public class TasbihFragment extends Fragment implements View.OnClickListener{
     SharedPreferences tasbihPreference;
     SharedPreferences.Editor tasbihPreferenceEditor;
     Vibrator vibe;
+
+    public static TasbihFragment newInstance(){
+
+        TasbihFragment tasbihFragment = new TasbihFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", 2);
+        args.putString("someTitle", "Tasbih");
+        tasbihFragment.setArguments(args);
+        return tasbihFragment;
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

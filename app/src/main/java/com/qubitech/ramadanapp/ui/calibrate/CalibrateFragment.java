@@ -59,7 +59,13 @@ public class CalibrateFragment extends Fragment {
     private static String[] names = null;
 
     public static CalibrateFragment newInstance() {
-        return new CalibrateFragment();
+
+        CalibrateFragment calibrateFragment = new CalibrateFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("someInt",3);
+        bundle.putString("someString","Calibrate");
+        calibrateFragment.setArguments(bundle);
+        return calibrateFragment;
     }
 
     @Override

@@ -93,6 +93,17 @@ public class MosquesFragment extends Fragment {
 
     boolean revealFlag = false;
 
+    public static MosquesFragment newInstance(){
+
+        MosquesFragment mosquesFragment = new MosquesFragment();
+        Bundle args = new Bundle();
+        args.putInt("someInt", 1);
+        args.putString("someTitle", "Mosque");
+        mosquesFragment.setArguments(args);
+        return mosquesFragment;
+
+    }
+
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         @Override
@@ -173,8 +184,12 @@ public class MosquesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unregisterReceiver(broadcastReceiver);
-        getActivity().stopService(locationIntent);
+        try {
+            getActivity().unregisterReceiver(broadcastReceiver);
+            getActivity().stopService(locationIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -182,16 +197,23 @@ public class MosquesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-        getActivity().startService(locationIntent);
-
+        try {
+            getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+            getActivity().startService(locationIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        getActivity().stopService(locationIntent);
+        try {
+            getActivity().stopService(locationIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

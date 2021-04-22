@@ -133,7 +133,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         sotwLabel = root.findViewById(R.id.dashboard_quibla_sotw);
 
         salahWaqts = new String[]{getResources().getString(R.string.fajr), getResources().getString(R.string.dhuhr),
-                getResources().getString(R.string.asr), getResources().getString(R.string.maghrib), getResources().getString(R.string.isha)};
+                getResources().getString(R.string.asr), getResources().getString(R.string.maghrib), getResources().getString(R.string.isha), getResources().getString(R.string.fajr)};
 
         simpleDateFormat = new SimpleDateFormat("HH:mm");
 
@@ -223,14 +223,16 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         super.onStart();
         Log.d("Dashboard", "start compass");
         compass.start();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+        getActivity().startService(locationIntent);
     }
 
     @Override
     public void onPause() {
         super.onPause();
         compass.stop();
-        getActivity().unregisterReceiver(broadcastReceiver);
-        getActivity().stopService(locationIntent);
+//        getActivity().unregisterReceiver(broadcastReceiver);
+//        getActivity().stopService(locationIntent);
 
     }
 
@@ -238,8 +240,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     public void onResume() {
         super.onResume();
         compass.start();
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-        getActivity().startService(locationIntent);
+//        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+//        getActivity().startService(locationIntent);
 
 
     }
@@ -250,6 +252,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         Log.d("Dashboard", "stop compass");
         compass.stop();
         getActivity().stopService(locationIntent);
+        getActivity().unregisterReceiver(broadcastReceiver);
 
 
     }
@@ -282,14 +285,16 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                 String cityName = addresses.get(0).getLocality();
                 String stateName = addresses.get(0).getSubAdminArea();
                 String countryName = addresses.get(0).getCountryName();
-                String city="";
+                String city=cityName;
 
 
                 for (Map.Entry<String, String> entry :
                         hashMap.entrySet()) {
                     if (entry.getKey().equals(cityName)) {
                         city = entry.getValue();
+                        break;
                     }
+
                 }
 
                 Log.d("Location","Admin Area: "+addresses.get(0).getAdminArea());
@@ -307,19 +312,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                 prayerUrl = "https://api.pray.zone/v2/times/today.json?city="+city+"&juristic=1&school=9";
                 prayerUrlNext = "https://api.pray.zone/v2/times/day.json?city="+city+"&juristic=1&school=9&date="+simpleDateFormat.format(calendar.getTime());
 
+                apiData = new apiData();
+                apiData.execute();
 
+                Log.d("Location",latitude+"");
+                Log.d("Location",longitude+"");
 
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
 
 
-
-            apiData = new apiData();
-            apiData.execute();
-
-            Log.d("Location",latitude+"");
-            Log.d("Location",longitude+"");
 
 
         }
@@ -361,8 +364,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     isha = jsonObject3.getString("Isha");
                     imsak = jsonObject3.getString("Imsak");
 
-                    salahTimes = new String[]{fajr, dhuhr, asr, maghrib, isha};
-
 
                 }
             } catch (IOException | JSONException e) {
@@ -394,6 +395,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     maghribNext = jsonObject3.getString("Maghrib");
                     ishaNext = jsonObject3.getString("Isha");
                     imsakNext = jsonObject3.getString("Imsak");
+
+                    salahTimes = new String[]{fajr, dhuhr, asr, maghrib, isha, fajrNext};
+
 
                 }
             } catch (IOException | JSONException e) {
@@ -443,6 +447,189 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             e.printStackTrace();
         }
 
+    }
+
+    private void nextWaqtTime() {
+
+        try {
+
+            String currentTime = simpleDateFormat.format(Calendar.getInstance().getTime());
+            String upcomingWaqt = "", upcomingWaqtTime = "", timeLeft = "";
+            int minutesLeft = 0, totalMinutes = 0;
+
+            for (int i = 0; i <= 3; i++) {
+
+                String prevWaqtTime = salahTimes[i];
+                String nextWaqtTime = salahTimes[i + 1];
+
+                Date date0 = simpleDateFormat.parse(prevWaqtTime);
+                Date date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
+                Date date2 = simpleDateFormat.parse(nextWaqtTime);
+
+                long millsPrev;
+                long millsTotal;
+
+                    millsPrev = date0.getTime() - date1.getTime();
+                    millsTotal = date2.getTime() - date0.getTime();
+
+
+                if (millsPrev < 0) {
+                    upcomingWaqt = salahWaqts[i + 1];
+                    upcomingWaqtTime = nextWaqtTime;
+
+                    long millsNext = date2.getTime() - date1.getTime();
+
+                    if (millsNext > 0) {
+                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
+                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
+                        timeLeft = hoursNext + ":" + minsNext;
+                        minutesLeft = hoursNext * 60 + minsNext;
+
+                        hoursNext = (int) (millsTotal/(1000 * 60 * 60));
+                        minsNext = (int) (millsTotal/(1000*60)) % 60;
+                        totalMinutes = hoursNext * 60 + minsNext;
+                        progress = (minutesLeft * 100) / totalMinutes;
+
+                        break;
+                    }
+
+                    else if (i == 3) {
+
+                        upcomingWaqt = salahWaqts[i + 1];
+                        upcomingWaqtTime = nextWaqtTime;
+
+                        millsPrev = date0.getTime() - date1.getTime();
+
+                        if (millsPrev < 0) {
+
+                            millsNext = date1.getTime() - date2.getTime();
+
+                            if (millsNext < 0) {
+                                int hoursNext = (int) (millsNext / (1000 * 60 * 60));
+                                int minsNext = (int) (millsNext / (1000 * 60)) % 60;
+                                timeLeft = hoursNext + ":" + minsNext;
+                                minutesLeft = hoursNext * 60 + minsNext;
+
+                                millsTotal = date2.getTime() - date0.getTime();
+                                hoursNext = (int) (millsTotal/(1000 * 60 * 60));
+                                minsNext = (int) (millsTotal/(1000*60)) % 60;
+                                totalMinutes = hoursNext * 60 + minsNext;
+                                progress = (minutesLeft * 100) / totalMinutes;
+                                break;
+                            }
+                            else if (millsNext > 0) {
+                                upcomingWaqt = getResources().getString(R.string.fajr);
+                                upcomingWaqtTime = fajrNext;
+
+                                prevWaqtTime = isha;
+                                nextWaqtTime = fajrNext;
+
+                                date0 = simpleDateFormat.parse(prevWaqtTime);
+                                date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
+                                date2 = simpleDateFormat.parse(nextWaqtTime);
+
+                                millsPrev = date0.getTime() - date1.getTime();
+
+
+
+                                if (millsPrev < 0) {
+
+                                    millsNext = 1000*60*60*24 - date1.getTime() + date2.getTime();
+
+                                    if (millsNext > 0) {
+
+                                        Log.d("Time","We are here");
+
+                                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
+                                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
+                                        timeLeft = hoursNext + ":" + minsNext;
+                                        minutesLeft = hoursNext * 60 + minsNext;
+
+                                        millsTotal = 1000*60*60*24 - date0.getTime() + date2.getTime();
+                                        hoursNext = (int) (millsTotal/(1000 * 60 * 60));
+                                        minsNext = (int) (millsTotal/(1000*60)) % 60;
+                                        totalMinutes = hoursNext * 60 + minsNext;
+                                        progress = (minutesLeft * 100) / totalMinutes;
+
+                                    }
+                                }
+                                else if (millsPrev > 0){
+
+                                    upcomingWaqt = getResources().getString(R.string.fajr);
+                                    upcomingWaqtTime = fajr;
+
+                                    prevWaqtTime = isha;
+                                    nextWaqtTime = fajr;
+
+                                    date0 = simpleDateFormat.parse(prevWaqtTime);
+                                    date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
+                                    date2 = simpleDateFormat.parse(nextWaqtTime);
+
+                                    millsPrev = date0.getTime() - date1.getTime();
+                                    millsNext = date2.getTime() - date1.getTime();
+
+                                    if (millsNext > 0) {
+                                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
+                                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
+                                        timeLeft = hoursNext + ":" + minsNext;
+                                        minutesLeft = hoursNext * 60 + minsNext;
+
+                                        millsTotal = 1000*60*60*24 - date0.getTime() + date2.getTime();
+                                        hoursNext = (int) (millsTotal/(1000 * 60 * 60));
+                                        minsNext = (int) (millsTotal/(1000*60)) % 60;
+                                        totalMinutes = hoursNext * 60 + minsNext;
+                                        progress = (minutesLeft * 100) / totalMinutes;
+
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+                }
+
+
+
+                Log.d("DateTime", "Waqt " + i + " Time: " + prevWaqtTime);
+
+            }
+
+
+            Log.d("DateTime", "Current Time: " + currentTime);
+            Log.d("DateTime", "Upcoming Waqt: " + upcomingWaqt);
+            Log.d("DateTime", "Upcoming Waqt Time: " + upcomingWaqtTime);
+            Log.d("DateTime", "Upcoming Waqt Time Left: " + timeLeft);
+            Log.d("DateTime", "Upcoming Waqt Minutes Left: " + minutesLeft);
+            Log.d("DateTime", "Upcoming Waqt Total Minutes: " + totalMinutes);
+            Log.d("DateTime", "Upcoming Waqt Progress: " + progress);
+
+
+            currentWaqtTextView.setText(upcomingWaqt);
+            progress = 100 - progress;
+            waqtTimeLeftProgressBar.setProgress(progress);
+
+
+            if (localePreferences.contains("Current_Language")) {
+                String locale = localePreferences.getString("Current_Language", "");
+                if (locale.equals("bn")) {
+
+                    banglaTimeFormatter(upcomingWaqtTime, currentWaqtTimeTextView);
+                    waqtTimeLeftTextView.setText(banglaStringConverter(timeLeft) + " মি.");
+
+
+                } else if (locale.equals("en")) {
+                    englishTimeFormatter(upcomingWaqtTime, currentWaqtTextView);
+                    englishTimeFormatter(timeLeft, waqtTimeLeftTextView);
+
+
+                }
+            }
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -619,134 +806,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
 
     }
-    private void nextWaqtTime() {
 
-        try {
-
-            String currentTime = simpleDateFormat.format(Calendar.getInstance().getTime());
-            String upcomingWaqt = "", upcomingWaqtTime = "", timeLeft = "";
-            int minutesLeft = 0, totalMinutes = 0;
-
-            for (int i = 0; i < 4; i++) {
-
-                String prevWaqtTime = salahTimes[i];
-                String nextWaqtTime = salahTimes[i + 1];
-
-                Date date0 = simpleDateFormat.parse(prevWaqtTime);
-                Date date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
-                Date date2 = simpleDateFormat.parse(nextWaqtTime);
-
-                long millsPrev = date0.getTime() - date1.getTime();
-
-                if (millsPrev < 0) {
-                    upcomingWaqt = salahWaqts[i + 1];
-                    upcomingWaqtTime = nextWaqtTime;
-
-                    long millsNext = date2.getTime() - date1.getTime();
-
-                    if (millsNext > 0) {
-                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
-                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
-                        timeLeft = hoursNext + ":" + minsNext;
-                        minutesLeft = hoursNext * 60 + minsNext;
-                        totalMinutes = hoursNext * 60 + minsNext;
-                        progress = (minutesLeft * 100) / totalMinutes;
-
-                        break;
-                    }
-
-                } else if (i == 3) {
-
-                    upcomingWaqt = salahWaqts[i + 1];
-                    upcomingWaqtTime = nextWaqtTime;
-
-                    millsPrev = date0.getTime() - date1.getTime();
-
-                    if (millsPrev < 0) {
-
-                        long millsNext = date2.getTime() - date1.getTime();
-
-                        if (millsNext > 0) {
-                            int hoursNext = (int) (millsNext / (1000 * 60 * 60));
-                            int minsNext = (int) (millsNext / (1000 * 60)) % 60;
-                            timeLeft = hoursNext + ":" + minsNext;
-                            minutesLeft = hoursNext * 60 + minsNext;
-                            totalMinutes = hoursNext * 60 + minsNext;
-                            progress = (minutesLeft * 100) / totalMinutes;
-
-                            break;
-                        } else if (millsNext < 0) {
-                            upcomingWaqt = getResources().getString(R.string.fajr);
-                            upcomingWaqtTime = fajrNext;
-
-                            prevWaqtTime = isha;
-                            nextWaqtTime = fajrNext;
-
-                            date0 = simpleDateFormat.parse(prevWaqtTime);
-                            date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
-                            date2 = simpleDateFormat.parse(nextWaqtTime);
-
-                            millsPrev = date0.getTime() - date1.getTime();
-
-                            if (millsPrev < 0) {
-
-                                millsNext = date2.getTime() - date1.getTime();
-
-                                if (millsNext > 0) {
-                                    int hoursNext = (int) (millsNext / (1000 * 60 * 60));
-                                    int minsNext = (int) (millsNext / (1000 * 60)) % 60;
-                                    timeLeft = hoursNext + ":" + minsNext;
-                                    minutesLeft = hoursNext * 60 + minsNext;
-                                    totalMinutes = hoursNext * 60 + minsNext;
-                                    progress = (minutesLeft * 100) / totalMinutes;
-
-                                }
-                            }
-
-                        }
-                    }
-                }
-
-                Log.d("DateTime", "Waqt " + i + " Time: " + prevWaqtTime);
-
-            }
-
-
-            Log.d("DateTime", "Current Time: " + currentTime);
-            Log.d("DateTime", "Upcoming Waqt: " + upcomingWaqt);
-            Log.d("DateTime", "Upcoming Waqt Time: " + upcomingWaqtTime);
-            Log.d("DateTime", "Upcoming Waqt Time Left: " + timeLeft);
-            Log.d("DateTime", "Upcoming Waqt Minutes Left: " + minutesLeft);
-            Log.d("DateTime", "Upcoming Waqt Total Minutes: " + totalMinutes);
-            Log.d("DateTime", "Upcoming Waqt Progress: " + progress);
-
-
-            currentWaqtTextView.setText(upcomingWaqt);
-            progress = 100 - progress;
-            waqtTimeLeftProgressBar.setProgress(progress);
-
-
-            if (localePreferences.contains("Current_Language")) {
-                String locale = localePreferences.getString("Current_Language", "");
-                if (locale.equals("bn")) {
-
-                    banglaTimeFormatter(upcomingWaqtTime, currentWaqtTimeTextView);
-                    waqtTimeLeftTextView.setText(banglaStringConverter(timeLeft) + " মি.");
-
-
-                } else if (locale.equals("en")) {
-                    englishTimeFormatter(upcomingWaqtTime, currentWaqtTextView);
-                    englishTimeFormatter(timeLeft, waqtTimeLeftTextView);
-
-
-                }
-            }
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
 
     private void setupCompass() {
         compass = new Compass(getActivity().getApplicationContext());
