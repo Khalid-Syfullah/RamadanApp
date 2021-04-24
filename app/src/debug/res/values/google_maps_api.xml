@@ -1,0 +1,24 @@
+<resources>
+    <!--
+    TODO: Before you run your application, you need a Google Maps API key.
+
+    To get one, follow this link, follow the directions and press "Create" at the end:
+
+    https://console.developers.google.com/flows/enableapi?apiid=maps_android_backend&keyType=CLIENT_SIDE_ANDROID&r=8A:E8:F5:60:70:75:04:10:40:E2:55:82:29:A4:71:66:B6:19:C3:83%3Bcom.qubitech.ramadanapp.ui.mosques
+
+    You can also add your credentials to an existing key, using these values:
+
+    Package name:
+    com.qubitech.ramadanapp.ui.mosques
+
+    SHA-1 certificate fingerprint:
+    8A:E8:F5:60:70:75:04:10:40:E2:55:82:29:A4:71:66:B6:19:C3:83
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyA-r8XX2HChD1hNx0ZT4l9jJdWQ3SsR2Hg</string>
+</resources>
