@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ImageView menu = findViewById(R.id.imageView12);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-
-
         navController.setGraph(R.navigation.mobile_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 

@@ -33,16 +33,14 @@ public class QuranFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_quran, container, false);
-        ViewPager viewPager = view.findViewById(R.id.viewpager2);
-
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
-        viewPager.setAdapter(myPagerAdapter);
-
-        TabLayout tabLayout = view.findViewById(R.id.view_pager_tab);
-        tabLayout.setupWithViewPager(viewPager);
-
-
-
+//        ViewPager viewPager = view.findViewById(R.id.viewpager2);
+//
+//        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
+//        viewPager.setAdapter(myPagerAdapter);
+//
+//        TabLayout tabLayout = view.findViewById(R.id.view_pager_tab);
+//        tabLayout.setupWithViewPager(viewPager);
+        
         return view;
     }
 

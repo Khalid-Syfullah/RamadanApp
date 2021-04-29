@@ -289,8 +289,7 @@ public class CalibrateFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
 
 
-            Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").setRegion("US").build();
-            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), aLocale);
+            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.ENGLISH);
 
             latitude = Double.valueOf(intent.getStringExtra("latitude"));
             longitude = Double.valueOf(intent.getStringExtra("longitude"));
@@ -298,35 +297,36 @@ public class CalibrateFragment extends Fragment {
             String [] districts_bn = getResources().getStringArray(R.array.division_bn);
             String [] districts_en = getResources().getStringArray(R.array.division_en);
 
-            HashMap<String, String> hashMap = new HashMap<String, String>();
-
-            for(int i=0;i<districts_bn.length;i++) {
-                hashMap.put(districts_bn[i], districts_en[i]);
-            }
+//            HashMap<String, String> hashMap = new HashMap<String, String>();
+//
+//            for(int i=0;i<districts_bn.length;i++) {
+//                hashMap.put(districts_bn[i], districts_en[i]);
+//            }
 
 
             List<Address> addresses = null;
 
             try {
                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                String city_bn = addresses.get(0).getLocality();
+                String cityName = addresses.get(0).getLocality();
                 String countryName = addresses.get(0).getCountryName();
-                String city_en="";
+                String city=cityName;
 
 
-                for (Map.Entry<String, String> entry :
-                        hashMap.entrySet()) {
-                    if (entry.getKey().equals(city_bn)) {
-                        city_en = entry.getValue();
-                    }
-                }
+//                for (Map.Entry<String, String> entry :
+//                        hashMap.entrySet()) {
+//                    if (entry.getKey().equals(city)) {
+//                        city = entry.getValue();
+//                        break;
+//                    }
+//                }
 
                 if(localePreferences.contains("Current_Language")) {
                     String locale = localePreferences.getString("Current_Language", "");
                     if (locale.equals("bn")) {
-                        cityTextView.setText(city_bn);
+                        cityTextView.setText(city);
                     } else if (locale.equals("en")) {
-                        cityTextView.setText(city_en);
+                        cityTextView.setText(city);
                     }
                 }
 

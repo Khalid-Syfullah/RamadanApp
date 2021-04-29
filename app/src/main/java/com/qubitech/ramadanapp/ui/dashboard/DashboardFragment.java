@@ -137,6 +137,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
         simpleDateFormat = new SimpleDateFormat("HH:mm");
 
+        //Fixing CardView corners
         cardView.setBackgroundResource(R.drawable.cardview_topleftcorner);
         cardView2.setBackgroundResource(R.drawable.cardview_topleftcorner);
         cardView3.setBackgroundResource(R.drawable.cardview_toprightcorner);
@@ -152,12 +153,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         maghribTextView.setText("");
         ishaTextView.setText("");
 
+        //Setting default progress if no progressbar progress is found
         waqtTimeLeftProgressBar.setProgress(progress);
         nextIftarTimeLeftProgressBar.setProgress(progress);
 
+        //Locale and Location Broadcast Service Initialization
         localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
         locationIntent = new Intent(getActivity().getApplicationContext(), LocationService.class);
 
+        //Location Permission
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
             ActivityCompat.requestPermissions(getActivity(),
                             new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
@@ -166,6 +170,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                             100);
         }
 
+        //Compass Initialization
         initLocalizedNames(getActivity().getApplicationContext());
         setupCompass();
 
@@ -262,15 +267,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         public void onReceive(Context context, Intent intent) {
 
 
-            Locale aLocale = new Locale.Builder().setLanguage("en").setScript("Latn").setRegion("US").build();
-            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), aLocale);
+            //Create a new Geocoder for getting Location metadata
+            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext());
 
+            //Get Latitude and Longitude from Location Service Broadcast. Need it for selecting City name in API calls
             latitude = Double.valueOf(intent.getStringExtra("latitude"));
             longitude = Double.valueOf(intent.getStringExtra("longitude"));
 
+            //Getting District Name from String Array Resources for Translating Locale from Bangla to English
             String [] districts_bn = getResources().getStringArray(R.array.division_bn);
             String [] districts_en = getResources().getStringArray(R.array.division_en);
 
+            //Hashmap for Locale translation
             HashMap<String, String> hashMap = new HashMap<String, String>();
 
             for(int i=0;i<districts_bn.length;i++) {
@@ -281,13 +289,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             List<Address> addresses = null;
 
             try {
-                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                addresses = geocoder.getFromLocation(latitude, longitude, 1); //Using Lat-Lng to set Geocoder sets error sometimes.
                 String cityName = addresses.get(0).getLocality();
                 String stateName = addresses.get(0).getSubAdminArea();
                 String countryName = addresses.get(0).getCountryName();
                 String city=cityName;
 
-
+                //Finding the English Value using Bangla Keywords from each entrySet.
                 for (Map.Entry<String, String> entry :
                         hashMap.entrySet()) {
                     if (entry.getKey().equals(cityName)) {
@@ -296,6 +304,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     }
 
                 }
+
+                //Log in console
 
                 Log.d("Location","Admin Area: "+addresses.get(0).getAdminArea());
                 Log.d("Location","City Name: "+cityName);
@@ -309,9 +319,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                 Calendar calendar = Calendar.getInstance();
                 calendar.add(Calendar.DATE, 1);
 
+                //Selecting city and date for API calls using Geocoder data
+
                 prayerUrl = "https://api.pray.zone/v2/times/today.json?city="+city+"&juristic=1&school=9";
                 prayerUrlNext = "https://api.pray.zone/v2/times/day.json?city="+city+"&juristic=1&school=9&date="+simpleDateFormat.format(calendar.getTime());
 
+                //Calling the API using AsyncTask
                 apiData = new apiData();
                 apiData.execute();
 
@@ -338,6 +351,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         @Override
         protected Void doInBackground(Void... voids) {
 
+
+            //API call for Dashboard Activity
             OkHttpClient client = new OkHttpClient();
 
             Request request = new Request.Builder()
@@ -347,6 +362,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             try {
                 Response response = client.newCall(request).execute();
 
+
+                //Getting Today's times from API
                 if(response.body() != null){
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     JSONObject jsonObject1 = jsonObject.getJSONObject("results");
@@ -378,6 +395,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             try {
                 Response response = client.newCall(request).execute();
 
+                //Getting Tomorrow's Times from API
                 if(response.body() != null){
                     JSONObject jsonObject = new JSONObject(response.body().string());
                     JSONObject jsonObject1 = jsonObject.getJSONObject("results");
@@ -396,6 +414,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     ishaNext = jsonObject3.getString("Isha");
                     imsakNext = jsonObject3.getString("Imsak");
 
+                    //An array containing consequent Salah Times
                     salahTimes = new String[]{fajr, dhuhr, asr, maghrib, isha, fajrNext};
 
 
@@ -412,7 +431,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-
+            //Update the UI on UI thread
             dailyWaqtTime();
             nextWaqtTime();
             nextSahriTime();
