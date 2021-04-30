@@ -674,6 +674,25 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                         break;
                     }
 
+                    else if( millsNext <= 0 && i == 4){
+
+                        millsNext = 1000*60*60*24 - currentTime.getTime() + nextTime.getTime();
+
+                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
+                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
+                        timeLeft = hoursNext + ":" + minsNext;
+                        minutesLeft = hoursNext * 60 + minsNext;
+
+                        millsTotal = 1000*60*60*24 - prevTime.getTime() + nextTime.getTime();
+
+                        hoursNext = (int) (millsTotal/(1000 * 60 * 60));
+                        minsNext = (int) (millsTotal/(1000*60)) % 60;
+                        totalMinutes = hoursNext * 60 + minsNext;
+                        progress = (minutesLeft * 100) / totalMinutes;
+
+                        break;
+                    }
+
 
                 }
                 else if(millsPrev >= 0){

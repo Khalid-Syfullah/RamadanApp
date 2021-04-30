@@ -4,8 +4,10 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -14,6 +16,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -37,6 +40,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -89,6 +93,7 @@ public class SplashActivity extends AppCompatActivity {
     HandlerThread backgroundThread;
     SimpleDateFormat simpleDateFormat;
     ImageView imageView;
+    AlertDialog alert;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +123,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-        locationPermissionCheck();
+        locationServiceStatusCheck();
 
     }
 
@@ -137,6 +142,57 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    //Check whether Location Service is on or off
+    public void locationServiceStatusCheck() {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            enableLocationServiceDialog();
+        }
+        else{
+            locationPermissionCheck();
+        }
+    }
+
+    //Ask to turn on location service
+    private void enableLocationServiceDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.dismiss();
+                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),2);
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                        enableLocationServiceDialog();
+                    }
+                });
+        alert = builder.create();
+        alert.show();
+        alert.setCancelable(false);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("Splash","Result: "+resultCode);
+        if (requestCode == 2) {
+            if(resultCode == 0) {
+                locationPermissionCheck();
+            }
+            else {
+                enableLocationServiceDialog();
+            }
+        }
+
+    }
+
     private void locationPermissionCheck(){
 
         //Location Permission
@@ -151,7 +207,6 @@ public class SplashActivity extends AppCompatActivity {
         else{
             startService(locationIntent);
             registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-            gotoDashboard();
 
         }
 
@@ -490,6 +545,25 @@ public class SplashActivity extends AppCompatActivity {
                         int minsNext = (int) (millsNext / (1000 * 60)) % 60;
                         timeLeft = hoursNext + ":" + minsNext;
                         minutesLeft = hoursNext * 60 + minsNext;
+
+                        hoursNext = (int) (millsTotal/(1000 * 60 * 60));
+                        minsNext = (int) (millsTotal/(1000*60)) % 60;
+                        totalMinutes = hoursNext * 60 + minsNext;
+                        progress = (minutesLeft * 100) / totalMinutes;
+
+                        break;
+                    }
+
+                    else if( millsNext <= 0 && i == 4){
+
+                        millsNext = 1000*60*60*24 - currentTime.getTime() + nextTime.getTime();
+
+                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
+                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
+                        timeLeft = hoursNext + ":" + minsNext;
+                        minutesLeft = hoursNext * 60 + minsNext;
+
+                        millsTotal = 1000*60*60*24 - prevTime.getTime() + nextTime.getTime();
 
                         hoursNext = (int) (millsTotal/(1000 * 60 * 60));
                         minsNext = (int) (millsTotal/(1000*60)) % 60;
