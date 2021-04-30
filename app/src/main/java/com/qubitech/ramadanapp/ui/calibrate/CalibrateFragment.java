@@ -266,6 +266,10 @@ public class CalibrateFragment extends Fragment {
 
     private void hideFAB(View view) {
 
+        if(getActivity() == null){
+            return;
+        }
+
         int cx = view.getWidth();
         int cy = view.getHeight() ;
         float initialRadius = (float) Math.hypot(cx, cy);
@@ -297,12 +301,6 @@ public class CalibrateFragment extends Fragment {
             String [] districts_bn = getResources().getStringArray(R.array.division_bn);
             String [] districts_en = getResources().getStringArray(R.array.division_en);
 
-//            HashMap<String, String> hashMap = new HashMap<String, String>();
-//
-//            for(int i=0;i<districts_bn.length;i++) {
-//                hashMap.put(districts_bn[i], districts_en[i]);
-//            }
-
 
             List<Address> addresses = null;
 
@@ -312,14 +310,6 @@ public class CalibrateFragment extends Fragment {
                 String countryName = addresses.get(0).getCountryName();
                 String city=cityName;
 
-
-//                for (Map.Entry<String, String> entry :
-//                        hashMap.entrySet()) {
-//                    if (entry.getKey().equals(city)) {
-//                        city = entry.getValue();
-//                        break;
-//                    }
-//                }
 
                 if(localePreferences.contains("Current_Language")) {
                     String locale = localePreferences.getString("Current_Language", "");

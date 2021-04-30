@@ -18,7 +18,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/headericon" />
+        app:srcCompat="@drawable/mainicon" />
 
     <TextView
         android:id="@+id/nav_header_title"

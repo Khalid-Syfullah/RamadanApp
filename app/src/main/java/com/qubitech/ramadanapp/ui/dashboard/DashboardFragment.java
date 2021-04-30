@@ -22,8 +22,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -34,6 +36,8 @@ import androidx.navigation.Navigation;
 
 import com.qubitech.ramadanapp.ComingSoonActivity;
 import com.qubitech.ramadanapp.R;
+import com.qubitech.ramadanapp.SplashActivity;
+import com.qubitech.ramadanapp.staticdata.StaticData;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +69,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     TextView fajrTextView, dhuhrTextView, asrTextView, maghribTextView, ishaTextView,
             currentWaqtTextView, currentWaqtTimeTextView, waqtTimeLeftTextView,
             nextSahriTextView, nextIftarTextView, nextIftarTimeLeftTextView;
-    String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="",imsak="";
+    String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="",imsak="", city="";
     String sunriseNext="",sunsetNext="",midnightNext="",fajrNext="",dhuhrNext="",asrNext="",maghribNext="",ishaNext="",imsakNext="";
 
     String[] salahTimes;
@@ -73,6 +77,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
     int progress=0;
     SharedPreferences localePreferences;
+    Intent broadcastIntent;
+    Context broadcastContext;
+    LocationTask locationTask;
+    Geocoder geocoder;
 
     Compass compass;
     ImageView arrowView;
@@ -80,7 +88,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     CardView cardView,cardView2,cardView3,cardView4,cardView5,cardView6,cardView7,cardView8,cardView9;
     Button waqtBtn,waqtBtn2, calibrateBtn, alarmBtn;
     ProgressBar waqtTimeLeftProgressBar, nextIftarTimeLeftProgressBar;
-    apiData apiData;
     SimpleDateFormat simpleDateFormat;
 
     float currentAzimuth;
@@ -147,33 +154,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         cardView9.setBackgroundResource(R.drawable.cardview_rightcorner);
 
 
-        fajrTextView.setText("");
-        dhuhrTextView.setText("");
-        asrTextView.setText("");
-        maghribTextView.setText("");
-        ishaTextView.setText("");
-
-        //Setting default progress if no progressbar progress is found
-        waqtTimeLeftProgressBar.setProgress(progress);
-        nextIftarTimeLeftProgressBar.setProgress(progress);
-
-        //Locale and Location Broadcast Service Initialization
-        localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
-        locationIntent = new Intent(getActivity().getApplicationContext(), LocationService.class);
-
-        //Location Permission
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(getActivity(),
-                            new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
-                                    Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                                    Manifest.permission.ACCESS_COARSE_LOCATION },
-                            100);
-        }
-
-        //Compass Initialization
-        initLocalizedNames(getActivity().getApplicationContext());
-        setupCompass();
-
         waqtBtn.setOnClickListener(this);
         waqtBtn2.setOnClickListener(this);
         calibrateBtn.setOnClickListener(this);
@@ -187,6 +167,60 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //Locale and Location Broadcast Service Initialization
+        localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
+        locationIntent = new Intent(getActivity().getApplicationContext(), LocationService.class);
+
+        locationPermissionCheck();
+
+        //Compass Initialization
+        initLocalizedNames(getActivity().getApplicationContext());
+        setupCompass();
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("Dashboard", "Compass Starting");
+        compass.start();
+        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+        getActivity().startService(locationIntent);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        initializeTimeData();
+        compass.start();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        compass.stop();
+//        getActivity().unregisterReceiver(broadcastReceiver);
+//        getActivity().stopService(locationIntent);
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        compass.stop();
+        Log.d("Dashboard", "Compass Stopped");
+
+
     }
 
     @Override
@@ -223,126 +257,161 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Log.d("Dashboard", "start compass");
-        compass.start();
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-        getActivity().startService(locationIntent);
-    }
+    private void locationPermissionCheck(){
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        compass.stop();
-//        getActivity().unregisterReceiver(broadcastReceiver);
-//        getActivity().stopService(locationIntent);
+        //Location Permission
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
 
-    }
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                            Manifest.permission.ACCESS_COARSE_LOCATION },
+                    1);
+        }
+        else{
+            getActivity().startService(locationIntent);
+            getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        compass.start();
-//        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-//        getActivity().startService(locationIntent);
-
+        }
 
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        Log.d("Dashboard", "stop compass");
-        compass.stop();
-        getActivity().stopService(locationIntent);
-        getActivity().unregisterReceiver(broadcastReceiver);
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case 1: {
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getActivity().startService(locationIntent);
+                    getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
 
 
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Location permission denied!", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+        }
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            broadcastIntent = intent;
+            broadcastContext = context;
 
-            //Create a new Geocoder for getting Location metadata
-            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext());
+            getLatLng();
+            nameCheck();
+            prepareApiUrl();
 
-            //Get Latitude and Longitude from Location Service Broadcast. Need it for selecting City name in API calls
-            latitude = Double.valueOf(intent.getStringExtra("latitude"));
-            longitude = Double.valueOf(intent.getStringExtra("longitude"));
-
-            //Getting District Name from String Array Resources for Translating Locale from Bangla to English
-            String [] districts_bn = getResources().getStringArray(R.array.division_bn);
-            String [] districts_en = getResources().getStringArray(R.array.division_en);
-
-            //Hashmap for Locale translation
-            HashMap<String, String> hashMap = new HashMap<String, String>();
-
-            for(int i=0;i<districts_bn.length;i++) {
-                hashMap.put(districts_bn[i], districts_en[i]);
-            }
-
-
-            List<Address> addresses = null;
-
-            try {
-                addresses = geocoder.getFromLocation(latitude, longitude, 1); //Using Lat-Lng to set Geocoder sets error sometimes.
-                String cityName = addresses.get(0).getLocality();
-                String stateName = addresses.get(0).getSubAdminArea();
-                String countryName = addresses.get(0).getCountryName();
-                String city=cityName;
-
-                //Finding the English Value using Bangla Keywords from each entrySet.
-                for (Map.Entry<String, String> entry :
-                        hashMap.entrySet()) {
-                    if (entry.getKey().equals(cityName)) {
-                        city = entry.getValue();
-                        break;
-                    }
-
-                }
-
-                //Log in console
-
-                Log.d("Location","Admin Area: "+addresses.get(0).getAdminArea());
-                Log.d("Location","City Name: "+cityName);
-                Log.d("Location","City Name Translated: "+city);
-                Log.d("Location","State Name: "+stateName);
-                Log.d("Location","Country Name: "+countryName);
-                Log.d("Location","Addresses: "+addresses);
-
-
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Calendar calendar = Calendar.getInstance();
-                calendar.add(Calendar.DATE, 1);
-
-                //Selecting city and date for API calls using Geocoder data
-
-                prayerUrl = "https://api.pray.zone/v2/times/today.json?city="+city+"&juristic=1&school=9";
-                prayerUrlNext = "https://api.pray.zone/v2/times/day.json?city="+city+"&juristic=1&school=9&date="+simpleDateFormat.format(calendar.getTime());
-
-                //Calling the API using AsyncTask
-                apiData = new apiData();
-                apiData.execute();
-
-                Log.d("Location",latitude+"");
-                Log.d("Location",longitude+"");
-
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-
-
+            //Calling the API using AsyncTask
+            locationTask = new LocationTask();
+            locationTask.execute();
 
 
         }
+
     };
 
+    private void getLatLng(){
 
-    private class apiData extends AsyncTask<Void,Void,Void> {
+        try {
+            //Create a new Geocoder for getting Location metadata
+            geocoder = new Geocoder(broadcastContext);
+
+            //Get Latitude and Longitude from Location Service Broadcast. Need it for selecting City name in API calls
+
+            latitude = Double.valueOf(broadcastIntent.getStringExtra("latitude"));
+            longitude = Double.valueOf(broadcastIntent.getStringExtra("longitude"));
+
+            if(latitude == null && longitude == null) {
+                latitude = StaticData.latitude;
+                longitude = StaticData.longitude;
+            }
+
+            StaticData.latitude = latitude;
+            StaticData.longitude = longitude;
+
+            Log.d("Location", latitude + "");
+            Log.d("Location", longitude + "");
+
+            broadcastContext.stopService(locationIntent);
+            broadcastContext.unregisterReceiver(broadcastReceiver);
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void nameCheck(){
+
+        //Getting District Name from String Array Resources for Translating Locale from Bangla to English
+        String [] districts_bn = broadcastContext.getResources().getStringArray(R.array.division_bn);
+        String [] districts_en = broadcastContext.getResources().getStringArray(R.array.division_en);
+
+        //Hashmap for Locale translation
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+
+        for(int i=0;i<districts_bn.length;i++) {
+            hashMap.put(districts_bn[i], districts_en[i]);
+        }
+
+
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1); //Using Lat-Lng to set Geocoder sets error sometimes.
+            String cityName = addresses.get(0).getLocality();
+            String stateName = addresses.get(0).getSubAdminArea();
+            String countryName = addresses.get(0).getCountryName();
+            city = cityName;
+
+            //Finding the English Value using Bangla Keywords from each entrySet.
+            for (Map.Entry<String, String> entry :
+                    hashMap.entrySet()) {
+                if (entry.getKey().equals(cityName)) {
+                    city = entry.getValue();
+                    break;
+                }
+
+            }
+
+            //Log in console
+
+            Log.d("Location","Admin Area: "+addresses.get(0).getAdminArea());
+            Log.d("Location","City Name: "+cityName);
+            Log.d("Location","City Name Translated: "+city);
+            Log.d("Location","State Name: "+stateName);
+            Log.d("Location","Country Name: "+countryName);
+            Log.d("Location","Addresses: "+addresses);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void prepareApiUrl(){
+
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 1);
+
+            //Selecting city and date for API calls using Geocoder data
+
+            prayerUrl = "https://api.pray.zone/v2/times/today.json?city=" + city + "&juristic=1&school=9";
+            prayerUrlNext = "https://api.pray.zone/v2/times/day.json?city=" + city + "&juristic=1&school=9&date=" + simpleDateFormat.format(calendar.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private class LocationTask extends AsyncTask<Void,Void,Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -414,6 +483,20 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     ishaNext = jsonObject3.getString("Isha");
                     imsakNext = jsonObject3.getString("Imsak");
 
+                    StaticData.fajrTime = fajr;
+                    StaticData.dhuhrTime = dhuhr;
+                    StaticData.asrTime = asr;
+                    StaticData.maghribTime = maghrib;
+                    StaticData.ishaTime = isha;
+                    StaticData.imsakTime = imsak;
+
+                    StaticData.fajrNextTime = fajrNext;
+                    StaticData.dhuhrNextTime = dhuhrNext;
+                    StaticData.asrNextTime = asrNext;
+                    StaticData.maghribNextTime = maghribNext;
+                    StaticData.ishaNextTime = ishaNext;
+                    StaticData.imsakNextTime = imsakNext;
+
                     //An array containing consequent Salah Times
                     salahTimes = new String[]{fajr, dhuhr, asr, maghrib, isha, fajrNext};
 
@@ -436,6 +519,53 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             nextWaqtTime();
             nextSahriTime();
             nextIftarTIme();
+        }
+
+    }
+
+    private void initializeTimeData(){
+        try {
+
+
+            if (localePreferences.contains("Current_Language")) {
+                String locale = localePreferences.getString("Current_Language", "");
+                if (locale.equals("bn")) {
+
+                    banglaTimeFormatter(StaticData.fajrTime, fajrTextView);
+                    banglaTimeFormatter(StaticData.dhuhrNextTime, dhuhrTextView);
+                    banglaTimeFormatter(StaticData.asrTime, asrTextView);
+                    banglaTimeFormatter(StaticData.maghribTime, maghribTextView);
+                    banglaTimeFormatter(StaticData.ishaTime, ishaTextView);
+                    banglaTimeFormatter(StaticData.sahriNextTime, nextSahriTextView);
+                    banglaTimeFormatter(StaticData.iftarNextTime, nextIftarTextView);
+                    nextIftarTimeLeftTextView.setText(banglaStringConverter(StaticData.iftarNextTimeLeft) + " মি.");
+                    banglaTimeFormatter(StaticData.waqtNextTime, currentWaqtTimeTextView);
+                    waqtTimeLeftTextView.setText(banglaStringConverter(StaticData.waqtNextTimeLeft) + " মি.");
+
+
+                } else if (locale.equals("en")) {
+
+                    englishTimeFormatter(StaticData.fajrTime, fajrTextView);
+                    englishTimeFormatter(StaticData.dhuhrTime, dhuhrTextView);
+                    englishTimeFormatter(StaticData.asrTime, asrTextView);
+                    englishTimeFormatter(StaticData.maghribTime, maghribTextView);
+                    englishTimeFormatter(StaticData.ishaTime, ishaTextView);
+                    englishTimeFormatter(StaticData.sahriNextTime, nextSahriTextView);
+                    englishTimeFormatter(StaticData.iftarNextTime, nextIftarTextView);
+                    nextIftarTimeLeftTextView.setText(StaticData.iftarNextTimeLeft);
+                    englishTimeFormatter(StaticData.waqtNextTime, currentWaqtTextView);
+                    englishTimeFormatter(StaticData.waqtNextTimeLeft, waqtTimeLeftTextView);
+                }
+            }
+
+            currentWaqtTextView.setText(StaticData.waqtNext);
+
+            //Setting default progress if no progressbar progress is found
+            waqtTimeLeftProgressBar.setProgress(StaticData.waqtNextProgress);
+            nextIftarTimeLeftProgressBar.setProgress(StaticData.iftarNextProgress);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -472,31 +602,32 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
         try {
 
-            String currentTime = simpleDateFormat.format(Calendar.getInstance().getTime());
+            String currentTimeString = simpleDateFormat.format(Calendar.getInstance().getTime());
             String upcomingWaqt = "", upcomingWaqtTime = "", timeLeft = "";
             int minutesLeft = 0, totalMinutes = 0;
+            long millsPrev;
+            long millsTotal;
+            long millsNext;
 
-            for (int i = 0; i <= 3; i++) {
+            for (int i = 0; i < 5; i++) {
 
                 String prevWaqtTime = salahTimes[i];
                 String nextWaqtTime = salahTimes[i + 1];
 
-                Date date0 = simpleDateFormat.parse(prevWaqtTime);
-                Date date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
-                Date date2 = simpleDateFormat.parse(nextWaqtTime);
+                Date prevTime = simpleDateFormat.parse(prevWaqtTime);
+                Date currentTime = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
+                Date nextTime = simpleDateFormat.parse(nextWaqtTime);
 
-                long millsPrev;
-                long millsTotal;
 
-                    millsPrev = date0.getTime() - date1.getTime();
-                    millsTotal = date2.getTime() - date0.getTime();
+                    millsPrev = prevTime.getTime() - currentTime.getTime();
+                    millsTotal = nextTime.getTime() - prevTime.getTime();
 
 
                 if (millsPrev < 0) {
                     upcomingWaqt = salahWaqts[i + 1];
                     upcomingWaqtTime = nextWaqtTime;
 
-                    long millsNext = date2.getTime() - date1.getTime();
+                    millsNext = nextTime.getTime() - currentTime.getTime();
 
                     if (millsNext > 0) {
                         int hoursNext = (int) (millsNext / (1000 * 60 * 60));
@@ -512,101 +643,41 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                         break;
                     }
 
-                    else if (i == 3) {
-
-                        upcomingWaqt = salahWaqts[i + 1];
-                        upcomingWaqtTime = nextWaqtTime;
-
-                        millsPrev = date0.getTime() - date1.getTime();
-
-                        if (millsPrev < 0) {
-
-                            millsNext = date1.getTime() - date2.getTime();
-
-                            if (millsNext < 0) {
-                                int hoursNext = (int) (millsNext / (1000 * 60 * 60));
-                                int minsNext = (int) (millsNext / (1000 * 60)) % 60;
-                                timeLeft = hoursNext + ":" + minsNext;
-                                minutesLeft = hoursNext * 60 + minsNext;
-
-                                millsTotal = date2.getTime() - date0.getTime();
-                                hoursNext = (int) (millsTotal/(1000 * 60 * 60));
-                                minsNext = (int) (millsTotal/(1000*60)) % 60;
-                                totalMinutes = hoursNext * 60 + minsNext;
-                                progress = (minutesLeft * 100) / totalMinutes;
-                                break;
-                            }
-                            else if (millsNext > 0) {
-                                upcomingWaqt = getResources().getString(R.string.fajr);
-                                upcomingWaqtTime = fajrNext;
-
-                                prevWaqtTime = isha;
-                                nextWaqtTime = fajrNext;
-
-                                date0 = simpleDateFormat.parse(prevWaqtTime);
-                                date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
-                                date2 = simpleDateFormat.parse(nextWaqtTime);
-
-                                millsPrev = date0.getTime() - date1.getTime();
-
-
-
-                                if (millsPrev < 0) {
-
-                                    millsNext = 1000*60*60*24 - date1.getTime() + date2.getTime();
-
-                                    if (millsNext > 0) {
-
-                                        Log.d("Time","We are here");
-
-                                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
-                                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
-                                        timeLeft = hoursNext + ":" + minsNext;
-                                        minutesLeft = hoursNext * 60 + minsNext;
-
-                                        millsTotal = 1000*60*60*24 - date0.getTime() + date2.getTime();
-                                        hoursNext = (int) (millsTotal/(1000 * 60 * 60));
-                                        minsNext = (int) (millsTotal/(1000*60)) % 60;
-                                        totalMinutes = hoursNext * 60 + minsNext;
-                                        progress = (minutesLeft * 100) / totalMinutes;
-
-                                    }
-                                }
-                                else if (millsPrev > 0){
-
-                                    upcomingWaqt = getResources().getString(R.string.fajr);
-                                    upcomingWaqtTime = fajr;
-
-                                    prevWaqtTime = isha;
-                                    nextWaqtTime = fajr;
-
-                                    date0 = simpleDateFormat.parse(prevWaqtTime);
-                                    date1 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
-                                    date2 = simpleDateFormat.parse(nextWaqtTime);
-
-                                    millsPrev = date0.getTime() - date1.getTime();
-                                    millsNext = date2.getTime() - date1.getTime();
-
-                                    if (millsNext > 0) {
-                                        int hoursNext = (int) (millsNext / (1000 * 60 * 60));
-                                        int minsNext = (int) (millsNext / (1000 * 60)) % 60;
-                                        timeLeft = hoursNext + ":" + minsNext;
-                                        minutesLeft = hoursNext * 60 + minsNext;
-
-                                        millsTotal = 1000*60*60*24 - date0.getTime() + date2.getTime();
-                                        hoursNext = (int) (millsTotal/(1000 * 60 * 60));
-                                        minsNext = (int) (millsTotal/(1000*60)) % 60;
-                                        totalMinutes = hoursNext * 60 + minsNext;
-                                        progress = (minutesLeft * 100) / totalMinutes;
-
-                                    }
-                                }
-
-                            }
-                        }
-                    }
 
                 }
+                else if(millsPrev >= 0){
+                    if(getActivity() == null){
+                        return;
+                    }
+                    upcomingWaqt = getResources().getString(R.string.fajr);
+                    upcomingWaqtTime = fajr;
+
+                    prevWaqtTime = isha;
+                    nextWaqtTime = fajr;
+
+                    prevTime = simpleDateFormat.parse(prevWaqtTime);
+                    currentTime = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
+                    nextTime = simpleDateFormat.parse(nextWaqtTime);
+
+                    millsNext = nextTime.getTime() - currentTime.getTime();
+
+                    int hoursNext = (int) (millsNext / (1000 * 60 * 60));
+                    int minsNext = (int) (millsNext / (1000 * 60)) % 60;
+                    timeLeft = hoursNext + ":" + minsNext;
+                    minutesLeft = hoursNext * 60 + minsNext;
+
+                    millsTotal = 1000*60*60*24 - prevTime.getTime() + nextTime.getTime();
+
+                    hoursNext = (int) (millsTotal/(1000 * 60 * 60));
+                    minsNext = (int) (millsTotal/(1000*60)) % 60;
+                    totalMinutes = hoursNext * 60 + minsNext;
+                    progress = (minutesLeft * 100) / totalMinutes;
+
+                    break;
+
+                }
+
+
 
 
 
@@ -615,7 +686,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             }
 
 
-            Log.d("DateTime", "Current Time: " + currentTime);
+            Log.d("DateTime", "Current Time: " + currentTimeString);
             Log.d("DateTime", "Upcoming Waqt: " + upcomingWaqt);
             Log.d("DateTime", "Upcoming Waqt Time: " + upcomingWaqtTime);
             Log.d("DateTime", "Upcoming Waqt Time Left: " + timeLeft);
@@ -627,6 +698,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             currentWaqtTextView.setText(upcomingWaqt);
             progress = 100 - progress;
             waqtTimeLeftProgressBar.setProgress(progress);
+
+            StaticData.waqtNext = upcomingWaqt;
+            StaticData.waqtNextTime = upcomingWaqtTime;
+            StaticData.waqtNextTimeLeft = timeLeft;
+            StaticData.waqtNextProgress = progress;
 
 
             if (localePreferences.contains("Current_Language")) {
@@ -651,19 +727,18 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-
     public void nextSahriTime(){
 
         try {
-            Date date0 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
+            Date currentTime = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
             Date date1 = simpleDateFormat.parse("00:00");
             Date date2 = simpleDateFormat.parse(imsak);
             Date date3 = simpleDateFormat.parse("23:59");
 
 
-            long mills1 = date1.getTime() - date0.getTime();
-            long mills2 = date2.getTime() - date0.getTime();
-            long mills3 = date3.getTime() - date0.getTime();
+            long mills1 = date1.getTime() - currentTime.getTime();
+            long mills2 = date2.getTime() - currentTime.getTime();
+            long mills3 = date3.getTime() - currentTime.getTime();
 
 
             if(mills1 <= 0 && mills2 >= 0){
@@ -672,10 +747,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     String locale = localePreferences.getString("Current_Language", "");
                     if (locale.equals("bn")) {
                         banglaTimeFormatter(imsak, nextSahriTextView);
+                        StaticData.sahriNextTime = imsak;
 
 
                     } else if (locale.equals("en")) {
                         englishTimeFormatter(imsak, nextSahriTextView);
+                        StaticData.sahriNextTime = imsak;
 
                     }
                 }
@@ -685,10 +762,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     String locale = localePreferences.getString("Current_Language", "");
                     if (locale.equals("bn")) {
                         banglaTimeFormatter(imsakNext, nextSahriTextView);
+                        StaticData.sahriNextTime = imsakNext;
 
 
                     } else if (locale.equals("en")) {
                         englishTimeFormatter(imsakNext, nextSahriTextView);
+                        StaticData.sahriNextTime = imsakNext;
 
                     }
                 }
@@ -706,15 +785,15 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
 
         try {
-            Date date0 = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
-            Date date1 = simpleDateFormat.parse(maghrib);
-            Date date2 = simpleDateFormat.parse(maghribNext);
+            Date currentTime = simpleDateFormat.parse(simpleDateFormat.format(Calendar.getInstance().getTime()));
+            Date prevTime = simpleDateFormat.parse(maghrib);
+            Date nextTime = simpleDateFormat.parse(maghribNext);
 
             String timeLeft="";
             int minutesLeft=0, totalMinutes=0;
 
-            long mills = date1.getTime() - date0.getTime();
-            long mills2 = date2.getTime() - date0.getTime();
+            long mills = prevTime.getTime() - currentTime.getTime();
+            long mills2 = nextTime.getTime() - currentTime.getTime();
             long mills3 = (1000*60*60*24) + mills2;
 
             long millsTotal = 1000*60*60*24;
@@ -735,10 +814,12 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     String locale = localePreferences.getString("Current_Language", "");
                     if (locale.equals("bn")) {
                         banglaTimeFormatter(maghrib, nextIftarTextView);
+                        StaticData.iftarNextTime = maghrib;
 
 
                     } else if (locale.equals("en")) {
                         englishTimeFormatter(maghrib, nextIftarTextView);
+                        StaticData.iftarNextTime = maghrib;
 
                     }
                 }
@@ -759,14 +840,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     mins = (int) (millsTotal / (1000 * 60)) % 60;
                     totalMinutes = hours * 60 + mins;
 
+
                     if(localePreferences.contains("Current_Language")) {
                         String locale = localePreferences.getString("Current_Language", "");
                         if (locale.equals("bn")) {
                             banglaTimeFormatter(maghrib, nextIftarTextView);
+                            StaticData.iftarNextTime = maghrib;
 
 
                         } else if (locale.equals("en")) {
                             englishTimeFormatter(maghrib, nextIftarTextView);
+                            StaticData.iftarNextTime = maghrib;
 
                         }
                     }
@@ -785,14 +869,17 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
                     mins = (int) (millsTotal / (1000 * 60)) % 60;
                     totalMinutes = hours * 60 + mins;
 
+
                     if(localePreferences.contains("Current_Language")) {
                         String locale = localePreferences.getString("Current_Language", "");
                         if (locale.equals("bn")) {
                             banglaTimeFormatter(maghribNext, nextIftarTextView);
+                            StaticData.iftarNextTime = maghribNext;
 
 
                         } else if (locale.equals("en")) {
                             englishTimeFormatter(maghribNext, nextIftarTextView);
+                            StaticData.iftarNextTime = maghribNext;
 
                         }
                     }
@@ -805,16 +892,21 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             progress = (minutesLeft * 100) / totalMinutes;
             nextIftarTimeLeftProgressBar.setProgress(progress);
 
+            StaticData.iftarNextProgress = progress;
+
             if(localePreferences.contains("Current_Language")) {
                 String locale = localePreferences.getString("Current_Language", "");
                 if (locale.equals("bn")) {
 
                     nextIftarTimeLeftTextView.setText(banglaStringConverter(timeLeft)+" মি.");
+                    StaticData.iftarNextTimeLeft = timeLeft;
 
 
                 }
                 else if(locale.equals("en")){
                     englishTimeFormatter(timeLeft,nextIftarTimeLeftTextView);
+                    StaticData.iftarNextTimeLeft = timeLeft;
+
                 }
             }
 
@@ -858,7 +950,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onNewAzimuth(final float azimuth) {
 
-
+                if(getActivity() == null){
+                    return;
+                }
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

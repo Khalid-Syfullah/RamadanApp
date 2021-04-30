@@ -170,6 +170,7 @@ public class TasbihFragment extends Fragment implements View.OnClickListener{
 
         switch(view.getId()){
             case R.id.imageView7:
+                closeBtn.setEnabled(false);
                 hideFAB(cardView);
                 break;
             case R.id.imageButton:
@@ -306,6 +307,10 @@ public class TasbihFragment extends Fragment implements View.OnClickListener{
 
     private void hideFAB(View view) {
 
+        if(getActivity() == null){
+            return;
+        }
+
         int cx = view.getWidth();
         int cy = view.getHeight() ;
         float initialRadius = (float) Math.hypot(cx, cy);
@@ -317,6 +322,7 @@ public class TasbihFragment extends Fragment implements View.OnClickListener{
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 view.setVisibility(View.GONE);
+
                 Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.action_navigation_tasbih_to_navigation_dashboard);
             }
         });

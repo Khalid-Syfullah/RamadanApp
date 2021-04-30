@@ -40,7 +40,7 @@ public class QuranFragment extends Fragment {
 //
 //        TabLayout tabLayout = view.findViewById(R.id.view_pager_tab);
 //        tabLayout.setupWithViewPager(viewPager);
-        
+
         return view;
     }
 

@@ -87,6 +87,7 @@ public class MosquesFragment extends Fragment {
     String searchUrl = "";
     ArrayList<String> place_id, name, vicinity;
     ArrayList<Double> lat, lng;
+    float distanceInMeters;
 
     TextView nearbyMosqueTextView, mosqueNameTextView, mosqueDistanceTextView, mosqueLocationTextView;
     CardView cardView, cardViewMosque;
@@ -143,6 +144,7 @@ public class MosquesFragment extends Fragment {
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                closeBtn.setEnabled(false);
                 hideFAB(cardView);
             }
         });
@@ -218,7 +220,7 @@ public class MosquesFragment extends Fragment {
 
     }
 
-    private class apiData extends AsyncTask<Void,Void,Void> {
+    private class mosqueTask extends AsyncTask<Void,Void,Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -227,166 +229,26 @@ public class MosquesFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
 
-            OkHttpClient client = new OkHttpClient();
+           findNearbyMosques();
+           findClosestMosqueDistance();
 
-            Request request = new Request.Builder()
-                    .url(searchUrl)
-                    .build();
-
-            try {
-                Response response = client.newCall(request).execute();
-
-                if(response.body() != null){
-
-                    place_id = new ArrayList<>();
-                    lat = new ArrayList<>();
-                    lng = new ArrayList<>();
-                    name = new ArrayList<>();
-                    vicinity = new ArrayList<>();
-
-
-                    JSONObject jsonObject = new JSONObject(response.body().string());
-                    JSONArray jsonArray = jsonObject.getJSONArray("results");
-
-                    for(int i=0;i<jsonArray.length();i++) {
-
-                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        JSONObject jsonObject2 = jsonObject1.getJSONObject("geometry");
-                        JSONObject jsonObject3 = jsonObject2.getJSONObject("location");
-
-                        place_id.add(jsonObject1.getString("place_id"));
-                        name.add(jsonObject1.getString("name"));
-                        vicinity.add(jsonObject1.getString("vicinity"));
-                        lat.add(jsonObject3.getDouble("lat"));
-                        lng.add(jsonObject3.getDouble("lng"));
-
-                        Log.d("Response", "Results: [" + i + "]: " + jsonObject1.getString("name"));
-
-                    }
-
-
-
-                }
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
+           return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            for(int i=0;i<lat.size();i++) {
+            try {
+                showClosestMosque();
+                addMarkers();
+                getDirectionsToMosque();
 
-                mosqueMarker = mosqueMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(lat.get(i), lng.get(i)))
-                        .snippet(vicinity.get(i))
-                        .title(name.get(i)));
-
-                mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
             }
+        }
 
-                nearbyMosqueTextView.setText(name.get(0));
-
-                Location loc1 = new Location("");
-                loc1.setLatitude(latitude);
-                loc1.setLongitude(longitude);
-
-                Location loc2 = new Location("");
-                loc2.setLatitude(lat.get(0));
-                loc2.setLongitude(lng.get(0));
-
-                float distanceInMeters = loc1.distanceTo(loc2);
-
-                mosqueNameTextView.setText(name.get(0));
-                mosqueLocationTextView.setText(vicinity.get(0));
-                mosqueDistanceTextView.setText("Distance: "+distanceInMeters+" m");
-
-
-                Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.fade_in);
-                animation.setDuration(500);
-                cardViewMosque.setAnimation(animation);
-                cardViewMosque.setVisibility(View.VISIBLE);
-
-                Log.d("Maps","Mosque Clicked! Distance : "+distanceInMeters+" m");
-
-
-                mosqueMap.clear();
-
-
-                myLocationMarker = mosqueMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(latitude,longitude))
-                        .snippet(String.valueOf(R.string.nearby_mosque))
-                        .title(getResources().getString(R.string.current_location)));
-                myLocationMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.marker));
-
-                for(int i = 0; i<lat.size(); i++) {
-
-                    mosqueMarker = mosqueMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(lat.get(i), lng.get(i)))
-                            .snippet(vicinity.get(i))
-                            .title(name.get(i)));
-
-                    mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
-
-                }
-
-
-                List<LatLng> path = new ArrayList();
-
-                GeoApiContext context = new GeoApiContext.Builder()
-                        .apiKey(getResources().getString(R.string.google_maps_key))
-                        .build();
-                DirectionsApiRequest req = DirectionsApi.getDirections(context, latitude+","+longitude, lat.get(0)+","+lng.get(0));
-                try {
-                    DirectionsResult res = req.await();
-
-                    if (res.routes != null && res.routes.length > 0) {
-                        DirectionsRoute route = res.routes[0];
-
-                        if (route.legs !=null) {
-                            for(int i=0; i<route.legs.length; i++) {
-                                DirectionsLeg leg = route.legs[i];
-                                if (leg.steps != null) {
-                                    for (int j=0; j<leg.steps.length;j++){
-                                        DirectionsStep step = leg.steps[j];
-                                        if (step.steps != null && step.steps.length >0) {
-                                            for (int k=0; k<step.steps.length;k++){
-                                                DirectionsStep step1 = step.steps[k];
-                                                EncodedPolyline points1 = step1.polyline;
-                                                if (points1 != null) {
-                                                    List<com.google.maps.model.LatLng> coords1 = points1.decodePath();
-                                                    for (com.google.maps.model.LatLng coord1 : coords1) {
-                                                        path.add(new LatLng(coord1.lat, coord1.lng));
-                                                    }
-                                                }
-                                            }
-                                        } else {
-                                            EncodedPolyline points = step.polyline;
-                                            if (points != null) {
-                                                List<com.google.maps.model.LatLng> coords = points.decodePath();
-                                                for (com.google.maps.model.LatLng coord : coords) {
-                                                    path.add(new LatLng(coord.lat, coord.lng));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } catch(Exception ex) {
-                }
-
-                if (path.size() > 0) {
-                    PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.parseColor("#67CE22")).width(15);
-                    mosqueMap.addPolyline(opts);
-                }
-
-            }
 
     }
 
@@ -418,125 +280,18 @@ public class MosquesFragment extends Fragment {
 
                         if (!marker.equals(myLocationMarker)) {
 
-                            Location loc1 = new Location("");
-                            loc1.setLatitude(latitude);
-                            loc1.setLongitude(longitude);
-
-                            Location loc2 = new Location("");
-                            loc2.setLatitude(marker.getPosition().latitude);
-                            loc2.setLongitude(marker.getPosition().longitude);
-
-                            float distanceInMeters = loc1.distanceTo(loc2);
-
-                            mosqueNameTextView.setText(marker.getTitle());
-                            mosqueLocationTextView.setText(marker.getSnippet());
-                            mosqueDistanceTextView.setText("Distance: " + distanceInMeters + " m");
-
-
-                            Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
-                            animation.setDuration(500);
-                            cardViewMosque.setAnimation(animation);
-                            cardViewMosque.setVisibility(View.VISIBLE);
-
-                            Log.d("Maps", "Mosque Clicked! Distance : " + distanceInMeters + " m");
-
-
-                            mosqueMap.clear();
-
-                            myLocationMarker = mosqueMap.addMarker(new MarkerOptions()
-                                    .position(userLocation)
-                                    .snippet(String.valueOf(R.string.nearby_mosque))
-                                    .title(getResources().getString(R.string.current_location)));
-                            myLocationMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.marker));
-
-                            for (int i = 0; i < lat.size(); i++) {
-
-                                mosqueMarker = mosqueMap.addMarker(new MarkerOptions()
-                                        .position(new LatLng(lat.get(i), lng.get(i)))
-                                        .snippet(vicinity.get(i))
-                                        .title(name.get(i)));
-
-                                mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
-
-                            }
-//
-//                        ArrayList<LatLng> list = new ArrayList<>();
-//                        list.add(new LatLng(latitude,longitude));
-//                        list.add(marker.getPosition());
-//
-//
-//                        mosqueMap.addPolyline(new PolylineOptions()
-//                                .addAll(list)
-//                                .width(12)
-//                                .color(Color.parseColor("#67CE22"))
-//                                .geodesic(true)
-//                        );
-
-
-                            //Define list to get all latlng for the route
-                            List<LatLng> path = new ArrayList();
-
-
-                            //Execute Directions API request
-                            GeoApiContext context = new GeoApiContext.Builder()
-                                    .apiKey(getResources().getString(R.string.google_maps_key))
-                                    .build();
-                            DirectionsApiRequest req = DirectionsApi.getDirections(context, latitude + "," + longitude, marker.getPosition().latitude + "," + marker.getPosition().longitude);
-                            try {
-                                DirectionsResult res = req.await();
-
-                                //Loop through legs and steps to get encoded polylines of each step
-                                if (res.routes != null && res.routes.length > 0) {
-                                    DirectionsRoute route = res.routes[0];
-
-                                    if (route.legs != null) {
-                                        for (int i = 0; i < route.legs.length; i++) {
-                                            DirectionsLeg leg = route.legs[i];
-                                            if (leg.steps != null) {
-                                                for (int j = 0; j < leg.steps.length; j++) {
-                                                    DirectionsStep step = leg.steps[j];
-                                                    if (step.steps != null && step.steps.length > 0) {
-                                                        for (int k = 0; k < step.steps.length; k++) {
-                                                            DirectionsStep step1 = step.steps[k];
-                                                            EncodedPolyline points1 = step1.polyline;
-                                                            if (points1 != null) {
-                                                                //Decode polyline and add points to list of route coordinates
-                                                                List<com.google.maps.model.LatLng> coords1 = points1.decodePath();
-                                                                for (com.google.maps.model.LatLng coord1 : coords1) {
-                                                                    path.add(new LatLng(coord1.lat, coord1.lng));
-                                                                }
-                                                            }
-                                                        }
-                                                    } else {
-                                                        EncodedPolyline points = step.polyline;
-                                                        if (points != null) {
-                                                            //Decode polyline and add points to list of route coordinates
-                                                            List<com.google.maps.model.LatLng> coords = points.decodePath();
-                                                            for (com.google.maps.model.LatLng coord : coords) {
-                                                                path.add(new LatLng(coord.lat, coord.lng));
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            } catch (Exception ex) {
-                            }
-
-                            //Draw the polyline
-                            if (path.size() > 0) {
-                                PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.parseColor("#67CE22")).width(15);
-                                mosqueMap.addPolyline(opts);
-                            }
-
+                           findClosestMosqueDistance();
+                           showClosestMosque();
+                           addMarkers();
+                           getDirectionsToMosque();
 
                         }
                         return true;
                     }
                 });
-                new apiData().execute();
+
+                new mosqueTask().execute();
+
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             } catch (Resources.NotFoundException e) {
@@ -544,6 +299,195 @@ public class MosquesFragment extends Fragment {
             }
         }
     };
+
+    private void findNearbyMosques(){
+        //Search for Nearby Mosques and save results to multiple Array Lists using Google Places API
+
+        try {
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url(searchUrl)
+                    .build();
+
+
+            Response response = client.newCall(request).execute();
+
+            if(response.body() != null){
+
+                place_id = new ArrayList<>();
+                lat = new ArrayList<>();
+                lng = new ArrayList<>();
+                name = new ArrayList<>();
+                vicinity = new ArrayList<>();
+
+
+                JSONObject jsonObject = new JSONObject(response.body().string());
+                JSONArray jsonArray = jsonObject.getJSONArray("results");
+
+                for(int i=0;i<jsonArray.length();i++) {
+
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                    JSONObject jsonObject2 = jsonObject1.getJSONObject("geometry");
+                    JSONObject jsonObject3 = jsonObject2.getJSONObject("location");
+
+                    place_id.add(jsonObject1.getString("place_id"));
+                    name.add(jsonObject1.getString("name"));
+                    vicinity.add(jsonObject1.getString("vicinity"));
+                    lat.add(jsonObject3.getDouble("lat"));
+                    lng.add(jsonObject3.getDouble("lng"));
+
+                    Log.d("Response", "Results: [" + i + "]: " + jsonObject1.getString("name"));
+
+                }
+
+
+
+            }
+        } catch (IOException | JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void findClosestMosqueDistance(){
+        //Find the distance between my location and the nearest mosque from Location API
+        Location loc1 = new Location("");
+        loc1.setLatitude(latitude);
+        loc1.setLongitude(longitude);
+
+        Location loc2 = new Location("");
+        loc2.setLatitude(lat.get(0));
+        loc2.setLongitude(lng.get(0));
+
+        distanceInMeters = loc1.distanceTo(loc2);
+    }
+
+    private void showClosestMosque(){
+        for (int i = 0; i < lat.size(); i++) {
+
+            if(getActivity() == null){
+                break;
+            }
+
+            //Add marker for the nearest mosque from LAT-LNG ArrayList
+            mosqueMarker = mosqueMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(lat.get(i), lng.get(i)))
+                    .snippet(vicinity.get(i))
+                    .title(name.get(i)));
+
+            mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
+        }
+
+        nearbyMosqueTextView.setText(name.get(0));
+        mosqueNameTextView.setText(name.get(0));
+        mosqueLocationTextView.setText(vicinity.get(0));
+        mosqueDistanceTextView.setText("Distance: " + distanceInMeters + " m");
+
+        if(getActivity() == null)
+            return;
+
+        Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
+        animation.setDuration(500);
+        cardViewMosque.setAnimation(animation);
+        cardViewMosque.setVisibility(View.VISIBLE);
+
+        Log.d("Maps", "Mosque Clicked! Distance : " + distanceInMeters + " m");
+
+    }
+
+    private void addMarkers(){
+        //Add a Marker to my current position
+
+        if(getActivity() == null){
+            return;
+        }
+        mosqueMap.clear();
+        myLocationMarker = mosqueMap.addMarker(new MarkerOptions()
+                .position(new LatLng(latitude, longitude))
+                .snippet(String.valueOf(R.string.nearby_mosque))
+                .title(getResources().getString(R.string.current_location)));
+        myLocationMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.marker));
+
+        //Add Markers to all of the nearby mosque locations
+        for (int i = 0; i < lat.size(); i++) {
+
+            if(getActivity() == null){
+                return;
+            }
+            mosqueMarker = mosqueMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(lat.get(i), lng.get(i)))
+                    .snippet(vicinity.get(i))
+                    .title(name.get(i)));
+
+            mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
+
+        }
+    }
+
+    //Get Directions to the closest Mosque in the Map using Directions API
+    private void getDirectionsToMosque(){
+
+        //Define list to get all latlng for the route
+        List<LatLng> path = new ArrayList();
+
+        if(getActivity() == null){
+            return;
+        }
+        //Execute Directions API request
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey(getResources().getString(R.string.google_maps_key))
+                .build();
+        DirectionsApiRequest req = DirectionsApi.getDirections(context, latitude + "," + longitude, lat.get(0) + "," + lng.get(0));
+        try {
+            DirectionsResult res = req.await();
+
+            //Loop through legs and steps to get encoded polylines of each step
+            if (res.routes != null && res.routes.length > 0) {
+                DirectionsRoute route = res.routes[0];
+
+                if (route.legs != null) {
+                    for (int i = 0; i < route.legs.length; i++) {
+                        DirectionsLeg leg = route.legs[i];
+                        if (leg.steps != null) {
+                            for (int j = 0; j < leg.steps.length; j++) {
+                                DirectionsStep step = leg.steps[j];
+                                if (step.steps != null && step.steps.length > 0) {
+                                    for (int k = 0; k < step.steps.length; k++) {
+                                        DirectionsStep step1 = step.steps[k];
+                                        EncodedPolyline points1 = step1.polyline;
+                                        if (points1 != null) {
+                                            List<com.google.maps.model.LatLng> coords1 = points1.decodePath();
+                                            for (com.google.maps.model.LatLng coord1 : coords1) {
+                                                path.add(new LatLng(coord1.lat, coord1.lng));
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    EncodedPolyline points = step.polyline;
+                                    if (points != null) {
+                                        List<com.google.maps.model.LatLng> coords = points.decodePath();
+                                        for (com.google.maps.model.LatLng coord : coords) {
+                                            path.add(new LatLng(coord.lat, coord.lng));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+        }
+
+        //Draw the Polyline in the map if Direction is available
+        if (path.size() > 0) {
+            PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.parseColor("#67CE22")).width(15);
+            mosqueMap.addPolyline(opts);
+        }
+    }
+
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorDrawableResourceId) {
 
@@ -579,6 +523,8 @@ public class MosquesFragment extends Fragment {
             public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
                 view.setVisibility(View.GONE);
+                if(getActivity() == null)
+                    return;
                 Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.action_navigation_mosques_to_navigation_dashboard);
             }
         });
