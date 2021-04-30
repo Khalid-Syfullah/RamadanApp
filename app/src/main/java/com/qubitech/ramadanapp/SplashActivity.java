@@ -14,9 +14,13 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -50,6 +54,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.NetworkInterface;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -80,6 +86,7 @@ public class SplashActivity extends AppCompatActivity {
 
     LocationTask locationTask;
     Geocoder geocoder;
+    HandlerThread backgroundThread;
     SimpleDateFormat simpleDateFormat;
     ImageView imageView;
     
@@ -90,6 +97,7 @@ public class SplashActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.imageView2);
         locationIntent = new Intent(SplashActivity.this, LocationService.class);
+
         simpleDateFormat = new SimpleDateFormat("HH:mm");
         salahWaqts = new String[]{getResources().getString(R.string.fajr), getResources().getString(R.string.dhuhr),
                 getResources().getString(R.string.asr), getResources().getString(R.string.maghrib), getResources().getString(R.string.isha), getResources().getString(R.string.fajr)};
@@ -117,6 +125,14 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        backgroundThread.quit();
 
     }
 
@@ -189,14 +205,33 @@ public class SplashActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             broadcastIntent = intent;
-            getLatLng();
-            nameCheck();
-            prepareApiUrl();
 
-            //Calling the API using AsyncTask
-            locationTask = new LocationTask();
-            locationTask.execute();
+            ConnectivityManager cm = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
 
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            if (null != activeNetwork) {
+                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+
+
+                    getLatLng();
+
+                    backgroundThread = new HandlerThread("locationThread");
+                    backgroundThread.start();
+                    Handler backgroundHandler = new Handler(backgroundThread.getLooper());
+                    backgroundHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            nameCheck();
+                            prepareApiUrl();
+
+                            //Calling the API using AsyncTask
+                            locationTask = new LocationTask();
+                            locationTask.execute();
+                        }
+                    });
+
+            }
 
         }
 
@@ -205,12 +240,17 @@ public class SplashActivity extends AppCompatActivity {
     private void getLatLng(){
 
         try {
-            //Create a new Geocoder for getting Location metadata
-            geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
 
             //Get Latitude and Longitude from Location Service Broadcast. Need it for selecting City name in API calls
             latitude = Double.valueOf(broadcastIntent.getStringExtra("latitude"));
             longitude = Double.valueOf(broadcastIntent.getStringExtra("longitude"));
+
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(3);
+
+            latitude = Double.parseDouble(df.format(latitude));
+            longitude = Double.parseDouble(df.format(longitude));
 
             StaticData.latitude = latitude;
             StaticData.longitude = longitude;
@@ -227,6 +267,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void nameCheck(){
+
+        //Create a new Geocoder for getting Location metadata
+        geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
 
         //Getting District Name from String Array Resources for Translating Locale from Bangla to English
         String [] districts_bn = getResources().getStringArray(R.array.division_bn);
@@ -294,6 +337,9 @@ public class SplashActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
+
+
         }
 
         @Override
@@ -378,9 +424,13 @@ public class SplashActivity extends AppCompatActivity {
 
                     //An array containing consequent Salah Times
                     salahTimes = new String[]{fajr, dhuhr, asr, maghrib, isha, fajrNext};
-                    nextWaqtTime();
-                    nextSahriTime();
-                    nextIftarTIme();
+
+                    if(salahTimes != null) {
+                        //Update the UI on UI thread
+                        nextWaqtTime();
+                        nextSahriTime();
+                        nextIftarTIme();
+                    }
 
                 }
             } catch (IOException | JSONException e) {

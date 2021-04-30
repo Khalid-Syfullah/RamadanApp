@@ -28,6 +28,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,11 +84,13 @@ public class MosquesFragment extends Fragment {
     Intent locationIntent;
     GoogleMap mosqueMap;
     Marker myLocationMarker, mosqueMarker;
+    LatLng userLocation;
 
     String searchUrl = "";
     ArrayList<String> place_id, name, vicinity;
     ArrayList<Double> lat, lng;
     float distanceInMeters;
+    HandlerThread backgroundThread;
 
     TextView nearbyMosqueTextView, mosqueNameTextView, mosqueDistanceTextView, mosqueLocationTextView;
     CardView cardView, cardViewMosque;
@@ -229,10 +232,15 @@ public class MosquesFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
 
-           findNearbyMosques();
-           findClosestMosqueDistance();
 
-           return null;
+            try {
+                findNearbyMosques();
+                findClosestMosqueDistance();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
         }
 
         @Override
@@ -240,9 +248,9 @@ public class MosquesFragment extends Fragment {
             super.onPostExecute(aVoid);
 
             try {
-                showClosestMosque();
-                addMarkers();
-                getDirectionsToMosque();
+                updateMosqueOnViewInitial();
+                addMarkersInitial();
+                getDirectionsToMosqueInitial();
 
             } catch (Resources.NotFoundException e) {
                 e.printStackTrace();
@@ -262,7 +270,7 @@ public class MosquesFragment extends Fragment {
                 longitude = Double.valueOf(intent.getStringExtra("longitude"));
 
                 searchUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=1000&types=mosque&sensor=false&key=" + getResources().getString(R.string.google_maps_key);
-                LatLng userLocation = new LatLng(latitude, longitude);
+                userLocation = new LatLng(latitude, longitude);
 
                 mosqueMap.clear();
 
@@ -280,10 +288,17 @@ public class MosquesFragment extends Fragment {
 
                         if (!marker.equals(myLocationMarker)) {
 
-                           findClosestMosqueDistance();
-                           showClosestMosque();
-                           addMarkers();
-                           getDirectionsToMosque();
+                            try {
+
+                                findSelectedMosqueDistance(marker);
+                                updateMosqueOnViewOnSelected(marker);
+                                addMarkersOnTap();
+                                getDirectionsToMosqueOnTap(marker);
+
+                            }
+                            catch (Exception e) {
+                                e.printStackTrace();
+                            }
 
                         }
                         return true;
@@ -352,6 +367,10 @@ public class MosquesFragment extends Fragment {
     }
 
     private void findClosestMosqueDistance(){
+
+        if(lat == null){
+            return;
+        }
         //Find the distance between my location and the nearest mosque from Location API
         Location loc1 = new Location("");
         loc1.setLatitude(latitude);
@@ -364,7 +383,28 @@ public class MosquesFragment extends Fragment {
         distanceInMeters = loc1.distanceTo(loc2);
     }
 
-    private void showClosestMosque(){
+    private void findSelectedMosqueDistance(Marker marker){
+
+        if(lat == null){
+            return;
+        }
+        Location loc1 = new Location("");
+        loc1.setLatitude(latitude);
+        loc1.setLongitude(longitude);
+
+        Location loc2 = new Location("");
+        loc2.setLatitude(marker.getPosition().latitude);
+        loc2.setLongitude(marker.getPosition().longitude);
+
+        distanceInMeters = loc1.distanceTo(loc2);
+
+    }
+
+    private void updateMosqueOnViewInitial(){
+
+        if(lat == null){
+            return;
+        }
         for (int i = 0; i < lat.size(); i++) {
 
             if(getActivity() == null){
@@ -397,19 +437,62 @@ public class MosquesFragment extends Fragment {
 
     }
 
-    private void addMarkers(){
+    private void updateMosqueOnViewOnSelected(Marker marker){
+
+        if(lat == null){
+            return;
+        }
+        for (int i = 0; i < lat.size(); i++) {
+
+            if(getActivity() == null){
+                break;
+            }
+
+            //Add marker for the nearest mosque from LAT-LNG ArrayList
+            mosqueMarker = mosqueMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(lat.get(i), lng.get(i)))
+                    .snippet(vicinity.get(i))
+                    .title(name.get(i)));
+
+            mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
+        }
+
+        nearbyMosqueTextView.setText(marker.getTitle());
+        mosqueNameTextView.setText(marker.getTitle());
+        mosqueLocationTextView.setText(marker.getSnippet());
+        mosqueDistanceTextView.setText("Distance: " + distanceInMeters + " m");
+
+        if(getActivity() == null)
+            return;
+
+        Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
+        animation.setDuration(500);
+        cardViewMosque.setAnimation(animation);
+        cardViewMosque.setVisibility(View.VISIBLE);
+
+        Log.d("Maps", "Mosque Clicked! Distance : " + distanceInMeters + " m");
+
+    }
+
+
+    private void addMarkersInitial(){
         //Add a Marker to my current position
 
         if(getActivity() == null){
             return;
         }
         mosqueMap.clear();
+
+
         myLocationMarker = mosqueMap.addMarker(new MarkerOptions()
                 .position(new LatLng(latitude, longitude))
                 .snippet(String.valueOf(R.string.nearby_mosque))
                 .title(getResources().getString(R.string.current_location)));
         myLocationMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.marker));
 
+        if(lat == null){
+            return;
+        }
         //Add Markers to all of the nearby mosque locations
         for (int i = 0; i < lat.size(); i++) {
 
@@ -426,13 +509,46 @@ public class MosquesFragment extends Fragment {
         }
     }
 
-    //Get Directions to the closest Mosque in the Map using Directions API
-    private void getDirectionsToMosque(){
+    private void addMarkersOnTap(){
+        //Add a Marker to my current position
+
+        if(getActivity() == null){
+            return;
+        }
+        mosqueMap.clear();
+
+        myLocationMarker = mosqueMap.addMarker(new MarkerOptions()
+                        .position(userLocation)
+                        .snippet(String.valueOf(R.string.nearby_mosque))
+                        .title(getResources().getString(R.string.current_location)));
+        myLocationMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.marker));
+
+        if(lat == null){
+            return;
+        }
+        //Add Markers to all of the nearby mosque locations
+        for (int i = 0; i < lat.size(); i++) {
+
+            if(getActivity() == null){
+                return;
+            }
+            mosqueMarker = mosqueMap.addMarker(new MarkerOptions()
+                    .position(new LatLng(lat.get(i), lng.get(i)))
+                    .snippet(vicinity.get(i))
+                    .title(name.get(i)));
+
+            mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
+
+        }
+    }
+
+    //Get Directions to the closest Mosque on the Map using Directions API
+    private void getDirectionsToMosqueInitial(){
 
         //Define list to get all latlng for the route
         List<LatLng> path = new ArrayList();
 
-        if(getActivity() == null){
+        if(getActivity() == null || lat == null){
             return;
         }
         //Execute Directions API request
@@ -440,6 +556,68 @@ public class MosquesFragment extends Fragment {
                 .apiKey(getResources().getString(R.string.google_maps_key))
                 .build();
         DirectionsApiRequest req = DirectionsApi.getDirections(context, latitude + "," + longitude, lat.get(0) + "," + lng.get(0));
+        try {
+            DirectionsResult res = req.await();
+
+            //Loop through legs and steps to get encoded polylines of each step
+            if (res.routes != null && res.routes.length > 0) {
+                DirectionsRoute route = res.routes[0];
+
+                if (route.legs != null) {
+                    for (int i = 0; i < route.legs.length; i++) {
+                        DirectionsLeg leg = route.legs[i];
+                        if (leg.steps != null) {
+                            for (int j = 0; j < leg.steps.length; j++) {
+                                DirectionsStep step = leg.steps[j];
+                                if (step.steps != null && step.steps.length > 0) {
+                                    for (int k = 0; k < step.steps.length; k++) {
+                                        DirectionsStep step1 = step.steps[k];
+                                        EncodedPolyline points1 = step1.polyline;
+                                        if (points1 != null) {
+                                            List<com.google.maps.model.LatLng> coords1 = points1.decodePath();
+                                            for (com.google.maps.model.LatLng coord1 : coords1) {
+                                                path.add(new LatLng(coord1.lat, coord1.lng));
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    EncodedPolyline points = step.polyline;
+                                    if (points != null) {
+                                        List<com.google.maps.model.LatLng> coords = points.decodePath();
+                                        for (com.google.maps.model.LatLng coord : coords) {
+                                            path.add(new LatLng(coord.lat, coord.lng));
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+        }
+
+        //Draw the Polyline in the map if Direction is available
+        if (path.size() > 0) {
+            PolylineOptions opts = new PolylineOptions().addAll(path).color(Color.parseColor("#67CE22")).width(15);
+            mosqueMap.addPolyline(opts);
+        }
+    }
+
+    //Get Directions to the selected Mosque on the Map using Directions API
+    private void getDirectionsToMosqueOnTap(Marker marker){
+
+        //Define list to get all latlng for the route
+        List<LatLng> path = new ArrayList();
+
+        if(getActivity() == null || marker == null){
+            return;
+        }
+        //Execute Directions API request
+        GeoApiContext context = new GeoApiContext.Builder()
+                .apiKey(getResources().getString(R.string.google_maps_key))
+                .build();
+        DirectionsApiRequest req = DirectionsApi.getDirections(context, latitude+","+longitude, marker.getPosition().latitude+","+marker.getPosition().longitude);
         try {
             DirectionsResult res = req.await();
 

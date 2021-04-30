@@ -10,8 +10,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,6 +85,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     Context broadcastContext;
     LocationTask locationTask;
     Geocoder geocoder;
+    HandlerThread backgroundThread;
 
     Compass compass;
     ImageView arrowView;
@@ -196,6 +201,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     }
 
 
+
+
     @Override
     public void onResume() {
         super.onResume();
@@ -219,9 +226,11 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         super.onStop();
         compass.stop();
         Log.d("Dashboard", "Compass Stopped");
+        backgroundThread.quit();
 
 
     }
+
 
     @Override
     public void onClick(View view) {
@@ -304,13 +313,32 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
             broadcastIntent = intent;
             broadcastContext = context;
 
-            getLatLng();
-            nameCheck();
-            prepareApiUrl();
+            ConnectivityManager cm = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
 
-            //Calling the API using AsyncTask
-            locationTask = new LocationTask();
-            locationTask.execute();
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            if (null != activeNetwork) {
+                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+
+
+                    getLatLng();
+
+                backgroundThread = new HandlerThread("locationThread");
+                backgroundThread.start();
+                Handler backgroundHandler = new Handler(backgroundThread.getLooper());
+                backgroundHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        nameCheck();
+                        prepareApiUrl();
+
+                        //Calling the API using AsyncTask
+                        locationTask = new LocationTask();
+                        locationTask.execute();
+                    }
+                });
+
+            }
 
 
         }
@@ -320,9 +348,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     private void getLatLng(){
 
         try {
-            //Create a new Geocoder for getting Location metadata
-            geocoder = new Geocoder(broadcastContext);
-
             //Get Latitude and Longitude from Location Service Broadcast. Need it for selecting City name in API calls
 
             latitude = Double.valueOf(broadcastIntent.getStringExtra("latitude"));
@@ -348,6 +373,9 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     }
 
     private void nameCheck(){
+
+        //Create a new Geocoder for getting Location metadata
+        geocoder = new Geocoder(broadcastContext);
 
         //Getting District Name from String Array Resources for Translating Locale from Bangla to English
         String [] districts_bn = broadcastContext.getResources().getStringArray(R.array.division_bn);
@@ -419,6 +447,7 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
         @Override
         protected Void doInBackground(Void... voids) {
+
 
 
             //API call for Dashboard Activity
@@ -514,11 +543,13 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            //Update the UI on UI thread
-            dailyWaqtTime();
-            nextWaqtTime();
-            nextSahriTime();
-            nextIftarTIme();
+            if(salahTimes != null) {
+                //Update the UI on UI thread
+                dailyWaqtTime();
+                nextWaqtTime();
+                nextSahriTime();
+                nextIftarTIme();
+            }
         }
 
     }
