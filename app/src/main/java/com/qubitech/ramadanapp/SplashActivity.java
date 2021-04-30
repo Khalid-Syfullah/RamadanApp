@@ -132,8 +132,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        backgroundThread.quit();
-
+        if(backgroundThread != null) {
+            backgroundThread.quit();
+        }
     }
 
     private void locationPermissionCheck(){
@@ -150,6 +151,7 @@ public class SplashActivity extends AppCompatActivity {
         else{
             startService(locationIntent);
             registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+            gotoDashboard();
 
         }
 
@@ -211,7 +213,7 @@ public class SplashActivity extends AppCompatActivity {
 
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null != activeNetwork) {
-                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
+                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
 
 
                     getLatLng();
@@ -230,7 +232,7 @@ public class SplashActivity extends AppCompatActivity {
                             locationTask.execute();
                         }
                     });
-
+                }
             }
 
         }

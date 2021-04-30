@@ -226,8 +226,10 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         super.onStop();
         compass.stop();
         Log.d("Dashboard", "Compass Stopped");
-        backgroundThread.quit();
 
+        if(backgroundThread != null) {
+            backgroundThread.quit();
+        }
 
     }
 
@@ -318,26 +320,24 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
 
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null != activeNetwork) {
-                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE)
-
-
+                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
                     getLatLng();
 
-                backgroundThread = new HandlerThread("locationThread");
-                backgroundThread.start();
-                Handler backgroundHandler = new Handler(backgroundThread.getLooper());
-                backgroundHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        nameCheck();
-                        prepareApiUrl();
+                    backgroundThread = new HandlerThread("locationThread");
+                    backgroundThread.start();
+                    Handler backgroundHandler = new Handler(backgroundThread.getLooper());
+                    backgroundHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            nameCheck();
+                            prepareApiUrl();
 
-                        //Calling the API using AsyncTask
-                        locationTask = new LocationTask();
-                        locationTask.execute();
-                    }
-                });
-
+                            //Calling the API using AsyncTask
+                            locationTask = new LocationTask();
+                            locationTask.execute();
+                        }
+                    });
+                }
             }
 
 
