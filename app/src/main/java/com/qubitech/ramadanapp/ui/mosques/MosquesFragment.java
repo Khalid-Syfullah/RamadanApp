@@ -23,8 +23,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,11 +43,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.DirectionsApi;
 import com.google.maps.DirectionsApiRequest;
@@ -60,7 +56,7 @@ import com.google.maps.model.DirectionsRoute;
 import com.google.maps.model.DirectionsStep;
 import com.google.maps.model.EncodedPolyline;
 import com.qubitech.ramadanapp.R;
-import com.qubitech.ramadanapp.ui.dashboard.LocationService;
+import com.qubitech.ramadanapp.location.LocationService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,10 +64,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -190,12 +183,6 @@ public class MosquesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        try {
-            getActivity().unregisterReceiver(broadcastReceiver);
-            getActivity().stopService(locationIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
     }
@@ -215,11 +202,6 @@ public class MosquesFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        try {
-            getActivity().stopService(locationIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -268,6 +250,14 @@ public class MosquesFragment extends Fragment {
 
                 latitude = Double.valueOf(intent.getStringExtra("latitude"));
                 longitude = Double.valueOf(intent.getStringExtra("longitude"));
+
+                try {
+                    getActivity().unregisterReceiver(broadcastReceiver);
+                    getActivity().stopService(locationIntent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
 
                 searchUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&radius=1000&types=mosque&sensor=false&key=" + getResources().getString(R.string.google_maps_key);
                 userLocation = new LatLng(latitude, longitude);

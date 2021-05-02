@@ -32,14 +32,11 @@ import android.widget.TextView;
 
 import com.qubitech.ramadanapp.R;
 import com.qubitech.ramadanapp.ui.dashboard.Compass;
-import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
-import com.qubitech.ramadanapp.ui.dashboard.LocationService;
+import com.qubitech.ramadanapp.location.LocationService;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class CalibrateFragment extends Fragment {
 
@@ -127,8 +124,7 @@ public class CalibrateFragment extends Fragment {
     public void onPause() {
         super.onPause();
         compass.stop();
-        getActivity().unregisterReceiver(broadcastReceiver);
-        getActivity().stopService(locationIntent);
+
 
 
     }
@@ -148,7 +144,6 @@ public class CalibrateFragment extends Fragment {
         super.onStop();
         Log.d("Calibrate", "Compass Stopped");
         compass.stop();
-        getActivity().stopService(locationIntent);
 
     }
 
@@ -297,6 +292,9 @@ public class CalibrateFragment extends Fragment {
 
             latitude = Double.valueOf(intent.getStringExtra("latitude"));
             longitude = Double.valueOf(intent.getStringExtra("longitude"));
+
+            getActivity().unregisterReceiver(broadcastReceiver);
+            getActivity().stopService(locationIntent);
 
             String [] districts_bn = getResources().getStringArray(R.array.division_bn);
             String [] districts_en = getResources().getStringArray(R.array.division_en);

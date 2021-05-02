@@ -1,12 +1,10 @@
 package com.qubitech.ramadanapp.ui.dashboard;
 
-import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
@@ -26,21 +24,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.qubitech.ramadanapp.ComingSoonActivity;
+import com.qubitech.ramadanapp.location.LocationService;
 import com.qubitech.ramadanapp.R;
-import com.qubitech.ramadanapp.SplashActivity;
 import com.qubitech.ramadanapp.staticdata.StaticData;
 
 import org.json.JSONException;
@@ -53,7 +48,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.OkHttpClient;
@@ -182,8 +176,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
         locationIntent = new Intent(getActivity().getApplicationContext(), LocationService.class);
 
-        locationPermissionCheck();
-
         //Compass Initialization
         initLocalizedNames(getActivity().getApplicationContext());
         setupCompass();
@@ -268,45 +260,6 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
         }
     }
 
-    private void locationPermissionCheck(){
-
-        //Location Permission
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-
-            ActivityCompat.requestPermissions(getActivity(),
-                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION },
-                    1);
-        }
-        else{
-            getActivity().startService(locationIntent);
-            getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-        switch (requestCode) {
-            case 1: {
-
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getActivity().startService(locationIntent);
-                    getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-
-
-                } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Location permission denied!", Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-
-        }
-    }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override

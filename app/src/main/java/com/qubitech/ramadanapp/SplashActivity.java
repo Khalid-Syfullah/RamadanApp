@@ -1,24 +1,18 @@
 package com.qubitech.ramadanapp;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,38 +21,21 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
+import com.qubitech.ramadanapp.location.LocationService;
 import com.qubitech.ramadanapp.staticdata.StaticData;
-import com.qubitech.ramadanapp.ui.dashboard.Compass;
-import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
-import com.qubitech.ramadanapp.ui.dashboard.DashboardViewModel;
-import com.qubitech.ramadanapp.ui.dashboard.LocationService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.NetworkInterface;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -123,7 +100,9 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-        locationServiceStatusCheck();
+        startService(locationIntent);
+        registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+        //locationServiceStatusCheck();
 
     }
 
@@ -142,39 +121,39 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    //Check whether Location Service is on or off
-    public void locationServiceStatusCheck() {
-        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            enableLocationServiceDialog();
-        }
-        else{
-            locationPermissionCheck();
-        }
-    }
-
-    //Ask to turn on location service
-    private void enableLocationServiceDialog() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.dismiss();
-                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),2);
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(final DialogInterface dialog, final int id) {
-                        dialog.cancel();
-                        enableLocationServiceDialog();
-                    }
-                });
-        alert = builder.create();
-        alert.show();
-        alert.setCancelable(false);
-    }
+//    //Check whether Location Service is on or off
+//    public void locationServiceStatusCheck() {
+//        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+//
+//        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+//            enableLocationServiceDialog();
+//        }
+//        else{
+//            locationPermissionCheck();
+//        }
+//    }
+//
+//    //Ask to turn on location service
+//    private void enableLocationServiceDialog() {
+//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+//                .setCancelable(false)
+//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    public void onClick(final DialogInterface dialog, final int id) {
+//                        dialog.dismiss();
+//                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),2);
+//                    }
+//                })
+//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    public void onClick(final DialogInterface dialog, final int id) {
+//                        dialog.cancel();
+//                        enableLocationServiceDialog();
+//                    }
+//                });
+//        alert = builder.create();
+//        alert.show();
+//        alert.setCancelable(false);
+//    }
 
 
     @Override
@@ -184,55 +163,56 @@ public class SplashActivity extends AppCompatActivity {
         Log.d("Splash","Result: "+resultCode);
         if (requestCode == 2) {
             if(resultCode == 0) {
-                locationPermissionCheck();
+              gotoDashboard();
+
             }
-            else {
-                enableLocationServiceDialog();
-            }
+//            else {
+//                enableLocationServiceDialog();
+//            }
         }
 
     }
 
-    private void locationPermissionCheck(){
-
-        //Location Permission
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-
-            ActivityCompat.requestPermissions(this,
-                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION },
-                    1);
-        }
-        else{
-            startService(locationIntent);
-            registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-        switch (requestCode) {
-            case 1: {
-
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startService(locationIntent);
-                    registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Location permission denied!", Toast.LENGTH_SHORT).show();
-                    gotoDashboard();
-                }
-                return;
-            }
-
-        }
-    }
+//    private void locationPermissionCheck(){
+//
+//        //Location Permission
+//        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+//
+//            ActivityCompat.requestPermissions(this,
+//                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
+//                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+//                            Manifest.permission.ACCESS_COARSE_LOCATION },
+//                    1);
+//        }
+//        else{
+//            startService(locationIntent);
+//            registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+//
+//        }
+//
+//    }
+//
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+//
+//        switch (requestCode) {
+//            case 1: {
+//
+//                // If request is cancelled, the result arrays are empty.
+//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    startService(locationIntent);
+//                    registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+//
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Location permission denied!", Toast.LENGTH_SHORT).show();
+//                    gotoDashboard();
+//                }
+//                return;
+//            }
+//
+//        }
+//    }
 
     private void gotoDashboard(){
         Handler handler =new Handler(Looper.getMainLooper());
@@ -263,8 +243,7 @@ public class SplashActivity extends AppCompatActivity {
 
             broadcastIntent = intent;
 
-            ConnectivityManager cm = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null != activeNetwork) {
