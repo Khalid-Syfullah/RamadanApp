@@ -168,6 +168,7 @@
     <string name="have_you_read_quran">Have you read the Quran today?</string>
 
 
+
     <string-array name="division_en">
         <item>Dhaka</item>
         <item>Rajshahi</item>
@@ -190,8 +191,7 @@
         <item>সিলেট</item>
     </string-array>
 
-
-    <string-array name="dhaka_en">
+    <string-array name="district_en">
         <item>Dhaka</item>
         <item>Narsingdi</item>
         <item>Gazipur</item>
@@ -206,183 +206,1487 @@
         <item>Gopalganj</item>
         <item>Faridpur</item>
 
+        <item>Rajshahi</item>
+        <item>Sirajganj</item>
+        <item>Pabna</item>
+        <item>Bogra</item>
+        <item>Natore</item>
+        <item>Joypurhat</item>
+        <item>Chapainawabganj</item>
+        <item>Naogaon</item>
+
+        <item>Rangpur</item>
+        <item>Panchagarh</item>
+        <item>Dinajpur</item>
+        <item>Lalmonirhat</item>
+        <item>Nilphamari</item>
+        <item>Gaibandha</item>
+        <item>Thakurgaon</item>
+        <item>Kurigram</item>
+
+        <item>Khulna</item>
+        <item>Jessore</item>
+        <item>Satkhira</item>
+        <item>Meherpur</item>
+        <item>Narail</item>
+        <item>Chuadanga</item>
+        <item>kushtia</item>
+        <item>Magura</item>
+        <item>Bagerhat</item>
+        <item>Jhenaidah</item>
+
+        <item>Chittagong</item>
+        <item>Comilla</item>
+        <item>Feni</item>
+        <item>Brahmanbaria</item>
+        <item>Rangamati</item>
+        <item>Noakhali</item>
+        <item>Chandpur</item>
+        <item>Lakshmipur</item>
+        <item>Coxbazar</item>
+        <item>Khagrachhari</item>
+        <item>Bandarban</item>
+
+        <item>Mymensingh</item>
+        <item>Sherpur</item>
+        <item>Jamalpur</item>
+        <item>Netrokona</item>
+
+        <item>Barisal</item>
+        <item>Jhalakathi</item>
+        <item>Patuakhali</item>
+        <item>Pirojpur</item>
+        <item>Bhola</item>
+        <item>Barguna</item>
+
+        <item>Sylhet</item>
+        <item>Moulvibazar</item>
+        <item>Habiganj</item>
+        <item>Sunamganj</item>
+
+
     </string-array>
 
-    <string-array name="dhaka_bn">
+    <string-array name="district_bn">
+        <item>ঢাকা</item>
+        <item>নরসিংদী</item>
+        <item>গাজীপুর</item>
+        <item>শেরপুর</item>
+        <item>নারায়ণগন্জ</item>
+        <item>টাঙ্গাইল</item>
+        <item>কিশোরগঞ্জ</item>
+        <item>মানিকগঞ্জ</item>
+        <item>মুন্সিগঞ্জ</item>
+        <item>রাজবাড়ী</item>
+        <item>মাদারীপুর</item>
+        <item>গোপালগঞ্জ</item>
+        <item>ফরিদপুর</item>
+
+        <item>রাজশাহী</item>
+        <item>সিরাজগঞ্জ</item>
+        <item>পাবনা</item>
+        <item>বগুড়া</item>
+        <item>নাটোর</item>
+        <item>জয়পুরহাট</item>
+        <item>চাঁপাইনবাবগঞ্জ</item>
+        <item>নওগাঁ</item>
+
+        <item>রংপুর</item>
+        <item>পঞ্চগড়</item>
+        <item>দিনাজপুর</item>
+        <item>লালমনিরহাট</item>
+        <item>নীলফামারী</item>
+        <item>গাইবান্ধা</item>
+        <item>ঠাকুরগাঁও</item>
+        <item>কুড়িগ্রাম</item>
+
+        <item>খুলনা</item>
+        <item>যশোর</item>
+        <item>সাতক্ষীরা</item>
+        <item>মেহেরপুর</item>
+        <item>নড়াইল</item>
+        <item>চুয়াডাঙ্গা</item>
+        <item>কুষ্টিয়া</item>
+        <item>মাগুরা</item>
+        <item>বাগেরহাট</item>
+        <item>ঝিনাইদহ</item>
+
+        <item>চট্টগ্রাম</item>
+        <item>কুমিল্লা</item>
+        <item>ফেনী</item>
+        <item>ব্রাহ্মণবাড়িয়া</item>
+        <item>রাঙামাটি</item>
+        <item>নোয়াখালী</item>
+        <item>চাঁদপুর</item>
+        <item>লক্ষীপুর</item>
+        <item>কক্সবাজার</item>
+        <item>খাগড়াছড়ি</item>
+        <item>বান্দরবান</item>
+
+        <item>ময়মনসিংহ</item>
+        <item>শেরপুর</item>
+        <item>জামালপুর</item>
+        <item>নেত্রকোনা</item>
+
+        <item>বরিশাল</item>
+        <item>ঝালকাঠি</item>
+        <item>পটুয়াখালী</item>
+        <item>পিরোজপুর</item>
+        <item>ভোলা</item>
+        <item>বরগুনা</item>
+
+        <item>সিলেট</item>
+        <item>মৌলভীবাজার</item>
+        <item>হবিগঞ্জ</item>
+        <item>সুনামগঞ্জ</item>
+    </string-array>
+
+
+    <string-array name="upazilla_en">
+
         <item>Dhaka</item>
+        <item>Adabor</item>
+        <item>Airport</item>
+        <item>Badda</item>
+        <item>Banani</item>
+        <item>Bangshal</item>
+        <item>Bhashantek</item>
+        <item>Cantonment</item>
+        <item>Chackbazar</item>
+        <item>Dakshin Khan</item>
+        <item>Darus-Salam</item>
+        <item>Demra</item>
+        <item>Dhanmondi</item>
+        <item>Dhamrai</item>
+        <item>Dohar</item>
+        <item>Gandaria</item>
+        <item>Gulshan</item>
+        <item>Hatirjheel</item>
+        <item>Hazaribag</item>
+        <item>Jattrabari</item>
+        <item>Kadamtoli</item>
+        <item>Kafrul</item>
+        <item>Kalabagan</item>
+        <item>Kamrangirchar</item>
+        <item>Keraniganj</item>
+        <item>Khilgaon</item>
+        <item>Khilkhet</item>
+        <item>Kotwali</item>
+        <item>Lalbagh</item>
+        <item>Mirpur Model</item>
+        <item>Mohammadpur</item>
+        <item>Motijheel</item>
+        <item>Mugda</item>
+        <item>Nawabganj</item>
+        <item>New Market</item>
+        <item>Pallabi</item>
+        <item>Paltan Model</item>
+        <item>Ramna Model</item>
+        <item>Rampura</item>
+        <item>Rupnagar</item>
+        <item>Sabujbag</item>
+        <item>Savar</item>
+        <item>Shah Ali</item>
+        <item>Shahbag</item>
+        <item>Shahjahanpur</item>
+        <item>Sher-e-Bangla Nagar</item>
+        <item>Shyampur</item>
+        <item>Sutrapur</item>
+        <item>Tejgaon</item>
+        <item>Tejgaon Industrial</item>
+        <item>Turag</item>
+        <item>Uttar Khan</item>
+        <item>Uttara East</item>
+        <item>Uttara West</item>
+        <item>Vatara</item>
+        <item>Wari</item>
+
         <item>Narsingdi</item>
+        <item>Belabo</item>
+        <item>Monohardi</item>
+        <item>Palash</item>
+        <item>Raipura</item>
+        <item>Shibpur</item>
+
         <item>Gazipur</item>
+        <item>Bason</item>
+        <item>Gachha</item>
+        <item>Kaliakair</item>
+        <item>Kaliganj</item>
+        <item>Kapasia</item>
+        <item>Kashimpur</item>
+        <item>Konabari</item>
+        <item>Pubail</item>
+        <item>Sreepur</item>
+        <item>Tongi</item>
+
         <item>Shariatpur</item>
+        <item>Bhedarganj</item>
+        <item>Damudya</item>
+        <item>Gosairhat</item>
+        <item>Naria</item>
+        <item>Shakhipur</item>
+        <item>Zajira</item>
+
         <item>Narayanganj</item>
+        <item>Araihazar</item>
+        <item>Bandar</item>
+        <item>Rupganj</item>
+        <item>Sonargaon</item>
+
         <item>Tangail</item>
+        <item>Basail</item>
+        <item>Bhuapur</item>
+        <item>Dhanbari</item>
+        <item>Delduar</item>
+        <item>Ghatail</item>
+        <item>Gopalpur</item>
+        <item>Kalihati</item>
+        <item>Madhupur</item>
+        <item>Mirzapur</item>
+        <item>Nagarpur</item>
+        <item>Sakhipur</item>
+
         <item>Kishoreganj</item>
-        <item>Manikganj</item>
-        <item>Munshiganj</item>
+        <item>Austagram</item>
+        <item>Bajitpur</item>
+        <item>Bhairab</item>
+        <item>Hossainpur</item>
+        <item>Itna</item>
+        <item>Karimganj</item>
+        <item>Katiadi</item>
+        <item>Kuliarchar</item>
+        <item>Mithamain</item>
+        <item>Nikli</item>
+        <item>Pakundia</item>
+        <item>Tarail</item>
+
+        <item>Manikgonj</item>
+        <item>Daulatpur</item>
+        <item>Ghior</item>
+        <item>Harirampur</item>
+        <item>Saturia</item>
+        <item>Shivalaya</item>
+        <item>Singair</item>
+
         <item>Rajbari</item>
+        <item>Baliakandi</item>
+        <item>Goalandaghat</item>
+        <item>Pangsha</item>
+        <item>Kalukhali</item>
+
         <item>Madaripur</item>
+        <item>Kalkini</item>
+        <item>Rajoir</item>
+        <item>Shibchar</item>
+
         <item>Gopalganj</item>
+        <item>Kashiani</item>
+        <item>Kotalipara</item>
+        <item>Muksudpur</item>
+        <item>Tungipara</item>
+
         <item>Faridpur</item>
+        <item>Alfadanga</item>
+        <item>Bhanga</item>
+        <item>Boalmari</item>
+        <item>Charbhadrasan</item>
+        <item>Madhukhali</item>
+        <item>Nagarkanda</item>
+        <item>Sadarpur</item>
+        <item>Saltha</item>
 
-    </string-array>
+        <item>Munshiganj</item>
+        <item>Gazaria</item>
+        <item>Lohajang</item>
+        <item>Sirajdikhan</item>
+        <item>Sreenagar</item>
+        <item>Tongibari</item>
 
-    <string-array name="rajshahi_en">
         <item>Rajshahi</item>
+        <item>Paba</item>
+        <item>Puthia</item>
+        <item>Rajpara</item>
+        <item>Shahmukhdum</item>
+        <item>Motihar</item>
+        <item>Boalia</item>
+        <item>Belpukur</item>
+        <item>Bagha</item>
+        <item>Bagmara</item>
+        <item>Chandrima</item>
+        <item>Charghat</item>
+        <item>Damkura</item>
+        <item>Durgapur</item>
+        <item>Godagari</item>
+        <item>Karnahar</item>
+        <item>Kasiadanga</item>
+        <item>Katakhali</item>
+        <item>Mohanpur</item>
+        <item>Tanore</item>
+
         <item>Sirajganj</item>
+        <item>Belkuchi</item>
+        <item>Chauhali</item>
+        <item>Kamarkhanda</item>
+        <item>Kazipur</item>
+        <item>Raiganj</item>
+        <item>Shahjadpur</item>
+        <item>Tarash</item>
+        <item>Ullahpara</item>
+
         <item>Pabna</item>
-        <item>Bogra</item>
-        <item>Natore</item>
-        <item>Joypurhat</item>
-        <item>Chapainawabganj</item>
-        <item>Naogaon</item>
+        <item>Atgharia</item>
+        <item>Bera</item>
+        <item>Bhangura</item>
+        <item>Chatmohar</item>
+        <item>Faridpur</item>
+        <item>Ishwardi</item>
+        <item>Santhia</item>
+        <item>Sujanagar</item>
 
-
-    </string-array>
-
-    <string-array name="rajshahi_bn">
-        <item>Rajshahi</item>
-        <item>Sirajganj</item>
-        <item>Pabna</item>
-        <item>Bogra</item>
-        <item>Natore</item>
-        <item>Joypurhat</item>
-        <item>Chapainawabganj</item>
-        <item>Naogaon</item>
-
-
-    </string-array>
-
-    <string-array name="rangpur_en">
-        <item>Rangpur</item>
-        <item>Panchagarh</item>
-        <item>Dinajpur</item>
-        <item>Lalmonirhat</item>
-        <item>Nilphamari</item>
-        <item>Gaibandha</item>
-        <item>Thakurgaon</item>
-        <item>Kurigram</item>
-
-
-    </string-array>
-
-    <string-array name="rangpur_bn">
-        <item>Rangpur</item>
-        <item>Panchagarh</item>
-        <item>Dinajpur</item>
-        <item>Lalmonirhat</item>
-        <item>Nilphamari</item>
-        <item>Gaibandha</item>
-        <item>Thakurgaon</item>
-        <item>Kurigram</item>
-
-
-    </string-array>
-
-    <string-array name="khulna_en">
-        <item>Khulna</item>
-        <item>Jessore</item>
-        <item>Satkhira</item>
-        <item>Meherpur</item>
-        <item>Narail</item>
-        <item>Chuadanga</item>
-        <item>kushtia</item>
-        <item>Magura</item>
-        <item>Bagerhat</item>
-        <item>Jhenaidah</item>
-    </string-array>
-
-    <string-array name="khulna_bn">
-        <item>Khulna</item>
-        <item>Jessore</item>
-        <item>Satkhira</item>
-        <item>Meherpur</item>
-        <item>Narail</item>
-        <item>Chuadanga</item>
-        <item>kushtia</item>
-        <item>Magura</item>
-        <item>Bagerhat</item>
-        <item>Jhenaidah</item>
-    </string-array>
-
-    <string-array name="chittagong_en">
-        <item>Chittagong</item>
-        <item>Comilla</item>
-        <item>Feni</item>
-        <item>Brahmanbaria</item>
-        <item>Rangamati</item>
-        <item>Noakhali</item>
-        <item>Chandpur</item>
-        <item>Lakshmipur</item>
-        <item>Coxbazar</item>
-        <item>Khagrachhari</item>
-        <item>Bandarban</item>
-    </string-array>
-
-    <string-array name="chittagong_bn">
-        <item>Chittagong</item>
-        <item>Comilla</item>
-        <item>Feni</item>
-        <item>Brahmanbaria</item>
-        <item>Rangamati</item>
-        <item>Noakhali</item>
-        <item>Chandpur</item>
-        <item>Lakshmipur</item>
-        <item>Coxbazar</item>
-        <item>Khagrachhari</item>
-        <item>Bandarban</item>
-    </string-array>
-
-    <string-array name="mymensingh_en">
-        <item>Mymensingh</item>
+        <item>Bogura</item>
+        <item>Adamdighi</item>
+        <item>Dhunat</item>
+        <item>Dhupchanchia</item>
+        <item>Gabtali</item>
+        <item>Kahaloo</item>
+        <item>Nandigram</item>
+        <item>Sariakandi</item>
+        <item>Shajahanpur</item>
         <item>Sherpur</item>
-        <item>Jamalpur</item>
-        <item>Netrokona</item>
+        <item>Shibganj</item>
+        <item>Sonatola</item>
 
-    </string-array>
+        <item>Natore</item>
+        <item>Bagatipara</item>
+        <item>Baraigram</item>
+        <item>Gurudaspur</item>
+        <item>Lalpur</item>
+        <item>Singra</item>
+        <item>Naldanga</item>
 
-    <string-array name="mymensingh_bn">
+        <item>Joypurhat</item>
+        <item>Akkelpur</item>
+        <item>Kalai</item>
+        <item>Khetlal</item>
+        <item>Panchbibi</item>
+
+        <item>Nawabganj</item>
+        <item>Bholahat</item>
+        <item>Gomastapur</item>
+        <item>Nachole</item>
+        <item>Shibganj</item>
+
+        <item>Naogaon</item>
+        <item>Atrai</item>
+        <item>Badalgachhi</item>
+        <item>Dhamoirhat</item>
+        <item>Manda</item>
+        <item>Mohadevpur</item>
+        <item>Niamatpur</item>
+        <item>Patnitala</item>
+        <item>Porsha</item>
+        <item>Raninagar</item>
+        <item>Sapahar</item>
+
+        <item>Rangpur</item>
+        <item>Badarganj</item>
+        <item>Gangachhara</item>
+        <item>Hajirhat</item>
+        <item>Haragachh</item>
+        <item>Kaunia</item>
+        <item>Kotwali</item>
+        <item>Mahiganj</item>
+        <item>Mithapukur</item>
+        <item>Pirgachha</item>
+        <item>Pirganj</item>
+        <item>Parshuram</item>
+        <item>Taraganj</item>
+        <item>Tajhat</item>
+
+        <item>Panchagarh</item>
+        <item>Atwari</item>
+        <item>Boda</item>
+        <item>Debiganj</item>
+        <item>Tetulia</item>
+
+        <item>Dinajpur</item>
+        <item>Birampur</item>
+        <item>Birganj</item>
+        <item>Biral</item>
+        <item>Bochaganj</item>
+        <item>Chirirbandar</item>
+        <item>Ghoraghat</item>
+        <item>Hakimpur</item>
+        <item>Kaharole</item>
+        <item>Khansama</item>
+        <item>Nawabganj</item>
+        <item>Phulbari</item>
+        <item>Parbatipur</item>
+
+        <item>Lalmonirhat</item>
+        <item>Aditmari</item>
+        <item>Hatibandha</item>
+        <item>Kaliganj</item>
+        <item>Patgram</item>
+
+        <item>Nilphamari</item>
+        <item>Dimla</item>
+        <item>Domar</item>
+        <item>Jaldhaka</item>
+        <item>Kishoreganj</item>
+        <item>Saidpur</item>
+
+        <item>Gaibandha</item>
+        <item>Gobindaganj</item>
+        <item>Palashbari</item>
+        <item>Phulchhari</item>
+        <item>Sadullapur</item>
+        <item>Sughatta</item>
+        <item>Sundarganj</item>
+
+        <item>Thakurgaon</item>
+        <item>Baliadangi</item>
+        <item>Haripur</item>
+        <item>Pirganj</item>
+        <item>Ranisankail</item>
+
+        <item>Kurigram</item>
+        <item>Bhurungamari</item>
+        <item>Char Rajibpur</item>
+        <item>Chilmari</item>
+        <item>Nageshwari</item>
+        <item>Phulbari</item>
+        <item>Rajarhat</item>
+        <item>Raomari</item>
+        <item>Ulipur</item>
+
+        <item>Khulna</item>
+        <item>Aranghata</item>
+        <item>Batiaghata</item>
+        <item>Dacope</item>
+        <item>Dumuria</item>
+        <item>Dighalia</item>
+        <item>Daulatpur</item>
+        <item>Harintana</item>
+        <item>Khalishpur</item>
+        <item>Khan Jahan Ali</item>
+        <item>Koyra</item>
+        <item>Labanchara</item>
+        <item>Paikgachha</item>
+        <item>Phultala</item>
+        <item>Sonadanga</item>
+        <item>Rupsha</item>
+        <item>Terokhada</item>
+
+        <item>Jashore</item>
+        <item>Abhaynagar</item>
+        <item>Bagherpara</item>
+        <item>Chaugachha</item>
+        <item>Jhikargachha</item>
+        <item>Keshabpur</item>
+        <item>Manirampur</item>
+        <item>Sharsha</item>
+
+        <item>Satkhira</item>
+        <item>Assasuni</item>
+        <item>Debhata</item>
+        <item>Kalaroa</item>
+        <item>Kaliganj</item>
+        <item>Shyamnagar</item>
+        <item>Tala</item>
+
+        <item>Meherpur</item>
+        <item>Gangni</item>
+        <item>Mujibnagar</item>
+
+        <item>Narail</item>
+        <item>Kalia</item>
+        <item>Lohagara</item>
+        <item>Naragati</item>
+
+        <item>Chuadanga</item>
+        <item>Alamdanga</item>
+        <item>Damurhuda</item>
+        <item>Jibannagar</item>
+
+        <item>Kushtia</item>
+        <item>Bheramara</item>
+        <item>Daulatpur</item>
+        <item>Khoksa</item>
+        <item>Kumarkhali</item>
+        <item>Mirpur</item>
+
+        <item>Magura</item>
+        <item>Mohammadpur</item>
+        <item>Shalikha</item>
+        <item>Sreepur</item>
+
+        <item>Bagerhat</item>
+        <item>Chitalmari</item>
+        <item>Fakirhat</item>
+        <item>Kachua</item>
+        <item>Mollahat</item>
+        <item>Mongla</item>
+        <item>Morrelganj</item>
+        <item>Rampal</item>
+        <item>Sarankhola</item>
+
+        <item>Jhenaidah</item>
+        <item>Harinakunda</item>
+        <item>Kaliganj</item>
+        <item>Kotchandpur</item>
+        <item>Maheshpur</item>
+        <item>Shailkupa</item>
+
+        <item>Chittagong</item>
+        <item>Akbar Shah</item>
+        <item>Anwara</item>
+        <item>Bakolia</item>
+        <item>Bandar</item>
+        <item>Banshkhali</item>
+        <item>Bayazid Bostami</item>
+        <item>Boalkhali</item>
+        <item>Chandanaish</item>
+        <item>Chandgaon</item>
+        <item>Chawk Bazar</item>
+        <item>Doublemooring</item>
+        <item>EPZ</item>
+        <item>Fatikchhari</item>
+        <item>Halishahar</item>
+        <item>Hathazari</item>
+        <item>Karnaphuli</item>
+        <item>Kotwali</item>
+        <item>Khulshi</item>
+        <item>Karnophuli</item>
+        <item>Lohagara</item>
+        <item>Mirsharai</item>
+        <item>Pahartali</item>
+        <item>Panchlaish</item>
+        <item>Patenga</item>
+        <item>Patiya</item>
+        <item>Rangunia</item>
+        <item>Raozan</item>
+        <item>Sadarghat</item>
+        <item>Sandwip</item>
+        <item>Satkania</item>
+        <item>Sitakunda</item>
+
+        <item>Cumilla</item>
+        <item>Cumilla Adarsha</item>
+        <item>Barura</item>
+        <item>Brahmanpara</item>
+        <item>Burichang</item>
+        <item>Chandina</item>
+        <item>Chauddagram</item>
+        <item>Daudkandi</item>
+        <item>Debidwar</item>
+        <item>Homna</item>
+        <item>Laksam</item>
+        <item>Lalmai</item>
+        <item>Muradnagar</item>
+        <item>Meghna</item>
+        <item>Nangalkot</item>
+        <item>Titas</item>
+        <item>Monohargonj</item>
+
+        <item>Feni</item>
+        <item>Chhagalnaiya</item>
+        <item>Daganbhuiyan</item>
+        <item>Parshuram</item>
+        <item>Sonagazi</item>
+        <item>Fulgazi</item>
+
+        <item>Brahmanbaria</item>
+        <item>Akhaura</item>
+        <item>Ashuganj</item>
+        <item>Bancharampur</item>
+        <item>Bijoynagar</item>
+        <item>Kasba</item>
+        <item>Nabinagar</item>
+        <item>Nasirnagar</item>
+        <item>Sarail</item>
+
+        <item>Rangamati</item>
+        <item>Bagaichhari</item>
+        <item>Barkal</item>
+        <item>Belaichhari</item>
+        <item>Juraichhari</item>
+        <item>Kawkhali (Betbunia)</item>
+        <item>Kaptai</item>
+        <item>Langadu</item>
+        <item>Naniyachar</item>
+        <item>Rajasthali</item>
+
+        <item>Noakhali</item>
+        <item>Begumganj</item>
+        <item>Chatkhil</item>
+        <item>Companiganj</item>
+        <item>Hatiya</item>
+        <item>Kabirhat</item>
+        <item>Senbagh</item>
+        <item>Sonaimuri</item>
+        <item>Subarnachar</item>
+
+        <item>Chandpur</item>
+        <item>Faridganj</item>
+        <item>Haimchar</item>
+        <item>Haziganj</item>
+        <item>Kachua</item>
+        <item>Matlab Dakshin</item>
+        <item>Matlab Uttar</item>
+        <item>Shahrasti</item>
+
+        <item>Lakshmipur</item>
+        <item>Kamalnagar</item>
+        <item>Raipur</item>
+        <item>Ramganj</item>
+        <item>Ramgati</item>
+
+        <item>Cox\'s Bazar</item>
+        <item>Chakaria</item>
+        <item>Kutubdia</item>
+        <item>Maheshkhali</item>
+        <item>Pekua</item>
+        <item>Ramu</item>
+        <item>Teknaf</item>
+        <item>Ukhia</item>
+
+        <item>Khagrachari</item>
+        <item>Dighinala</item>
+        <item>Khagrachhari</item>
+        <item>Lakshmichhari</item>
+        <item>Mahalchhari</item>
+        <item>Manikchhari</item>
+        <item>Matiranga</item>
+        <item>Panchhari</item>
+        <item>Ramgarh</item>
+
+        <item>Bandarban</item>
+        <item>Ali Kadam</item>
+        <item>Lama</item>
+        <item>Naikhongchhari</item>
+        <item>Rowangchhari</item>
+        <item>Ruma</item>
+        <item>Thanchi</item>
+
         <item>Mymensingh</item>
+        <item>Bhaluka</item>
+        <item>Dhobaura</item>
+        <item>Fulbaria</item>
+        <item>Gafargaon</item>
+        <item>Gauripur</item>
+        <item>Haluaghat</item>
+        <item>Ishwarganj</item>
+        <item>Muktagachha</item>
+        <item>Nandail</item>
+        <item>Phulpur</item>
+        <item>Tara Khanda</item>
+        <item>Trishal</item>
+
         <item>Sherpur</item>
+        <item>Jhenaigati</item>
+        <item>Nakla</item>
+        <item>Nalitabari</item>
+        <item>Sreebardi</item>
+
         <item>Jamalpur</item>
+        <item>Baksiganj</item>
+        <item>Dewanganj</item>
+        <item>Islampur</item>
+        <item>Madarganj</item>
+        <item>Melandaha</item>
+        <item>Sarishabari</item>
+
         <item>Netrokona</item>
+        <item>Atpara</item>
+        <item>Barhatta</item>
+        <item>Durgapur</item>
+        <item>Khaliajuri</item>
+        <item>Kalmakanda</item>
+        <item>Kendua</item>
+        <item>Madan</item>
+        <item>Mohanganj</item>
+        <item>Purbadhala</item>
 
-    </string-array>
+        <item>Barishal</item>
+        <item>Agailjhara</item>
+        <item>Airport</item>
+        <item>Bandar</item>
+        <item>Barisal University Thana</item>
+        <item>Babuganj</item>
+        <item>Bakerganj</item>
+        <item>Banaripara</item>
+        <item>Char Monai</item>
+        <item>Gaurnadi</item>
+        <item>Hizla</item>
+        <item>Kashipur</item>
+        <item>Kotwali Model</item>
+        <item>Kawnia</item>
+        <item>Mehendiganj</item>
+        <item>Muladi</item>
+        <item>Rupatali</item>
+        <item>Wazirpur</item>
 
-    <string-array name="barisal_en">
-        <item>Barisal</item>
-        <item>Jhalakathi</item>
+        <item>Jhalokati</item>
+        <item>Kathalia</item>
+        <item>Nalchity</item>
+        <item>Rajapur</item>
+
         <item>Patuakhali</item>
+        <item>Bauphal</item>
+        <item>Dashmina</item>
+        <item>Galachipa</item>
+        <item>Kalapara</item>
+        <item>Mirzaganj</item>
+        <item>Rangabali</item>
+        <item>Dumki</item>
+
         <item>Pirojpur</item>
+        <item>Bhandaria</item>
+        <item>Kawkhali</item>
+        <item>Mathbaria</item>
+        <item>Nazirpur</item>
+        <item>Nesarabad (Swarupkati)</item>
+        <item>Indurkani</item>
+
         <item>Bhola</item>
+        <item>Burhanuddin</item>
+        <item>Char Fasson</item>
+        <item>Daulatkhan</item>
+        <item>Lalmohan</item>
+        <item>Manpura</item>
+        <item>Tazumuddin</item>
+
         <item>Barguna</item>
+        <item>Amtali</item>
+        <item>Bamna</item>
+        <item>Betagi</item>
+        <item>Patharghata</item>
+        <item>Taltali</item>
 
-    </string-array>
-
-    <string-array name="barisal_bn">
-        <item>Barisal</item>
-        <item>Jhalakathi</item>
-        <item>Patuakhali</item>
-        <item>Pirojpur</item>
-        <item>Bhola</item>
-        <item>Barguna</item>
-
-    </string-array>
-
-    <string-array name="sylhet_en">
         <item>Sylhet</item>
+        <item>Balaganj</item>
+        <item>Beanibazar</item>
+        <item>Bishwanath</item>
+        <item>Companigonj</item>
+        <item>Dakshin Surma</item>
+        <item>Fenchuganj</item>
+        <item>Golapganj</item>
+        <item>Gowainghat</item>
+        <item>Jaintiapur</item>
+        <item>Jalalabad</item>
+        <item>Kanaighat</item>
+        <item>Kotwali Model</item>
+        <item>Moglabazar</item>
+        <item>Osmani Nagar</item>
+        <item>Shah Poran (R.) Thana</item>
+        <item>South Surma</item>
+        <item>Zakiganj</item>
+
         <item>Moulvibazar</item>
+        <item>Barlekha</item>
+        <item>Juri</item>
+        <item>Kamalganj</item>
+        <item>Kulaura</item>
+        <item>Rajnagar</item>
+        <item>Sreemangal</item>
+
         <item>Habiganj</item>
+        <item>Ajmiriganj</item>
+        <item>Bahubal</item>
+        <item>Baniyachong</item>
+        <item>Chunarughat</item>
+        <item>Lakhai</item>
+        <item>Madhabpur</item>
+        <item>Nabiganj</item>
+        <item>Sayestaganj</item>
+
         <item>Sunamganj</item>
-
-
+        <item>Bishwamvarpur</item>
+        <item>Chhatak</item>
+        <item>Dakshin Sunamganj</item>
+        <item>Derai</item>
+        <item>Dharamapasha</item>
+        <item>Dowarabazar</item>
+        <item>Jagannathpur</item>
+        <item>Jamalganj</item>
+        <item>Sullah</item>
+        <item>Tahirpur</item>
     </string-array>
 
-    <string-array name="sylhet_bn">
-        <item>Sylhet</item>
-        <item>Moulvibazar</item>
-        <item>Habiganj</item>
-        <item>Sunamganj</item>
 
+    <string-array name= "upazilla_bn">
 
+        <item>ঢাকা</item>
+        <item>অাদাবর</item>
+        <item>বিমানবন্দর</item>
+        <item>বাড্ডা</item>
+        <item>বনানী</item>
+        <item>বংশাল</item>
+        <item>ভাসানটেক</item>
+        <item>সেনানিবাস</item>
+        <item>চকবাজার</item>
+        <item>দক্ষিণ খান</item>
+        <item>দারুস-সালাম</item>
+        <item>ডেমরা</item>
+        <item>ধানমন্ডি</item>
+        <item>ধামরাই</item>
+        <item>দোহার</item>
+        <item>গেন্ডারিয়া</item>
+        <item>গুলশান</item>
+        <item>হাতিরঝিল</item>
+        <item>হাজারীবাগ</item>
+        <item>যাত্রাবাড়ী</item>
+        <item>কদমতলী</item>
+        <item>কাফরুল</item>
+        <item>কলাবাগান</item>
+        <item>কামরাঙ্গীরচর</item>
+        <item>কেরানীগঞ্জ</item>
+        <item>খিলগাঁও</item>
+        <item>খিলক্ষেত</item>
+        <item>কোতোয়ালি</item>
+        <item>লালবাগ</item>
+        <item>মিরপুর মডেল</item>
+        <item>মোহাম্মদপুর</item>
+        <item>মতিঝিল</item>
+        <item>মুগদা</item>
+        <item>নবাবগঞ্জ</item>
+        <item>নতুন বাজার</item>
+        <item>পল্লবী</item>
+        <item>পল্টন মডেল</item>
+        <item>রমনা মডেল</item>
+        <item>রামপুরা</item>
+        <item>রূপনগর</item>
+        <item>সবুজবাগ</item>
+        <item>সাভার</item>
+        <item>শাহ আলী</item>
+        <item>শাহবাগ</item>
+        <item>শাহজাহানপুর</item>
+        <item>শেরে বাংলা নগর</item>
+        <item>শ্যামপুর</item>
+        <item>সূত্রাপুর</item>
+        <item>তেজগাঁও</item>
+        <item>তেজগাঁও শিল্প</item>
+        <item>তুরাগ</item>
+        <item>উত্তর খান</item>
+        <item>উত্তরা পূর্ব</item>
+        <item>উত্তরা পশ্চিম</item>
+        <item>ভাতারা</item>
+        <item>ওয়ারী</item>
+
+        <item>নরসিংদী</item>
+        <item>বেলাবো</item>
+        <item>মনোহরদী</item>
+        <item>পলাশ</item>
+        <item>রায়পুরা</item>
+        <item>শিবপুর</item>
+    
+        <item>গাজীপুর</item>
+        <item>বেসন</item>
+        <item>গাছা</item>
+        <item>কালিয়াকৈর</item>
+        <item>কালীগঞ্জ</item>
+        <item>কাপাসিয়া</item>
+        <item>কাশিমপুর</item>
+        <item>কোনাবাড়ি</item>
+        <item>পুবাইল</item>
+        <item>শ্রীপুর</item>
+        <item>টঙ্গী</item>
+    
+        <item>শরীয়তপুর</item>
+        <item>ভেদরগঞ্জ</item>
+        <item>দামুড্যা</item>
+        <item>গোসাইরহাট</item>
+        <item>নরিয়া</item>
+        <item>শখিপুর</item>
+        <item>জাজিরা</item>
+    
+        <item>নারায়ণগঞ্জ</item>
+        <item>আড়াইহাজার</item>
+        <item>বান্দর</item>
+        <item>রূপগঞ্জ</item>
+        <item>সোনারগাঁ</item>
+    
+        <item>টাঙ্গাইল</item>
+        <item>বাসাইল</item>
+        <item>ভূয়াপুর</item>
+        <item>ধনবাড়ি</item>
+        <item>ডেল্ডুয়ার</item>
+        <item>ঘাটাইল</item>
+        <item>গোপালপুর</item>
+        <item>কালিহাতী</item>
+        <item>মধুপুর</item>
+        <item>মির্জাপুর</item>
+        <item>নগরপুর</item>
+        <item>সখিপুর</item>
+    
+        <item>কিশোরগঞ্জ</item>
+        <item>অস্টগ্রাম</item>
+        <item>বাজিতপুর</item>
+        <item>ভৈরব</item>
+        <item>হোসেনপুর</item>
+        <item>ইটনা</item>
+        <item>করিমগঞ্জ</item>
+        <item>কাতিয়াদি</item>
+        <item>কুলিয়ারচর</item>
+        <item>মিঠামইন</item>
+        <item>নিকলি</item>
+        <item>পাকুন্দিয়া</item>
+        <item>তারাইল</item>
+    
+        <item>মানিকগঞ্জ</item>
+        <item>দৌলতপুর</item>
+        <item>গিওর</item>
+        <item>হরিরামপুর</item>
+        <item>সাটুরিয়া</item>
+        <item>শিবালয়</item>
+        <item>সিঙ্গাইর</item>
+    
+        <item>রাজবাড়ি</item>
+        <item>বালিয়াকান্দি</item>
+        <item>গোয়ালন্দঘাট</item>
+        <item>পাংশা</item>
+        <item>কালুখালী</item>
+    
+        <item>মাদারীপুর</item>
+        <item>কালকিনি</item>
+        <item>রাজোয়ার</item>
+        <item>শিবচর</item>
+    
+        <item>গোপালগঞ্জ</item>
+        <item>কাশিয়ানী</item>
+        <item>কোটালীপাড়া</item>
+        <item>মুকসুদপুর</item>
+        <item>টুঙ্গিপাড়া</item>
+    
+        <item>ফরিদপুর</item>
+        <item>আলফাডাঙ্গা</item>
+        <item>ভাঙ্গা</item>
+        <item>বোয়ালমারী</item>
+        <item>চরভদ্রাসন</item>
+        <item>মধুখালী</item>
+        <item>নগরকান্দা</item>
+        <item>সদরপুর</item>
+        <item>সালথা</item>
+    
+        <item>মুন্সীগঞ্জ</item>
+        <item>গজারিয়া</item>
+        <item>লোহাজং</item>
+        <item>সিরাজদিখান</item>
+        <item>শ্রীনগর</item>
+        <item>টঙ্গিবাড়ি</item>
+
+        <item>রাজশাহী</item>
+        <item>পবা</item>
+        <item>পুঠিয়া</item>
+        <item>রাজপাড়া</item>
+        <item>শাহমুখদুম</item>
+        <item>মতিহার</item>
+        <item>বোয়ালিয়া</item>
+        <item>বেলপুকুর</item>
+        <item>বাঘা</item>
+        <item>বাগমারা</item>
+        <item>চন্দ্রিমা</item>
+        <item>চারঘাট</item>
+        <item>দামকুরা</item>
+        <item>দুর্গাপুর</item>
+        <item>গোদাগাড়ী</item>
+        <item>কর্নাহার</item>
+        <item>কাসিয়াডাঙ্গা</item>
+        <item>কাটাখালী</item>
+        <item>মোহনপুর</item>
+        <item>তানোর</item>
+
+        <item>সিরাজগঞ্জ</item>
+        <item>বেলকুচি</item>
+        <item>চৌহালি</item>
+        <item>কামারখন্দ</item>
+        <item>কাজীপুর</item>
+        <item>রায়গঞ্জ</item>
+        <item>শাহজাদপুর</item>
+        <item>তাড়াশ</item>
+        <item>উল্লাহপাড়া</item>
+
+        <item>পাবনা</item>
+        <item>আটঘরিয়া</item>
+        <item>বেরা</item>
+        <item>ভাঙ্গুরা</item>
+        <item>চাটমোহর</item>
+        <item>ফরিদপুর</item>
+        <item>ঈশ্বরদী</item>
+        <item>সান্থিয়া</item>
+        <item>সুজনগর</item>
+
+        <item>বোগুরা</item>
+        <item>আদমদীঘি</item>
+        <item>ধুনাত</item>
+        <item>ধুপঞ্চিয়া</item>
+        <item>গাবতলী</item>
+        <item>কাহালু</item>
+        <item>নন্দীগ্রাম</item>
+        <item>সারিয়াকান্দি</item>
+        <item>শাজাহানপুর</item>
+        <item>শেরপুর</item>
+        <item>শিবগঞ্জ</item>
+        <item>সোনাতোলা</item>
+
+        <item>নাটোর</item>
+        <item>বাগাতিপাড়া</item>
+        <item>বড়াইগ্রাম</item>
+        <item>গুরুদাসপুর</item>
+        <item>লালপুর</item>
+        <item>সিংড়া</item>
+        <item>নলডাঙ্গা</item>
+
+        <item>জয়পুরহাট</item>
+        <item>আক্কেলপুর</item>
+        <item>কালাই</item>
+        <item>ক্ষেতলাল</item>
+        <item>পাঁচবিবি</item>
+
+        <item>নবাবগঞ্জ</item>
+        <item>ভোলাহাট</item>
+        <item>গোমস্তাপুর</item>
+        <item>নাচোল</item>
+        <item>শিবগঞ্জ</item>
+
+        <item>নওগাঁ</item>
+        <item>আত্রাই</item>
+        <item>বাদলগাছী</item>
+        <item>ধামইরহাট</item>
+        <item>মান্দা</item>
+        <item>মহাদেবপুর</item>
+        <item>নিয়ামতপুর</item>
+        <item>পাটনিটালা</item>
+        <item>পোরশা</item>
+        <item>রানীনগর</item>
+        <item>সাপাহার</item>
+
+        <item>রংপুর</item>
+        <item>বদরগঞ্জ</item>
+        <item>গঙ্গাছড়া</item>
+        <item>হাজিরহাট</item>
+        <item>হারাগাছ</item>
+        <item>কাউনিয়া</item>
+        <item>কোতোয়ালি</item>
+        <item>মাহিগঞ্জ</item>
+        <item>মিঠাপুকুর</item>
+        <item>পীরগাছা</item>
+        <item>পীরগঞ্জ</item>
+        <item>পরশুরাম</item>
+        <item>তারাগঞ্জ</item>
+        <item>তাজহাট</item>
+
+        <item>পঞ্চগড়</item>
+        <item>আটওয়ারী</item>
+        <item>বোদা</item>
+        <item>দেবিগঞ্জ</item>
+        <item>তেতুলিয়া</item>
+
+        <item>দিনাজপুর</item>
+        <item>বিরামপুর</item>
+        <item>বীরগঞ্জ</item>
+        <item>বিরল</item>
+        <item>বোচাগঞ্জ</item>
+        <item>চিরিরবন্দর</item>
+        <item>ঘোড়াঘাট</item>
+        <item>হাকিমপুর</item>
+        <item>কাহারোল</item>
+        <item>খানসামা</item>
+        <item>নবাবগঞ্জ</item>
+        <item>ফুলবাড়ি</item>
+        <item>পার্বতীপুর</item>
+
+        <item>লালমনিরহাট</item>
+        <item>আদিতমারী</item>
+        <item>হাতীবন্ধ</item>
+        <item>কালীগঞ্জ</item>
+        <item>পাটগ্রাম</item>
+
+        <item>নীলফামারী</item>
+        <item>ডিমলা</item>
+        <item>ডোমার</item>
+        <item>জলধাকা</item>
+        <item>কিশোরগঞ্জ</item>
+        <item>সৈয়দপুর</item>
+
+        <item>গাইবান্ধা</item>
+        <item>গোবিন্দগঞ্জ</item>
+        <item>পলাশবাড়ি</item>
+        <item>ফুলছড়ি</item>
+        <item>সাদুল্লাপুর</item>
+        <item>সুঘাট্টা</item>
+        <item>সুন্দরগঞ্জ</item>
+
+        <item>ঠাকুরগাঁও</item>
+        <item>বালিয়াডাঙ্গী</item>
+        <item>হরিপুর</item>
+        <item>পীরগঞ্জ</item>
+        <item>রানীশঙ্কাইল</item>
+
+        <item>কুড়িগ্রাম</item>
+        <item>ভুরুঙ্গামারী</item>
+        <item>চর রাজিবপুর</item>
+        <item>চিলমারী</item>
+        <item>নাগেশ্বরী</item>
+        <item>ফুলবাড়ি</item>
+        <item>রাজারহাট</item>
+        <item>রাওমারি</item>
+        <item>উলিপুর</item>
+
+        <item>খুলনা</item>
+        <item>আরংঘাটা</item>
+        <item>বটিয়াঘাটা</item>
+        <item>ড্যাকোপ</item>
+        <item>ডুমুরিয়া</item>
+        <item>দিঘালিয়া</item>
+        <item>দৌলতপুর</item>
+        <item>হরিনটানা</item>
+        <item>খালিশপুর</item>
+        <item>খান জাহান আলী</item>
+        <item>কয়রা</item>
+        <item>লাবণচারা</item>
+        <item>পাইকগাছা</item>
+        <item>ফুলতলা</item>
+        <item>সোনাডাঙ্গা</item>
+        <item>রুপশা</item>
+        <item>তেরোখদা</item>
+
+        <item>যশোর</item>
+        <item>অভয়নগর</item>
+        <item>বাঘেরপাড়া</item>
+        <item>চৌগাছা</item>
+        <item>ঝিকরগাছা</item>
+        <item>কেশবপুর</item>
+        <item>মণিরামপুর</item>
+        <item>শার্শা</item>
+
+        <item>সাতক্ষীরা</item>
+        <item>আসাসুনি</item>
+        <item>দেবহাটা</item>
+        <item>কলারোয়া</item>
+        <item>কালীগঞ্জ</item>
+        <item>শ্যামনগর</item>
+        <item>তালা</item>
+
+        <item>মেহেরপুর</item>
+        <item>গাংনী</item>
+        <item>মুজিবনগর</item>
+
+        <item>নড়াইল</item>
+        <item>কালিয়া</item>
+        <item>লোহাগাড়া</item>
+        <item>নরগতি</item>
+
+        <item>চুয়াডাঙ্গা</item>
+        <item>আলমডাঙ্গা</item>
+        <item>দামুরহুদা</item>
+        <item>জীবননগর</item>
+
+        <item>কুষ্টিয়া</item>
+        <item>ভেড়ামারা</item>
+        <item>দৌলতপুর</item>
+        <item>খোকসা</item>
+        <item>কুমারখালী</item>
+        <item>মিরপুর</item>
+
+        <item>মাগুরা</item>
+        <item>মোহাম্মদপুর</item>
+        <item>শালিখা</item>
+        <item>শ্রীপুর</item>
+
+        <item>বাগেরহাট</item>
+        <item>চিতলমারী</item>
+        <item>ফকিরহাট</item>
+        <item>কচুয়া</item>
+        <item>মোলাহাট</item>
+        <item>মংলা</item>
+        <item>মররেলগঞ্জ</item>
+        <item>রামপাল</item>
+        <item>সরানখোলা</item>
+
+        <item>ঝিনাইদহ</item>
+        <item>হরিনাকুন্ড</item>
+        <item>কালীগঞ্জ</item>
+        <item>কোটচাঁদপুর</item>
+        <item>মহেশপুর</item>
+        <item>শৈলকূপা</item>
+
+        <item>চট্টগ্রাম</item>
+        <item>আকবর শাহ</item>
+        <item>আনোয়ারা</item>
+        <item>বাকোলিয়া</item>
+        <item>বান্দর</item>
+        <item>বাঁশখালী</item>
+        <item>বায়েজিদ বোস্তামি</item>
+        <item>বোয়ালখালী</item>
+        <item>চন্দনাইশ</item>
+        <item>চাঁদগাও</item>
+        <item>চক বাজার</item>
+        <item>ডাবলমুরিং</item>
+        <item>ইপিজেড</item>
+        <item>ফটিকছড়ি</item>
+        <item>হালিশহর</item>
+        <item>হাটহাজারী</item>
+        <item>কর্ণফুলী</item>
+        <item>কোতোয়ালি</item>
+        <item>খুলশী</item>
+        <item>কর্ণফুলি</item>
+        <item>লোহাগাড়া</item>
+        <item>মিরসরাই</item>
+        <item>পাহাড়তলী</item>
+        <item>পাঁচলাইশ</item>
+        <item>পতেঙ্গা</item>
+        <item>পটিয়া</item>
+        <item>রাঙ্গুনিয়া</item>
+        <item>রাউজান</item>
+        <item>সদরঘাট</item>
+        <item>সন্দ্বীপ</item>
+        <item>সাতকানিয়া</item>
+        <item>সীতাকুণ্ড</item>
+
+        <item>কুমিল্লা</item>
+        <item>কুমিল্লা আদর্শ</item>
+        <item>বড়ুরা</item>
+        <item>ব্রাহ্মণপাড়া</item>
+        <item>বুড়িচং</item>
+        <item>চান্দিনা</item>
+        <item>চৌদ্দগ্রাম</item>
+        <item>দাউদকান্দি</item>
+        <item>দেবিদ্বার</item>
+        <item>হোমনা</item>
+        <item>লাকসাম</item>
+        <item>লালমাই</item>
+        <item>মুরাদনগর</item>
+        <item>মেঘনা</item>
+        <item>নাঙ্গলকোট</item>
+        <item>তিতাস</item>
+        <item>মনোহরজঞ্জ</item>
+
+        <item>ফেনী</item>
+        <item>ছাগলনাইয়া</item>
+        <item>দাগনভূঁইয়া</item>
+        <item>পরশুরাম</item>
+        <item>সোনাগাজী</item>
+        <item>ফুলগাজী</item>
+
+        <item>ব্রাহ্মণবাড়িয়া</item>
+        <item>আখাউড়া</item>
+        <item>আশুগঞ্জ</item>
+        <item>বাঞ্ছারামপুর</item>
+        <item>বিজয়নগর</item>
+        <item>কসবা</item>
+        <item>নবীনগর</item>
+        <item>নাসিরনগর</item>
+        <item>সরাইল</item>
+
+        <item>রাঙামাটি</item>
+        <item>বাঘাইছড়ি</item>
+        <item>বরকল</item>
+        <item>বেলাইছড়ি</item>
+        <item>জুড়াইছড়ি</item>
+        <item>কাওখালী (বেতবুনিয়া)</item>
+        <item>কাপ্তাই</item>
+        <item>ল্যাঙ্গাদু</item>
+        <item>নানিয়াচর</item>
+        <item>রাজস্থালি</item>
+
+        <item>নোয়াখালী</item>
+        <item>বেগমগঞ্জ</item>
+        <item>চাটখিল</item>
+        <item>কোম্পানীগঞ্জ</item>
+        <item>হাতিয়া</item>
+        <item>কবিরহাট</item>
+        <item>সেনবাগ</item>
+        <item>সোনাইমুড়ি</item>
+        <item>সুবর্ণচর</item>
+
+        <item>চাঁদপুর</item>
+        <item>ফরিদগঞ্জ</item>
+        <item>হাইমচর</item>
+        <item>হাজীগঞ্জ</item>
+        <item>কচুয়া</item>
+        <item>মতলব দক্ষিণ</item>
+        <item>মতলব উত্তর</item>
+        <item>শাহরাস্তি</item>
+
+        <item>লক্ষ্মীপুর</item>
+        <item>কমলনগর</item>
+        <item>রায়পুর</item>
+        <item>রামগঞ্জ</item>
+        <item>রামগতি</item>
+
+        <item>কক্সবাজার</item>
+        <item>চকরিয়া</item>
+        <item>কুতুবদিয়া</item>
+        <item>মহেশখালী</item>
+        <item>পেকুয়া</item>
+        <item>রামু</item>
+        <item>টেকনাফ</item>
+        <item>উখিয়া</item>
+
+        <item>খাগড়াছড়ি</item>
+        <item>দিঘিনালা</item>
+        <item>খাগড়াছড়ি</item>
+        <item>লক্ষ্মীছড়ি</item>
+        <item>মহালছড়ি</item>
+        <item>মানিকছড়ি</item>
+        <item>মাতিরাঙ্গা</item>
+        <item>পানছড়ি</item>
+        <item>রামগড়</item>
+
+        <item>বান্দরবান</item>
+        <item>আলী কদম</item>
+        <item>লামা</item>
+        <item>নাইখংছড়ি</item>
+        <item>রোয়াংছড়ি</item>
+        <item>রুমা</item>
+        <item>থানচি</item>
+
+        <item>ময়মনসিংহ</item>
+        <item>ভালুকা</item>
+        <item>ধোবাউরা</item>
+        <item>ফুলবাড়িয়া</item>
+        <item>গফরগাঁও</item>
+        <item>গৌরীপুর</item>
+        <item>হালুয়াঘাট</item>
+        <item>warশ্বরগঞ্জ</item>
+        <item>মুক্তাগাছা</item>
+        <item>নান্দাইল</item>
+        <item>ফুলপুর</item>
+        <item>তারা খন্দ</item>
+        <item>ত্রিশাল</item>
+
+        <item>শেরপুর</item>
+        <item>ঝিনাইগাতী</item>
+        <item>নকলা</item>
+        <item>নালিতাবাড়ি</item>
+        <item>শ্রীবার্দি</item>
+
+        <item>জামালপুর</item>
+        <item>বাকসীগঞ্জ</item>
+        <item>দেওয়ানগঞ্জ</item>
+        <item>ইসলামপুর</item>
+        <item>মাদারগঞ্জ</item>
+        <item>মেলান্দাহা</item>
+        <item>সরিষাবাড়ি</item>
+
+        <item>নেত্রকোনা</item>
+        <item>আটপাড়া</item>
+        <item>বারহাট্টা</item>
+        <item>দুর্গাপুর</item>
+        <item>খালিয়াজুরী</item>
+        <item>কলমাকান্দা</item>
+        <item>কেন্দুয়া</item>
+        <item>মদন</item>
+        <item>মোহনগঞ্জ</item>
+        <item>পূর্বধলা</item>
+
+        <item>বরিশাল</item>
+        <item>আগাইলঝাড়া</item>
+        <item>বিমানবন্দর</item>
+        <item>বান্দর</item>
+        <item>বরিশাল বিশ্ববিদ্যালয় থানা</item>
+        <item>বাবুগঞ্জ</item>
+        <item>বাকেরগঞ্জ</item>
+        <item>বানারীপাড়া</item>
+        <item>চর মনাই</item>
+        <item>গৌরনদী</item>
+        <item>হিজলা</item>
+        <item>কাশীপুর</item>
+        <item>কোতোয়ালি মডেল</item>
+        <item>কাওনিয়া</item>
+        <item>মেহেন্দিগঞ্জ</item>
+        <item>মুলাদী</item>
+        <item>রূপাতালি</item>
+        <item>উজিরপুর</item>
+
+        <item>ঝালোকাটি</item>
+        <item>কাঠালিয়া</item>
+        <item>নলচিটি</item>
+        <item>রাজাপুর</item>
+
+        <item>পটুয়াখালী</item>
+        <item>বাউফল</item>
+        <item>দশমিনা</item>
+        <item>গলাচিপা</item>
+        <item>কলাপাড়া</item>
+        <item>মির্জাগঞ্জ</item>
+        <item>রাঙ্গাবালী</item>
+        <item>ডুমকি</item>
+
+        <item>পিরোজপুর</item>
+        <item>ভান্ডারিয়া</item>
+        <item>কাওখালী</item>
+        <item>মঠবাড়িয়া</item>
+        <item>নাজিরপুর</item>
+        <item>নেছারাবাদ(স্বরূপকাঠি)</item>
+        <item>ইন্দুরকানী</item>
+
+        <item>ভোলা</item>
+        <item>বুরহানউদ্দিন</item>
+        <item>চর ফ্যাসন</item>
+        <item>দৌলতখান</item>
+        <item>লালমোহন</item>
+        <item>মনপুরা</item>
+        <item>তাজুমউদ্দিন</item>
+
+        <item>বরগুনা</item>
+        <item>আমতলী</item>
+        <item>বামনা</item>
+        <item>বেতাগী</item>
+        <item>পাথরঘাটা</item>
+        <item>তালতলী</item>
+
+        <item>সিলেট</item>
+        <item>বালাগঞ্জ</item>
+        <item>বিয়ানীবাজার</item>
+        <item>বিশ্বনাথ</item>
+        <item>কোম্পানীগঞ্জ</item>
+        <item>দক্ষিণ সুরমা</item>
+        <item>ফেঞ্চুগঞ্জ</item>
+        <item>গোলাপগঞ্জ</item>
+        <item>গোয়াইনঘাট</item>
+        <item>জৈন্তিয়াপুর</item>
+        <item>জালালাবাদ</item>
+        <item>কানাইঘাট</item>
+        <item>কোতোয়ালি মডেল</item>
+        <item>মোগলাবাজার</item>
+        <item>ওসমানী নগর</item>
+        <item>শাহ পোরাণ (আর।) থানা</item>
+        <item>দক্ষিণ সুরমা</item>
+        <item>জকিগঞ্জ</item>
+
+        <item>মৌলভীবাজার</item>
+        <item>বারলেখা</item>
+        <item>জুড়ি</item>
+        <item>কমলগঞ্জ</item>
+        <item>কুলাউড়া</item>
+        <item>রাজনগর</item>
+        <item>শ্রীমঙ্গল</item>
+
+        <item>হবিগঞ্জ</item>
+        <item>আজমিরীগঞ্জ</item>
+        <item>বাহুবল</item>
+        <item>বানিয়াচং</item>
+        <item>চুনারুঘাট</item>
+        <item>লখাই</item>
+        <item>মাধবপুর</item>
+        <item>নবীগঞ্জ</item>
+        <item>সায়স্তাগঞ্জ</item>
+
+        <item>সুনামগঞ্জ</item>
+        <item>বিশ্বম্বরপুর</item>
+        <item>ছাতক</item>
+        <item>দক্ষিণ সুনামগঞ্জ</item>
+        <item>দেরাই</item>
+        <item>ধরমপাশা</item>
+        <item>দোয়ারাবাজার</item>
+        <item>জগন্নাথপুর</item>
+        <item>জামালগঞ্জ</item>
+        <item>সুল্লাহ</item>
+        <item>তাহিরপুর</item>
     </string-array>
 
 

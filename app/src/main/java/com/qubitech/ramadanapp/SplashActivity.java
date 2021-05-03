@@ -32,6 +32,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.qubitech.ramadanapp.location.LocationService;
 import com.qubitech.ramadanapp.staticdata.StaticData;
+import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,11 +58,12 @@ public class SplashActivity extends AppCompatActivity {
     Double latitude,longitude;
     Intent locationIntent;
     String prayerUrl ="", prayerUrlNext="";
-    String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="",imsak="", city="";
+    String sunrise="",sunset="",midnight="",fajr="",dhuhr="",asr="",maghrib="",isha="",imsak="", city="",district="",division="";
     String sunriseNext="",sunsetNext="",midnightNext="",fajrNext="",dhuhrNext="",asrNext="",maghribNext="",ishaNext="",imsakNext="";
 
     String[] salahTimes;
     String[] salahWaqts;
+    String [] division_bn,division_en,district_bn,district_en,upazilla_bn,upazilla_en;
 
     int progress=0;
     boolean dialogPresented = false;
@@ -86,6 +88,15 @@ public class SplashActivity extends AppCompatActivity {
         salahWaqts = new String[]{getResources().getString(R.string.fajr), getResources().getString(R.string.dhuhr),
                 getResources().getString(R.string.asr), getResources().getString(R.string.maghrib), getResources().getString(R.string.isha), getResources().getString(R.string.fajr)};
 
+        //Getting Division, District and Upazilla Names from String Array Resources for Translating Locale from Bangla to English
+        division_bn = getResources().getStringArray(R.array.division_bn);
+        division_en = getResources().getStringArray(R.array.division_en);
+
+        district_bn = getResources().getStringArray(R.array.district_bn);
+        district_en = getResources().getStringArray(R.array.district_en);
+
+        upazilla_bn = getResources().getStringArray(R.array.upazilla_bn);
+        upazilla_en = getResources().getStringArray(R.array.upazilla_en);
 
         ObjectAnimator animation = ObjectAnimator.ofFloat(imageView, "rotationY", 180f, 360f);
         animation.setDuration(600);
@@ -213,12 +224,36 @@ public class SplashActivity extends AppCompatActivity {
                 backgroundHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        nameCheck();
-                        prepareApiUrl();
+                        getDataFromLatLng();
+                        city = translateDataToEn(city,upazilla_bn,upazilla_en);
+                        prepareApiUrl(city);
+                        if(testApiCall()) {
+                            //Calling the API using AsyncTask
+                            locationTask = new LocationTask();
+                            locationTask.execute();
+                        }
+                        else{
+                            district = translateDataToEn(district,district_bn,district_en);
+                            prepareApiUrl(district);
+                            if(testApiCall()) {
+                                //Calling the API using AsyncTask
+                                locationTask = new LocationTask();
+                                locationTask.execute();
+                            }
+                            else{
+                                division = translateDataToEn(division,division_bn,division_en);
+                                prepareApiUrl(division);
+                                if(testApiCall()) {
+                                    //Calling the API using AsyncTask
+                                    locationTask = new LocationTask();
+                                    locationTask.execute();
+                                }
+                                else{
+                                    return;
+                                }
+                            }
+                        }
 
-                        //Calling the API using AsyncTask
-                        locationTask = new LocationTask();
-                        locationTask.execute();
                     }
                 });
             }
@@ -291,49 +326,39 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void nameCheck(){
+
+    private void getDataFromLatLng(){
 
         //Create a new Geocoder for getting Location metadata
         geocoder = new Geocoder(getApplicationContext(), Locale.ENGLISH);
 
-        //Getting District Name from String Array Resources for Translating Locale from Bangla to English
-        String [] districts_bn = getResources().getStringArray(R.array.division_bn);
-        String [] districts_en = getResources().getStringArray(R.array.division_en);
-
-        //Hashmap for Locale translation
-        HashMap<String, String> hashMap = new HashMap<String, String>();
-
-        for(int i=0;i<districts_bn.length;i++) {
-        hashMap.put(districts_bn[i], districts_en[i]);
-        }
-
-
-        List<Address> addresses = null;
-
         try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1); //Using Lat-Lng to set Geocoder sets error sometimes.
-            String cityName = addresses.get(0).getLocality();
-            String stateName = addresses.get(0).getSubAdminArea();
-            String countryName = addresses.get(0).getCountryName();
-            city = cityName;
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1); //Using Lat-Lng to set Geocoder sets error sometimes.
+            city = addresses.get(0).getLocality();
+            district = addresses.get(0).getSubAdminArea();
+            division = addresses.get(0).getAdminArea();
 
-            //Finding the English Value using Bangla Keywords from each entrySet.
-            for (Map.Entry<String, String> entry :
-                    hashMap.entrySet()) {
-                if (entry.getKey().equals(cityName)) {
-                    city = entry.getValue();
-                    break;
-                }
-
+            if(district.contains(" District")){
+                district = district.replace(" District","");
             }
+            else if(district.contains(" জেলা")){
+                district = district.replace(" জেলা","");
+            }
+
+            if(division.contains(" Division")){
+                division = division.replace(" Division","");
+            }
+            else if(division.contains(" বিভাগ")){
+                division = division.replace(" বিভাগ","");
+            }
+
+
 
             //Log in console
 
-            Log.d("Location","Admin Area: "+addresses.get(0).getAdminArea());
-            Log.d("Location","City Name: "+cityName);
-            Log.d("Location","City Name Translated: "+city);
-            Log.d("Location","State Name: "+stateName);
-            Log.d("Location","Country Name: "+countryName);
+            Log.d("Location","City Name: "+city);
+            Log.d("Location","District Name: "+district);
+            Log.d("Location","Division Name: "+division);
             Log.d("Location","Addresses: "+addresses);
 
         } catch (IOException e) {
@@ -341,7 +366,31 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-    private void prepareApiUrl(){
+    private String translateDataToEn(String keyword, String[] array_bn, String[] array_en){
+
+        //Hashmap for Locale translation
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+
+        for(int i=0;i<array_bn.length;i++) {
+            hashMap.put(array_bn[i], array_en[i]);
+        }
+
+        //Finding the English Value using Bangla Keywords from each entrySet.
+        for (Map.Entry<String, String> entry :
+                hashMap.entrySet()) {
+            if (entry.getKey().equals(keyword)) {
+                keyword = entry.getValue();
+                break;
+            }
+
+        }
+
+        Log.d("Location","Keyword Translated: "+keyword);
+
+        return keyword;
+    }
+
+    private void prepareApiUrl(String key){
 
         try {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -350,11 +399,42 @@ public class SplashActivity extends AppCompatActivity {
 
             //Selecting city and date for API calls using Geocoder data
 
-            prayerUrl = "https://api.pray.zone/v2/times/today.json?city=" + city + "&juristic=1&school=9";
-            prayerUrlNext = "https://api.pray.zone/v2/times/day.json?city=" + city + "&juristic=1&school=9&date=" + simpleDateFormat.format(calendar.getTime());
+            prayerUrl = "https://api.pray.zone/v2/times/today.json?city=" + key + "&juristic=1&school=9";
+            prayerUrlNext = "https://api.pray.zone/v2/times/day.json?city=" + key + "&juristic=1&school=9&date=" + simpleDateFormat.format(calendar.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private boolean testApiCall() {
+
+        boolean bool = false;
+
+        //API call for Dashboard Activity
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(prayerUrl)
+                .build();
+
+        Response response;
+
+        try {
+            response = client.newCall(request).execute();
+
+            if(response.isSuccessful()){
+                bool = true;
+            }
+            else{
+                bool = false;
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Log.d("Dashboard","Response: "+bool);
+        return bool;
+
     }
 
 
