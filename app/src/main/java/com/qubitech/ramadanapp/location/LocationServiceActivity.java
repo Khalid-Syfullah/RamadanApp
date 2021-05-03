@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.PixelFormat;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -51,17 +53,7 @@ public class LocationServiceActivity extends AppCompatActivity {
                     }
                 });
         alertDialog = builder.create();
-        Window dialogWindow = alertDialog.getWindow();
-        WindowManager.LayoutParams dialogWindowAttributes = dialogWindow.getAttributes();
 
-        WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-        lp.copyFrom(dialogWindowAttributes);
-        lp.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 280, getResources().getDisplayMetrics());
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        dialogWindow.setAttributes(lp);
-
-// Set to TYPE_SYSTEM_ALERT so that the Service can display it
-        dialogWindow.setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         alertDialog.show();
     }
 

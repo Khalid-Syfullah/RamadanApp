@@ -31,15 +31,11 @@ public class LocationService extends Service implements LocationListener {
     LocationManager locationManager;
     Location location;
 
-    private Handler mHandler = new Handler();
-    private Timer mTimer = null;
     Handler handler;
-    long notify_interval = 1000;
     int activityResultCode, permissionResultCode;
     Intent intent, broadcastIntent;
     Context context;
-    AlertDialog alertDialog;
-    int broadcastType, loopCount=0;
+    int broadcastType, loopCount=0, denyCount=0;
 
     public static String str_receiver = "locationReceiver";
     public static String invisible_receiver = "invisibleReceiver";
@@ -155,12 +151,14 @@ public class LocationService extends Service implements LocationListener {
         //Location Permission
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
 
-            broadcastType = 1;
-            Log.d("LocationService","Invisible Activity Launched");
-            Intent invisibleIntent = new Intent(context, LocationPermissionActivity.class);
-            invisibleIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(invisibleIntent);
-
+            if(denyCount <= 1) {
+                denyCount++;
+                broadcastType = 1;
+                Log.d("LocationService", "Invisible Activity Launched");
+                Intent invisibleIntent = new Intent(context, LocationPermissionActivity.class);
+                invisibleIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(invisibleIntent);
+            }
 
         }
         else{
@@ -194,7 +192,8 @@ public class LocationService extends Service implements LocationListener {
                     broadcastType = 0;
                     Intent dialogIntent = new Intent(context, LocationServiceActivity.class);
                     dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(dialogIntent);                }
+                    startActivity(dialogIntent);
+                }
             }
 
             if(broadcastType == 1) {

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -63,6 +64,8 @@ public class SplashActivity extends AppCompatActivity {
     String[] salahWaqts;
 
     int progress=0;
+    boolean dialogPresented = false;
+
     Intent broadcastIntent;
 
     LocationTask locationTask;
@@ -70,8 +73,7 @@ public class SplashActivity extends AppCompatActivity {
     HandlerThread backgroundThread;
     SimpleDateFormat simpleDateFormat;
     ImageView imageView;
-    AlertDialog alert;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,8 +102,7 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
 
-        startService(locationIntent);
-        registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+
         //locationServiceStatusCheck();
 
     }
@@ -113,47 +114,33 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        startService(locationIntent);
+        registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        if(locationIntent != null) {
+            stopService(locationIntent);
+        }
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
 
         if(backgroundThread != null) {
             backgroundThread.quit();
         }
-    }
 
-//    //Check whether Location Service is on or off
-//    public void locationServiceStatusCheck() {
-//        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//
-//        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-//            enableLocationServiceDialog();
-//        }
-//        else{
-//            locationPermissionCheck();
-//        }
-//    }
-//
-//    //Ask to turn on location service
-//    private void enableLocationServiceDialog() {
-//        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
-//                .setCancelable(false)
-//                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    public void onClick(final DialogInterface dialog, final int id) {
-//                        dialog.dismiss();
-//                        startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS),2);
-//                    }
-//                })
-//                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    public void onClick(final DialogInterface dialog, final int id) {
-//                        dialog.cancel();
-//                        enableLocationServiceDialog();
-//                    }
-//                });
-//        alert = builder.create();
-//        alert.show();
-//        alert.setCancelable(false);
-//    }
+
+        finish();
+    }
 
 
     @Override
@@ -166,53 +153,11 @@ public class SplashActivity extends AppCompatActivity {
               gotoDashboard();
 
             }
-//            else {
-//                enableLocationServiceDialog();
-//            }
+
         }
 
     }
 
-//    private void locationPermissionCheck(){
-//
-//        //Location Permission
-//        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-//
-//            ActivityCompat.requestPermissions(this,
-//                    new String[] { Manifest.permission.ACCESS_FINE_LOCATION,
-//                            Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-//                            Manifest.permission.ACCESS_COARSE_LOCATION },
-//                    1);
-//        }
-//        else{
-//            startService(locationIntent);
-//            registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-//
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-//
-//        switch (requestCode) {
-//            case 1: {
-//
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    startService(locationIntent);
-//                    registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
-//
-//
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Location permission denied!", Toast.LENGTH_SHORT).show();
-//                    gotoDashboard();
-//                }
-//                return;
-//            }
-//
-//        }
-//    }
 
     private void gotoDashboard(){
         Handler handler =new Handler(Looper.getMainLooper());
@@ -242,36 +187,80 @@ public class SplashActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             broadcastIntent = intent;
-
-            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            if (null != activeNetwork) {
-                if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-
-
-                    getLatLng();
-
-                    backgroundThread = new HandlerThread("locationThread");
-                    backgroundThread.start();
-                    Handler backgroundHandler = new Handler(backgroundThread.getLooper());
-                    backgroundHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            nameCheck();
-                            prepareApiUrl();
-
-                            //Calling the API using AsyncTask
-                            locationTask = new LocationTask();
-                            locationTask.execute();
-                        }
-                    });
-                }
+            if(dialogPresented == false) {
+                checkConnection();
+                dialogPresented = true;
             }
+
 
         }
 
     };
+
+    private void checkConnection(){
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (null != activeNetwork) {
+            if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+
+
+                getLatLng();
+
+                backgroundThread = new HandlerThread("locationThread");
+                backgroundThread.start();
+                Handler backgroundHandler = new Handler(backgroundThread.getLooper());
+                backgroundHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        nameCheck();
+                        prepareApiUrl();
+
+                        //Calling the API using AsyncTask
+                        locationTask = new LocationTask();
+                        locationTask.execute();
+                    }
+                });
+            }
+            else{
+                retryDialog();
+            }
+
+        }
+        else{
+            retryDialog();
+        }
+    }
+    //Ask to turn on location service
+    private void retryDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No Internet access")
+                .setMessage("Enable your Internet connection and tap Retry")
+                .setCancelable(false)
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        checkConnection();
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if(locationIntent != null) {
+                            stopService(locationIntent);
+                        }
+                        if(broadcastReceiver != null){
+                            unregisterReceiver(broadcastReceiver);
+                        }
+                        finish();
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
     private void getLatLng(){
 

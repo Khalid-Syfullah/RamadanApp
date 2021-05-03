@@ -1,9 +1,12 @@
 package com.qubitech.ramadanapp.ui.checklist;
 
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,30 +14,38 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.CalendarView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.qubitech.ramadanapp.R;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
-public class ChecklistFragment extends Fragment {
+public class ChecklistFragment extends Fragment implements CompoundButton.OnCheckedChangeListener{
 
-    private ChecklistViewModel mViewModel;
-    Handler handler, handler2;
-    HandlerThread handlerThread, handlerThread2;
-    Thread thread3, thread4;
-    ThreadPoolExecutor executor;
-    Runnable runnable;
+    CardView checkListCardView;
+    CalendarView checkListCalendarView;
+    ImageView closeBtn;
+    boolean revealFlag = false, changeFlag= false;
+    boolean dailyData[] = {false, false, false, false, false, false, false};
+    SharedPreferences checklistPreferences;
+    SharedPreferences.Editor checklistPreferencesEditor;
+    String checklistPref = "Checklist", date=null;
+    SimpleDateFormat simpleDateFormat;
+    CheckBox fajrCheckbox, dhuhrCheckbox, asrCheckbox, maghribCheckbox, ishaCheckbox, fastingCheckbox, quranCheckbox;
 
+    ChecklistViewModel mViewModel;
 
     public static ChecklistFragment newInstance() {
         return new ChecklistFragment();
@@ -44,53 +55,100 @@ public class ChecklistFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        int NUMBER_OF_CORES = Runtime.getRuntime().availableProcessors();
 
-        runnable = new Runnable() {
+        View view = inflater.inflate(R.layout.fragment_checklist, container, false);
+
+        checkListCardView = view.findViewById(R.id.checklist_cardView);
+        checkListCalendarView = view.findViewById(R.id.checklist_calendarView);
+        closeBtn = view.findViewById(R.id.checklist_closeBtn);
+
+        fajrCheckbox = view.findViewById(R.id.checklist_fajr_checkbox);
+        dhuhrCheckbox = view.findViewById(R.id.checklist_dhuhr_checkbox);
+        asrCheckbox = view.findViewById(R.id.checklist_asr_checkbox);
+        maghribCheckbox = view.findViewById(R.id.checklist_maghrib_checkbox);
+        ishaCheckbox = view.findViewById(R.id.checklist_isha_checkbox);
+        fastingCheckbox = view.findViewById(R.id.checklist_fasting_checkbox);
+        quranCheckbox = view.findViewById(R.id.checklist_quran_checkbox);
+
+        checkListCalendarView.setDateTextAppearance(getResources().getIdentifier("CalendarDate","style",getActivity().getPackageName()));
+        checkListCalendarView.setWeekDayTextAppearance(getResources().getIdentifier("CalendarWeek","style",getActivity().getPackageName()));
+        checkListCalendarView.setFirstDayOfWeek(7);
+        checkListCalendarView.setDate(Calendar.getInstance().getTimeInMillis());
+
+        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        date = simpleDateFormat.format(Calendar.getInstance().getTime());
+
+        Toast.makeText(getActivity().getApplicationContext(), date, Toast.LENGTH_LONG).show();
+        dailyData = getChecklist(date);
+
+        fajrCheckbox.setChecked(dailyData[0]);
+        dhuhrCheckbox.setChecked(dailyData[1]);
+        asrCheckbox.setChecked(dailyData[2]);
+        maghribCheckbox.setChecked(dailyData[3]);
+        ishaCheckbox.setChecked(dailyData[4]);
+        quranCheckbox.setChecked(dailyData[5]);
+        fastingCheckbox.setChecked(dailyData[6]);
+
+        changeFlag = true;
+
+        checkListCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void run() {
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int i, int i1, int i2) {
 
-                for(int i=0;i<100;i++) {
-                    Log.d("Thread", i+" Thread is :" + Thread.currentThread().getName());
+
+                Calendar calendar=new GregorianCalendar(i, i1, i2);
+                date = simpleDateFormat.format(calendar.getTime());
+
+                Toast.makeText(getActivity().getApplicationContext(), date, Toast.LENGTH_LONG).show();
+                dailyData = getChecklist(date);
+
+                changeFlag = false;
+
+                fajrCheckbox.setChecked(dailyData[0]);
+                dhuhrCheckbox.setChecked(dailyData[1]);
+                asrCheckbox.setChecked(dailyData[2]);
+                maghribCheckbox.setChecked(dailyData[3]);
+                ishaCheckbox.setChecked(dailyData[4]);
+                quranCheckbox.setChecked(dailyData[5]);
+                fastingCheckbox.setChecked(dailyData[6]);
+
+                changeFlag = true;
+
+
+            }
+        });
+
+        fajrCheckbox.setOnCheckedChangeListener(this);
+        dhuhrCheckbox.setOnCheckedChangeListener(this);
+        asrCheckbox.setOnCheckedChangeListener(this);
+        maghribCheckbox.setOnCheckedChangeListener(this);
+        ishaCheckbox.setOnCheckedChangeListener(this);
+        fastingCheckbox.setOnCheckedChangeListener(this);
+        quranCheckbox.setOnCheckedChangeListener(this);
+
+
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if(!revealFlag) {
+                    revealFAB(checkListCardView);
+                    Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
+                    animation.setDuration(500);
+                    closeBtn.setAnimation(animation);
+                    revealFlag = true;
                 }
             }
-        };
+        });
 
-        handlerThread = new HandlerThread("handler");
-        handlerThread2 = new HandlerThread("handler2");
-        handlerThread.start();
-        handlerThread2.start();
-
-        executor = new ThreadPoolExecutor(
-                NUMBER_OF_CORES*2,
-                NUMBER_OF_CORES*2,
-                60L,
-                TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>()
-        );
-        thread3 = new Thread(){
+        closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-
-                Looper.prepare();
-                Handler handler = new Handler();
-                handler.post(runnable);
-                Looper.loop();
+            public void onClick(View view) {
+                hideFAB(checkListCardView);
             }
-        };
-        thread4 = new Thread(runnable);
-        handler = new Handler(handlerThread.getLooper());
-        handler2 = new Handler(handlerThread2.getLooper());
+        });
 
-        executor.execute(runnable);
-        thread3.start();
-        thread4.start();
-        handler.post(runnable);
-        handler2.post(runnable);
-
-
-
-        return inflater.inflate(R.layout.fragment_checklist, container, false);
+        return view;
     }
 
     @Override
@@ -102,34 +160,57 @@ public class ChecklistFragment extends Fragment {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+        if(changeFlag) {
+            dailyData[0] = fajrCheckbox.isChecked();
+            dailyData[1] = dhuhrCheckbox.isChecked();
+            dailyData[2] = asrCheckbox.isChecked();
+            dailyData[3] = maghribCheckbox.isChecked();
+            dailyData[4] = ishaCheckbox.isChecked();
+            dailyData[5] = fastingCheckbox.isChecked();
+            dailyData[6] = quranCheckbox.isChecked();
+
+            saveChecklist(date, dailyData);
+        }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+    private boolean[] getChecklist(String currentDate){
+
+        checklistPreferences = getActivity().getSharedPreferences(checklistPref, Context.MODE_PRIVATE);
+        boolean fajr=false, dhuhr=false, asr=false, maghrib=false, isha=false, fasting=false, quran=false;
+
+        if(checklistPreferences.contains("checklist_date: "+currentDate)){
+
+            if(checklistPreferences.getString("checklist_date: "+currentDate,"").equals(currentDate)){
+                fajr = checklistPreferences.getBoolean("fajr: "+currentDate,false);
+                dhuhr = checklistPreferences.getBoolean("dhuhr: "+currentDate,false);
+                asr = checklistPreferences.getBoolean("asr: "+currentDate,false);
+                maghrib = checklistPreferences.getBoolean("maghrib: "+currentDate,false);
+                isha = checklistPreferences.getBoolean("isha: "+currentDate,false);
+                fasting = checklistPreferences.getBoolean("fasting: "+currentDate,false);
+                quran = checklistPreferences.getBoolean("quran: "+currentDate,false);
+
+            }
+        }
+        return new boolean [] {fajr, dhuhr, asr, maghrib, isha, fasting, quran};
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
+    private void saveChecklist(String currentDate, boolean [] data){
+        checklistPreferences = getActivity().getSharedPreferences(checklistPref, Context.MODE_PRIVATE);
+        checklistPreferencesEditor = checklistPreferences.edit();
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
+        checklistPreferencesEditor.putString("checklist_date: "+currentDate, currentDate);
+        checklistPreferencesEditor.putBoolean("fajr: "+currentDate, data[0]);
+        checklistPreferencesEditor.putBoolean("dhuhr: "+currentDate, data[1]);
+        checklistPreferencesEditor.putBoolean("asr: "+currentDate, data[2]);
+        checklistPreferencesEditor.putBoolean("maghrib: "+currentDate, data[3]);
+        checklistPreferencesEditor.putBoolean("isha: "+currentDate, data[4]);
+        checklistPreferencesEditor.putBoolean("fasting: "+currentDate, data[5]);
+        checklistPreferencesEditor.putBoolean("quran: "+currentDate, data[6]);
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+        checklistPreferencesEditor.apply();
 
-        handlerThread.quit();
-        handlerThread2.quit();
-        thread3.interrupt();
-        thread4.interrupt();
-        executor.shutdown();
     }
 
     private void revealFAB(View view) {
@@ -162,5 +243,6 @@ public class ChecklistFragment extends Fragment {
         anim.start();
 
     }
+
 
 }

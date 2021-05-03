@@ -159,5 +159,12 @@
     <string name="nearby_mosque">Nearby Mosque</string>
     <string name="mosque">Mosque</string>
     <string name="current_location">Current Location</string>
+    <string name="necessary_dua">Necessary Dua</string>
+    <string name="dua_salah_title">Dua for Salah</string>
+    <string name="dua_fasting_title">Dua for Fasting</string>
+    <string name="dua_misc_title">Misc. Duas</string>
+    <string name="dua_zikir_title">Dua for Zikir</string>
+    <string name="are_you_fasting">Are you fasting today?</string>
+    <string name="have_you_read_quran">Have you read the Quran today?</string>
 
 </resources>

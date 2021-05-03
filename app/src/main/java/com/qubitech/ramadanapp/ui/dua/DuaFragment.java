@@ -1,5 +1,6 @@
 package com.qubitech.ramadanapp.ui.dua;
 
+import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.animation.Animator;
@@ -15,12 +16,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 
 import com.qubitech.ramadanapp.R;
 
 public class DuaFragment extends Fragment {
 
     private DuaViewModel mViewModel;
+
+    CardView duaCardView;
+    ImageView closeBtn;
+    boolean revealFlag = false;
 
     public static DuaFragment newInstance() {
         return new DuaFragment();
@@ -29,14 +37,43 @@ public class DuaFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_dua, container, false);
+        View view = inflater.inflate(R.layout.fragment_dua, container, false);
+
+        duaCardView = view.findViewById(R.id.dua_cardView);
+        closeBtn = view.findViewById(R.id.dua_closeBtn);
+
+
+        view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if(!revealFlag) {
+                    revealFAB(duaCardView);
+                    Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
+                    animation.setDuration(500);
+                    closeBtn.setAnimation(animation);
+                    revealFlag = true;
+                }
+            }
+        });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideFAB(duaCardView);
+            }
+        });
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DuaViewModel.class);
-        // TODO: Use the ViewModel
+
+
+
+
+
     }
 
     private void revealFAB(View view) {
