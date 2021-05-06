@@ -166,5 +166,6 @@
     <string name="dua_zikir_title">Dua for Zikir</string>
     <string name="are_you_fasting">Are you fasting today?</string>
     <string name="have_you_read_quran">Have you read the Quran today?</string>
+    <string name="dualist_title">Dua</string>
 
 </resources>

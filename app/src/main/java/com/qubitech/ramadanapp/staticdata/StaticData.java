@@ -29,6 +29,8 @@ public class StaticData {
     public static int waqtNextProgress=0;
     public static int iftarNextProgress=0;
     public static boolean permissionGranted = false;
+    public static boolean duaRevealFlag = false;
+
 
 
 

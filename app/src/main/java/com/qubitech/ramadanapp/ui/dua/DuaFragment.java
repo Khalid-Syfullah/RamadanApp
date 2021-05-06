@@ -19,16 +19,19 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.qubitech.ramadanapp.R;
+import com.qubitech.ramadanapp.staticdata.StaticData;
 
-public class DuaFragment extends Fragment {
+public class DuaFragment extends Fragment implements View.OnClickListener{
 
     private DuaViewModel mViewModel;
 
     CardView duaCardView;
-    ImageView closeBtn;
-    boolean revealFlag = false;
+    ImageView closeBtn, salahImage, siyamImage, miscImage, zikirImage;
+    TextView salahText, siyamText, miscText, zikirText;
+    Bundle bundle;
 
     public static DuaFragment newInstance() {
         return new DuaFragment();
@@ -42,16 +45,38 @@ public class DuaFragment extends Fragment {
         duaCardView = view.findViewById(R.id.dua_cardView);
         closeBtn = view.findViewById(R.id.dua_closeBtn);
 
+        salahImage = view.findViewById(R.id.dua_salah_image);
+        siyamImage = view.findViewById(R.id.dua_fasting_image);
+        miscImage = view.findViewById(R.id.dua_misc_image);
+        zikirImage = view.findViewById(R.id.dua_zikir_image);
+
+        salahText = view.findViewById(R.id.dua_salah_title);
+        siyamText = view.findViewById(R.id.dua_fasting_title);
+        miscText = view.findViewById(R.id.dua_misc_title);
+        zikirText = view.findViewById(R.id.dua_zikir_title);
+
+        bundle = new Bundle();
+
+        salahImage.setOnClickListener(this);
+        siyamImage.setOnClickListener(this);
+        miscImage.setOnClickListener(this);
+        zikirImage.setOnClickListener(this);
+
+        salahText.setOnClickListener(this);
+        siyamText.setOnClickListener(this);
+        miscText.setOnClickListener(this);
+        zikirText.setOnClickListener(this);
+
 
         view.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if(!revealFlag) {
+                if(!StaticData.duaRevealFlag) {
                     revealFAB(duaCardView);
                     Animation animation = AnimationUtils.loadAnimation(getActivity().getApplicationContext(), R.anim.fade_in);
                     animation.setDuration(500);
                     closeBtn.setAnimation(animation);
-                    revealFlag = true;
+                    StaticData.duaRevealFlag = true;
                 }
             }
         });
@@ -70,10 +95,30 @@ public class DuaFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(DuaViewModel.class);
 
+    }
 
+    @Override
+    public void onClick(View view) {
 
+        if(view.getId() == R.id.dua_salah_title || view.getId() == R.id.dua_salah_image){
+            bundle.putString("fragment","salah");
+            Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.action_navigation_dua_to_navigation_dualist,bundle);
+        }
+        else if(view.getId() == R.id.dua_fasting_title || view.getId() == R.id.dua_fasting_image){
+            bundle.putString("fragment","siyam");
+            Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.action_navigation_dua_to_navigation_dualist,bundle);
 
+        }
+        else if(view.getId() == R.id.dua_misc_title || view.getId() == R.id.dua_misc_image){
+            bundle.putString("fragment","misc");
+            Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.action_navigation_dua_to_navigation_dualist,bundle);
 
+        }
+        else if(view.getId() == R.id.dua_zikir_title || view.getId() == R.id.dua_zikir_image){
+            bundle.putString("fragment","zikir");
+            Navigation.findNavController(getActivity(),R.id.nav_host_fragment).navigate(R.id.action_navigation_dua_to_navigation_dualist,bundle);
+
+        }
     }
 
     private void revealFAB(View view) {

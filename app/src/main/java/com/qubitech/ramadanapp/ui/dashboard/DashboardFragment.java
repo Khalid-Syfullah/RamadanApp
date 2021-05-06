@@ -200,6 +200,8 @@ public class DashboardFragment extends Fragment implements View.OnClickListener{
     public void onStart() {
         super.onStart();
         Log.d("Dashboard", "Compass Starting");
+
+        StaticData.duaRevealFlag = false;
         compass.start();
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
         getActivity().startService(locationIntent);

@@ -115,7 +115,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/dua_salah"
+                    android:id="@+id/dua_salah_title"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"

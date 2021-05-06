@@ -168,5 +168,6 @@
     <string name="dua_zikir_title">দৈনন্দিন জিকির</string>
     <string name="are_you_fasting">আজকে রোজা রেখেছেন?</string>
     <string name="have_you_read_quran">আজকে কোরআন পড়েছেন?</string>
+    <string name="dualist_title">দুআ</string>
 
 </resources>

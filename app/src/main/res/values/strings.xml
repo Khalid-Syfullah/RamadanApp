@@ -168,7 +168,6 @@
     <string name="have_you_read_quran">Have you read the Quran today?</string>
 
 
-
     <string-array name="division_en">
         <item>Dhaka</item>
         <item>Rajshahi</item>
@@ -1016,7 +1015,7 @@
     </string-array>
 
 
-    <string-array name= "upazilla_bn">
+    <string-array name="upazilla_bn">
 
         <item>ঢাকা</item>
         <item>অাদাবর</item>
@@ -1081,7 +1080,7 @@
         <item>পলাশ</item>
         <item>রায়পুরা</item>
         <item>শিবপুর</item>
-    
+
         <item>গাজীপুর</item>
         <item>বেসন</item>
         <item>গাছা</item>
@@ -1093,7 +1092,7 @@
         <item>পুবাইল</item>
         <item>শ্রীপুর</item>
         <item>টঙ্গী</item>
-    
+
         <item>শরীয়তপুর</item>
         <item>ভেদরগঞ্জ</item>
         <item>দামুড্যা</item>
@@ -1101,13 +1100,13 @@
         <item>নরিয়া</item>
         <item>শখিপুর</item>
         <item>জাজিরা</item>
-    
+
         <item>নারায়ণগঞ্জ</item>
         <item>আড়াইহাজার</item>
         <item>বান্দর</item>
         <item>রূপগঞ্জ</item>
         <item>সোনারগাঁ</item>
-    
+
         <item>টাঙ্গাইল</item>
         <item>বাসাইল</item>
         <item>ভূয়াপুর</item>
@@ -1120,7 +1119,7 @@
         <item>মির্জাপুর</item>
         <item>নগরপুর</item>
         <item>সখিপুর</item>
-    
+
         <item>কিশোরগঞ্জ</item>
         <item>অস্টগ্রাম</item>
         <item>বাজিতপুর</item>
@@ -1134,7 +1133,7 @@
         <item>নিকলি</item>
         <item>পাকুন্দিয়া</item>
         <item>তারাইল</item>
-    
+
         <item>মানিকগঞ্জ</item>
         <item>দৌলতপুর</item>
         <item>গিওর</item>
@@ -1142,24 +1141,24 @@
         <item>সাটুরিয়া</item>
         <item>শিবালয়</item>
         <item>সিঙ্গাইর</item>
-    
+
         <item>রাজবাড়ি</item>
         <item>বালিয়াকান্দি</item>
         <item>গোয়ালন্দঘাট</item>
         <item>পাংশা</item>
         <item>কালুখালী</item>
-    
+
         <item>মাদারীপুর</item>
         <item>কালকিনি</item>
         <item>রাজোয়ার</item>
         <item>শিবচর</item>
-    
+
         <item>গোপালগঞ্জ</item>
         <item>কাশিয়ানী</item>
         <item>কোটালীপাড়া</item>
         <item>মুকসুদপুর</item>
         <item>টুঙ্গিপাড়া</item>
-    
+
         <item>ফরিদপুর</item>
         <item>আলফাডাঙ্গা</item>
         <item>ভাঙ্গা</item>
@@ -1169,7 +1168,7 @@
         <item>নগরকান্দা</item>
         <item>সদরপুর</item>
         <item>সালথা</item>
-    
+
         <item>মুন্সীগঞ্জ</item>
         <item>গজারিয়া</item>
         <item>লোহাজং</item>
@@ -1688,6 +1687,9 @@
         <item>সুল্লাহ</item>
         <item>তাহিরপুর</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="dualist_title">Dua</string>
 
 
 </resources>
