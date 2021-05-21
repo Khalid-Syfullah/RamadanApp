@@ -2,6 +2,7 @@ package com.qubitech.ramadanapp.ui.quran;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -315,6 +316,16 @@ public class SurahFragment extends Fragment {
             mediaPlayer.setDataSource(mediaUrl);
             mediaPlayer.prepare();
 
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayerComplete) {
+                    stopAudio();
+
+                    Log.d("SurahFragment","MediaPlayer: Completed");
+                }
+
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -361,49 +372,59 @@ public class SurahFragment extends Fragment {
     }
 
     private void playAudio(){
-        mediaPlayerStartView.setImageResource(R.drawable.stop);
-        mainMediaPlayerStartView.setImageResource(R.drawable.pause);
-        mediaStatus = getResources().getString(R.string.now_playing);
-        isMediaActive=true;
+        try {
+            mediaPlayerStartView.setImageResource(R.drawable.stop);
+            mainMediaPlayerStartView.setImageResource(R.drawable.pause);
+            mediaStatus = getResources().getString(R.string.now_playing);
+            isMediaActive = true;
 
-        mediaTitle = surahTitle;
-        mediaStatus = getResources().getString(R.string.now_playing);
-        mediaUrl = audioUrl;
+            mediaTitle = surahTitle;
+            mediaStatus = getResources().getString(R.string.now_playing);
+            mediaUrl = audioUrl;
 
-        updateSurahPreferences();
+            updateSurahPreferences();
 
-        if(isMediaReset) {
-            prepareMedia();
-            mediaPlayer.start();
-            isMediaReset=false;
-        }
-        else{
-            if (!mediaPlayer.isPlaying()) {
+            if (isMediaReset) {
+                prepareMedia();
                 mediaPlayer.start();
+                isMediaReset = false;
+            } else {
+                if(mediaPlayer != null) {
+                    if (!mediaPlayer.isPlaying()) {
+                        mediaPlayer.start();
+                    }
+                }
             }
 
+            mediaCardView.setVisibility(View.VISIBLE);
+            mediaPlayerTitleView.setText(mediaTitle);
+            mediaPlayerStatusView.setText(mediaStatus);
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
-
-        mediaCardView.setVisibility(View.VISIBLE);
-        mediaPlayerTitleView.setText(mediaTitle);
-        mediaPlayerStatusView.setText(mediaStatus);
     }
 
     private void stopAudio(){
-        mediaPlayerStartView.setImageResource(R.drawable.play);
-        mainMediaPlayerStartView.setImageResource(R.drawable.play);
-        mediaStatus = getResources().getString(R.string.ready_to_play);
-        mediaPlayerStatusView.setText(mediaStatus);
+        try {
+            mediaPlayerStartView.setImageResource(R.drawable.play);
+            mainMediaPlayerStartView.setImageResource(R.drawable.play);
+            mediaStatus = getResources().getString(R.string.ready_to_play);
+            mediaPlayerStatusView.setText(mediaStatus);
 
-        isMediaActive=false;
-        isMediaReset=true;
+            isMediaActive = false;
+            isMediaReset = true;
 
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-        }
-        else if(mediaPlayer != null){
-            mediaPlayer.reset();
+            if(mediaPlayer != null) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                }
+            }
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 

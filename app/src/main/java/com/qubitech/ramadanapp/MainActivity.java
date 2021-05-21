@@ -15,6 +15,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -108,15 +109,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainMediaPlayerStopView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stopAudio(mediaPlayer);
+                stopAudio();
             }
         });
 
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                stopAudio(mediaPlayer);
+        mainMediaCardView.setOnTouchListener(new OnSwipeTouchListener(MainActivity.this){
+            public void onSwipeRight() {
+                swipeToHide(mainMediaCardView);
+            }
+            public void onSwipeLeft() {
+                swipeToHide(mainMediaCardView);
             }
         });
 
@@ -351,6 +353,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mediaPlayer.setDataSource(mediaUrl);
             mediaPlayer.prepare();
 
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mediaPlayerComplete) {
+                    stopAudio();
+
+                    Log.d("MainActivity","MediaPlayer: Completed");
+                }
+
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -374,6 +386,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mainMediaCardView.setVisibility(View.VISIBLE);
             mainMediaPlayerStartView.setImageResource(R.drawable.pause);
             mediaStatus = getResources().getString(R.string.now_playing);
+            mainMediaPlayerTitleView.setText(mediaTitle);
             mainMediaPlayerStatusView.setText(mediaStatus);
 
 
@@ -394,64 +407,83 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void playAudio(){
-        if(currentFragment != null) {
-            NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
-            SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-            surahFragment.updateMediaControls(R.drawable.stop);
-        }
-        mainMediaPlayerStartView.setImageResource(R.drawable.pause);
-        mediaStatus = getResources().getString(R.string.now_playing);
-        mainMediaPlayerStatusView.setText(mediaStatus);
-        isMediaActive=true;
-
-        if(isMediaReset) {
-            prepareMedia();
-            mediaPlayer.start();
-            isMediaReset = false;
-        }
-        else {
-            if (!mediaPlayer.isPlaying()) {
-                mediaPlayer.start();
+        try {
+            if (currentFragment != null) {
+                NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
+                SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                surahFragment.updateMediaControls(R.drawable.stop);
             }
+            mainMediaPlayerStartView.setImageResource(R.drawable.pause);
+            mediaStatus = getResources().getString(R.string.now_playing);
+            mainMediaPlayerStatusView.setText(mediaStatus);
+            isMediaActive = true;
+
+            if (isMediaReset) {
+                prepareMedia();
+                mediaPlayer.start();
+                isMediaReset = false;
+            } else {
+                if(mediaPlayer != null) {
+                    if (!mediaPlayer.isPlaying()) {
+                        mediaPlayer.start();
+                    }
+                }
+            }
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
     private void pauseAudio(){
-        if(currentFragment != null) {
-            NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
-            SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-            surahFragment.updateMediaControls(R.drawable.play);
-        }
-        mainMediaPlayerStartView.setImageResource(R.drawable.play);
-        mediaStatus = getResources().getString(R.string.paused);
-        mainMediaPlayerStatusView.setText(mediaStatus);
-        isMediaActive=false;
+        try {
+            if (currentFragment != null) {
+                NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
+                SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                surahFragment.updateMediaControls(R.drawable.play);
+            }
+            mainMediaPlayerStartView.setImageResource(R.drawable.play);
+            mediaStatus = getResources().getString(R.string.paused);
+            mainMediaPlayerStatusView.setText(mediaStatus);
+            isMediaActive = false;
 
-        if (mediaPlayer.isPlaying()) {
-            mediaPlayer.pause();
+            if(mediaPlayer != null) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                }
+            }
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
-    private void stopAudio(MediaPlayer mediaPlayer){
-        if(currentFragment != null) {
-            NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
-            SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
-            surahFragment.updateMediaControls(R.drawable.play);
-        }
-        mainMediaPlayerStartView.setImageResource(R.drawable.play);
-        mediaStatus = getResources().getString(R.string.ready_to_play);
-        mainMediaPlayerStatusView.setText(mediaStatus);
-        isMediaActive=false;
-        isMediaReset=true;
+    private void stopAudio(){
+        try {
+            if (currentFragment != null) {
+                NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
+                SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+                surahFragment.updateMediaControls(R.drawable.play);
+            }
+            mainMediaPlayerStartView.setImageResource(R.drawable.play);
+            mediaStatus = getResources().getString(R.string.ready_to_play);
+            mainMediaPlayerStatusView.setText(mediaStatus);
+            isMediaActive = false;
+            isMediaReset = true;
 
-        if (mediaPlayer.isPlaying()) {
+            if(mediaPlayer != null) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                mediaPlayer.reset();
 
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-
-        }
-        else if(mediaPlayer != null){
-            mediaPlayer.reset();
+            }
+        } catch (Resources.NotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
     }
 
