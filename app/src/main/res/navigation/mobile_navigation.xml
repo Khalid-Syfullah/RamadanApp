@@ -146,6 +146,15 @@
             app:popExitAnim="@anim/fade_out"
             app:popUpTo="@id/navigation_extras"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_quran_to_navigation_surah"
+            app:destination="@id/navigation_surah"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_surah"
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -463,6 +472,20 @@
             android:id="@+id/action_navigation_duadetails_to_navigation_dashboard"
             app:destination="@id/navigation_dashboard"
             app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="true"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_surah"
+        android:name="com.qubitech.ramadanapp.ui.quran.SurahFragment"
+        android:label="SurahFragment" >
+        <action
+            android:id="@+id/action_navigation_surah_to_navigation_quran"
+            app:destination="@id/navigation_quran"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_quran"
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />

@@ -363,6 +363,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="navigation_surah">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-499" />
+                            <option name="y" value="282" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="navigation_tasbih">
                     <value>
                       <LayoutPositions>

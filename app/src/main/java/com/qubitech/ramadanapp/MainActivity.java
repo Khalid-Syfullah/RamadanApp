@@ -3,12 +3,15 @@ package com.qubitech.ramadanapp;
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -16,29 +19,54 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.google.android.material.behavior.SwipeDismissBehavior;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
+import com.qubitech.ramadanapp.ui.quran.SurahFragment;
+import com.qubitech.ramadanapp.ui.quran.listener.OnSwipeTouchListener;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
+import java.io.IOException;
 import java.util.Locale;
+
+import static com.qubitech.ramadanapp.staticdata.StaticData.currentFragment;
+import static com.qubitech.ramadanapp.staticdata.StaticData.isMediaActive;
+import static com.qubitech.ramadanapp.staticdata.StaticData.isMediaReset;
+import static com.qubitech.ramadanapp.staticdata.StaticData.mediaPlayer;
+import static com.qubitech.ramadanapp.staticdata.StaticData.mediaStatus;
+import static com.qubitech.ramadanapp.staticdata.StaticData.mediaTitle;
+import static com.qubitech.ramadanapp.staticdata.StaticData.mediaUrl;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     DrawerLayout drawerLayout;
+    NavigationView drawerNavigationView;
+    BottomNavigationView bottomNavigationView;
+    CardView mainMediaCardView;
+    TextView mainMediaPlayerTitleView,mainMediaPlayerStatusView;
+    ImageView menu, mainMediaPlayerStartView, mainMediaPlayerStopView;
+    SharedPreferences surahPreferences;
+    SharedPreferences.Editor surahPreferencesEditor;
+    String surahPref = "Surah";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +74,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView drawerNavigationView = findViewById(R.id.nav_drawer_view);
-        BottomNavigationView bottomNavigationView = findViewById(R.id.nav_view);
-        ImageView menu = findViewById(R.id.imageView12);
+        drawerNavigationView = findViewById(R.id.nav_drawer_view);
+        bottomNavigationView = findViewById(R.id.nav_view);
+        menu = findViewById(R.id.imageView12);
+        mainMediaCardView = findViewById(R.id.main_media_cardView);
+        mainMediaPlayerTitleView = findViewById(R.id.main_media_title);
+        mainMediaPlayerStatusView = findViewById(R.id.main_media_status);
+        mainMediaPlayerStartView = findViewById(R.id.main_media_start_imageView);
+        mainMediaPlayerStopView = findViewById(R.id.main_media_stop_imageView);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         navController.setGraph(R.navigation.mobile_navigation);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
-
         menu.setOnClickListener(this);
+
+
+        updateSurahPreferences();
+        updateMediaUi();
+
+        mainMediaPlayerStartView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isMediaActive){
+                    pauseAudio();
+                }
+                else{
+                    playAudio();
+                }
+            }
+        });
+
+        mainMediaPlayerStopView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                stopAudio(mediaPlayer);
+            }
+        });
+
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                stopAudio(mediaPlayer);
+            }
+        });
+
 
 
 
@@ -238,6 +302,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+
     @Override
     public void onClick(View view) {
         switch(view.getId()){
@@ -275,6 +341,123 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             super.onBackPressed();
         }
     }
+
+
+    private void prepareMedia(){
+        mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+
+        try {
+            mediaPlayer.setDataSource(mediaUrl);
+            mediaPlayer.prepare();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateSurahPreferences(){
+        surahPreferences = getSharedPreferences(surahPref, Context.MODE_PRIVATE);
+
+        if(surahPreferences.contains("mediaTitle")){
+
+            mediaTitle = surahPreferences.getString("mediaTitle","");
+            mediaStatus = surahPreferences.getString("mediaStatus","");
+            mediaUrl = surahPreferences.getString("mediaUrl","");
+            isMediaActive = surahPreferences.getBoolean("isMediaActive",false);
+            isMediaReset = surahPreferences.getBoolean("isMediaReset",true);
+        }
+    }
+
+    private void updateMediaUi(){
+        if(isMediaActive) {
+            mainMediaCardView.setVisibility(View.VISIBLE);
+            mainMediaPlayerStartView.setImageResource(R.drawable.pause);
+            mediaStatus = getResources().getString(R.string.now_playing);
+            mainMediaPlayerStatusView.setText(mediaStatus);
+
+
+            if(mediaPlayer != null){
+                if(!mediaPlayer.isPlaying()){
+                    prepareMedia();
+                }
+            }
+
+        }
+        else{
+            mainMediaPlayerStartView.setImageResource(R.drawable.play);
+            mediaStatus = getResources().getString(R.string.ready_to_play);
+            mainMediaPlayerStatusView.setText(mediaStatus);
+            prepareMedia();
+
+        }
+    }
+
+    private void playAudio(){
+        if(currentFragment != null) {
+            NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
+            SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+            surahFragment.updateMediaControls(R.drawable.stop);
+        }
+        mainMediaPlayerStartView.setImageResource(R.drawable.pause);
+        mediaStatus = getResources().getString(R.string.now_playing);
+        mainMediaPlayerStatusView.setText(mediaStatus);
+        isMediaActive=true;
+
+        if(isMediaReset) {
+            prepareMedia();
+            mediaPlayer.start();
+            isMediaReset = false;
+        }
+        else {
+            if (!mediaPlayer.isPlaying()) {
+                mediaPlayer.start();
+            }
+        }
+    }
+
+    private void pauseAudio(){
+        if(currentFragment != null) {
+            NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
+            SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+            surahFragment.updateMediaControls(R.drawable.play);
+        }
+        mainMediaPlayerStartView.setImageResource(R.drawable.play);
+        mediaStatus = getResources().getString(R.string.paused);
+        mainMediaPlayerStatusView.setText(mediaStatus);
+        isMediaActive=false;
+
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+        }
+    }
+
+    private void stopAudio(MediaPlayer mediaPlayer){
+        if(currentFragment != null) {
+            NavHostFragment navHostFragment = (NavHostFragment) currentFragment;
+            SurahFragment surahFragment = (SurahFragment) navHostFragment.getChildFragmentManager().getFragments().get(0);
+            surahFragment.updateMediaControls(R.drawable.play);
+        }
+        mainMediaPlayerStartView.setImageResource(R.drawable.play);
+        mediaStatus = getResources().getString(R.string.ready_to_play);
+        mainMediaPlayerStatusView.setText(mediaStatus);
+        isMediaActive=false;
+        isMediaReset=true;
+
+        if (mediaPlayer.isPlaying()) {
+
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+
+        }
+        else if(mediaPlayer != null){
+            mediaPlayer.reset();
+        }
+    }
+
+
+
+
 
 
     private void languageAlertDialog(String lang){
@@ -334,6 +517,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         anim.start();
     }
+
+    private void swipeToHide(View view) {
+
+        int cx = view.getWidth();
+        int cy = view.getHeight() ;
+        float initialRadius = (float) Math.hypot(cx, cy);
+        Animator anim = ViewAnimationUtils.createCircularReveal(view, cx, 0, initialRadius, 0);
+        anim.setDuration(500);
+        anim.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                view.setVisibility(View.GONE);
+
+            }
+        });
+        anim.start();
+    }
+
 
 
 

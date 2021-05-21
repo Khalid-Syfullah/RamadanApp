@@ -1,5 +1,9 @@
 package com.qubitech.ramadanapp.staticdata;
 
+import android.media.MediaPlayer;
+
+import androidx.fragment.app.Fragment;
+
 public class StaticData {
 
     public static Double latitude=null;
@@ -30,6 +34,15 @@ public class StaticData {
     public static int iftarNextProgress=0;
     public static boolean permissionGranted = false;
     public static boolean duaRevealFlag = false;
+
+    public static MediaPlayer mediaPlayer;
+    public static String mediaTitle="";
+    public static String mediaStatus="";
+    public static String mediaUrl="";
+    public static boolean isMediaActive=false;
+    public static boolean isMediaReset=true;
+    public static Fragment currentFragment;
+
 
 
 

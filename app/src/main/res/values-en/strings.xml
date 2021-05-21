@@ -167,5 +167,19 @@
     <string name="are_you_fasting">Are you fasting today?</string>
     <string name="have_you_read_quran">Have you read the Quran today?</string>
     <string name="dualist_title">Dua</string>
+    <string name="ayahNumber">Ayahs:</string>
+    <string name="surah">Surah</string>
+    <string name="surahNumber">Surah No:</string>
+    <string name="revelation">Revelation:</string>
+    <string name="date">Date</string>
+    <string name="number">Number</string>
+    <string name="makki">Makki</string>
+    <string name="ayahs">Ayahs</string>
+    <string name="sajda">Sajda</string>
+    <string name="use_surah_name">Use Surah Name as Keyword</string>
+    <string name="status">status</string>
+    <string name="ready_to_play">Ready to Play</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="paused">Paused</string>
 
 </resources>

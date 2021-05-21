@@ -229,7 +229,7 @@
         <item>Meherpur</item>
         <item>Narail</item>
         <item>Chuadanga</item>
-        <item>kushtia</item>
+        <item>Kushtia</item>
         <item>Magura</item>
         <item>Bagerhat</item>
         <item>Jhenaidah</item>
@@ -252,7 +252,7 @@
         <item>Netrokona</item>
 
         <item>Barisal</item>
-        <item>Jhalakathi</item>
+        <item>Jhalokathi</item>
         <item>Patuakhali</item>
         <item>Pirojpur</item>
         <item>Bhola</item>
@@ -1687,9 +1687,379 @@
         <item>সুল্লাহ</item>
         <item>তাহিরপুর</item>
     </string-array>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <string-array name="surahs_en">
+
+        <item>Meccan</item>
+        <item>Medinan</item>
+        <item>Al-Faatiha</item>
+        <item>Al-Baqara</item>
+        <item>Aal-i-Imraan</item>
+        <item>An-Nisaa</item>
+        <item>Al-Maaida</item>
+        <item>Al-An\'aam</item>
+        <item>Al-A\'raaf</item>
+        <item>Al-Anfaal</item>
+        <item>At-Tawba</item>
+        <item>Yunus</item>
+        <item>Hud</item>
+        <item>Yusuf</item>
+        <item>Ar-Ra\'d</item>
+        <item>Ibrahim</item>
+        <item>Al-Hijr</item>
+        <item>An-Nahl</item>
+        <item>Al-Israa</item>
+        <item>Al-Kahf</item>
+        <item>Maryam</item>
+        <item>Taa-Haa</item>
+        <item>Al-Anbiyaa</item>
+        <item>Al-Hajj</item>
+        <item>Al-Muminoon</item>
+        <item>An-Noor</item>
+        <item>Al-Furqaan</item>
+        <item>Ash-Shu\'araa</item>
+        <item>An-Naml</item>
+        <item>Al-Qasas</item>
+        <item>Al-Ankaboot</item>
+        <item>Ar-Room</item>
+        <item>Luqman</item>
+        <item>As-Sajda</item>
+        <item>Al-Ahzaab</item>
+        <item>Saba</item>
+        <item>Faatir</item>
+        <item>Yaseen</item>
+        <item>As-Saaffaat</item>
+        <item>Saad</item>
+        <item>Az-Zumar</item>
+        <item>Ghafir</item>
+        <item>Fussilat</item>
+        <item>Ash-Shura</item>
+        <item>Az-Zukhruf</item>
+        <item>Ad-Dukhaan</item>
+        <item>Al-Jaathiya</item>
+        <item>Al-Ahqaf</item>
+        <item>Muhammad</item>
+        <item>Al-Fath</item>
+        <item>Al-Hujuraat</item>
+        <item>Qaaf</item>
+        <item>Adh-Dhaariyat</item>
+        <item>At-Tur</item>
+        <item>An-Najm</item>
+        <item>Al-Qamar</item>
+        <item>Ar-Rahmaan</item>
+        <item>Al-Waaqia</item>
+        <item>Al-Mujaadila</item>
+        <item>Al-Hashr</item>
+        <item>Al-Mumtahana</item>
+        <item>As-Saff</item>
+        <item>Al-Jumu\'a</item>
+        <item>Al-Munaafiqoon</item>
+        <item>At-Taghaabun</item>
+        <item>At-Talaaq</item>
+        <item>At-Tahrim</item>
+        <item>Al-Mulk</item>
+        <item>Al-Qalam</item>
+        <item>Al-Haaqqa</item>
+        <item>Al-Ma\'aarij</item>
+        <item>Nooh</item>
+        <item>Al-Jinn</item>
+        <item>Al-Muzzammil</item>
+        <item>Al-Muddaththir</item>
+        <item>Al-Qiyaama</item>
+        <item>Al-Insaan</item>
+        <item>Al-Mursalaat</item>
+        <item>An-Naba</item>
+        <item>An-Naazi\'aat</item>
+        <item>Abasa</item>
+        <item>At-Takwir</item>
+        <item>Al-Infitaar</item>
+        <item>Al-Mutaffifin</item>
+        <item>Al-Inshiqaaq</item>
+        <item>Al-Burooj</item>
+        <item>At-Taariq</item>
+        <item>Al-A\'laa</item>
+        <item>Al-Ghaashiya</item>
+        <item>Al-Fajr</item>
+        <item>Al-Balad</item>
+        <item>Ash-Shams</item>
+        <item>Al-Lail</item>
+        <item>Ad-Dhuhaa</item>
+        <item>Ash-Sharh</item>
+        <item>At-Tin</item>
+        <item>Al-Alaq</item>
+        <item>Al-Qadr</item>
+        <item>Al-Bayyina</item>
+        <item>Az-Zalzala</item>
+        <item>Al-Aadiyaat</item>
+        <item>Al-Qaari\'a</item>
+        <item>At-Takaathur</item>
+        <item>Al-Asr</item>
+        <item>Al-Humaza</item>
+        <item>Al-Fil</item>
+        <item>Quraish</item>
+        <item>Al-Maa\'un</item>
+        <item>Al-Kawthar</item>
+        <item>Al-Kaafiroon</item>
+        <item>An-Nasr</item>
+        <item>Al-Masad</item>
+        <item>Al-Ikhlaas</item>
+        <item>Al-Falaq</item>
+        <item>An-Naas</item>
+
+    </string-array>
+
+    <string-array name="surahs_bn">
+        <item>মাক্কী</item>
+        <item>মাদানী</item>
+        <item>সূরা ফাতিহা</item>
+        <item>সূরা বাকারা</item>
+        <item>সূরা আলে ইমরান</item>
+        <item>সূরা নিসা</item>
+        <item>সূরা মায়েদা</item>
+        <item>সূরা আনআম</item>
+        <item>সূরা আ\'রাফ</item>
+        <item>সূরা আনফাল</item>
+        <item>সূরা তওবা</item>
+        <item>সূরা ইউনুস</item>
+        <item>সূরা হুদ</item>
+        <item>সূরা ইউসুফ</item>
+        <item>সূরা রাদ</item>
+        <item>সূরা ইবরাহিম</item>
+        <item>সূরা হিজর</item>
+        <item>সূরা আন-নাহল</item>
+        <item>সূরা ইশরা</item>
+        <item>সূরা কাহাফ</item>
+        <item>সূরা মরিয়ম</item>
+        <item>সূরা ত্বাহা</item>
+        <item>সূরা আম্বিয়া</item>
+        <item>সূরা হজ্জ্ব</item>
+        <item>সূরা মুমিনূন</item>
+        <item>সূরা নূর</item>
+        <item>সূরা ফুরক্বান</item>
+        <item>সূরা শুআরা</item>
+        <item>সূরা নমল</item>
+        <item>সূরা ক্বাসাস</item>
+        <item>সূরা আনকাবুত</item>
+        <item>সূরা রুম</item>
+        <item>সূরা লোকমান</item>
+        <item>সূরা সাজদাহ</item>
+        <item>সূরা আহযাব</item>
+        <item>সূরা সাবা</item>
+        <item>সূরা ফাতির</item>
+        <item>সূরা ইয়াসিন</item>
+        <item>সূরা সাফফাত</item>
+        <item>সূরা সাদ</item>
+        <item>সূরা জুমার</item>
+        <item>সূরা মুমিন</item>
+        <item>সূরা ফুসসিলাত</item>
+        <item>সূরা শুরা</item>
+        <item>সূরা যুখরুফ</item>
+        <item>সূরা দুখান</item>
+        <item>সূরা জাসিয়া</item>
+        <item>সূরা আহকাফ</item>
+        <item>সূরা মুহাম্মাদ</item>
+        <item>সূরা ফাতাহ</item>
+        <item>সূরা হুজুরাত</item>
+        <item>সূরা ক্বাফ</item>
+        <item>সূরা আয-যারিয়াত</item>
+        <item>সূরা তুর</item>
+        <item>সূরা আন-নাজম</item>
+        <item>সূরা কামার</item>
+        <item>সূরা আর-রহমান</item>
+        <item>সূরা ওয়াক্বিয়াহ</item>
+        <item>সূরা মুজাদালাহ</item>
+        <item>সূরা হাশর</item>
+        <item>সূরা মুমতাহিনা</item>
+        <item>সূরা আস-সাফ</item>
+        <item>সূরা জুমআ</item>
+        <item>সূরা মুনাফিকুন</item>
+        <item>সূরা তাগাবুন</item>
+        <item>সূরা তালাক</item>
+        <item>সূরা তাহরীম</item>
+        <item>সূরা মূলক</item>
+        <item>সূরা কলম</item>
+        <item>সূরা হাক্কা</item>
+        <item>সূরা মায়ারিজ</item>
+        <item>সূরা নূহ</item>
+        <item>সূরা জ্বীন</item>
+        <item>সূরা মুজজাম্মিল</item>
+        <item>সূরা মুদ্দাসসীর</item>
+        <item>সূরা কিয়ামাহ</item>
+        <item>সূরা ইনসান</item>
+        <item>সূরা মুরসালাত</item>
+        <item>সূরা নাবা</item>
+        <item>সূরা নাজিয়াত</item>
+        <item>সূরা আবাসা</item>
+        <item>সূরা তাকভির</item>
+        <item>সূরা ইনফিতার</item>
+        <item>সূরা মুতাফফিফীন</item>
+        <item>সূরা ইনশিকাক</item>
+        <item>সূরা বুরুজ</item>
+        <item>সূরা তারিক</item>
+        <item>সূরা আ\'লা</item>
+        <item>সূরা গাশিয়াহ</item>
+        <item>সূরা ফজর</item>
+        <item>সূরা বালাদ</item>
+        <item>সূরা শামস</item>
+        <item>সূরা লাইল</item>
+        <item>সূরা দুহা</item>
+        <item>সূরা ইনশিরাহ</item>
+        <item>সূরা ত্বীন</item>
+        <item>সূরা আলাক</item>
+        <item>সূরা কদর</item>
+        <item>সূরা বায়্যিনাহ</item>
+        <item>সূরা যিলযাল</item>
+        <item>সূরা আদিয়াত</item>
+        <item>সূরা ক্বরিয়াহ</item>
+        <item>সূরা তাকাসূর</item>
+        <item>সূরা আসর</item>
+        <item>সূরা হুমাযাহ</item>
+        <item>সূরা ফীল</item>
+        <item>সূরা কুরাইশ</item>
+        <item>সূরা মাউন</item>
+        <item>সূরা কাউসার</item>
+        <item>সূরা কাফিরুন</item>
+        <item>সূরা নাসর</item>
+        <item>সূরা লাহাব</item>
+        <item>সূরা ইখলাস</item>
+        <item>সূরা ফালাক</item>
+        <item>সূরা নাস</item>
+    </string-array>
+
+    <string-array name="surahs_translation">
+        <item>The Opener</item>
+        <item>The Cow</item>
+        <item>Family of Imran</item>
+        <item>The Women</item>
+        <item>The Table Spread</item>
+        <item>The Cattle</item>
+        <item>The Heights</item>
+        <item>The Spoils of War</item>
+        <item>The Repentance</item>
+        <item>Jonah</item>
+        <item>Hud</item>
+        <item>Joseph</item>
+        <item>The Thunder</item>
+        <item>Abrahim</item>
+        <item>The Rocky Tract</item>
+        <item>The Bee</item>
+        <item>The Night Journey</item>
+        <item>The Cave</item>
+        <item>Mary</item>
+        <item>Ta-Ha</item>
+        <item>The Prophets</item>
+        <item>The Pilgrimage</item>
+        <item>The Believers</item>
+        <item>The Light</item>
+        <item>The Criterian</item>
+        <item>The Poets</item>
+        <item>The Ant</item>
+        <item>The Stories</item>
+        <item>The Spider</item>
+        <item>The Romans</item>
+        <item>Luqman</item>
+        <item>The Prostration</item>
+        <item>The Combined Forces</item>
+        <item>Sheba</item>
+        <item>Originator</item>
+        <item>Ya Sin</item>
+        <item>Those who set the Ranks</item>
+        <item>The Letter Saad</item>
+        <item>The Troops</item>
+        <item>The Forgiver</item>
+        <item>Explained in Detail</item>
+        <item>The Consultation</item>
+        <item>The Ornaments of Gold</item>
+        <item>The Smoke</item>
+        <item>The Crouching</item>
+        <item>The Wind-Curved Sandhills</item>
+        <item>Muhammad</item>
+        <item>The Victory</item>
+        <item>The Rooms</item>
+        <item>The Letter Qaf</item>
+        <item>The Winnowing Winds</item>
+        <item>The Mount</item>
+        <item>The Star</item>
+        <item>The Moon</item>
+        <item>The Beneficent</item>
+        <item>The Inevitable</item>
+        <item>The Iron</item>
+        <item>The Pleading Woman</item>
+        <item>The Exile</item>
+        <item>She that is to be examined</item>
+        <item>The Ranks</item>
+        <item>The Congregation, Friday</item>
+        <item>The Hypocrites</item>
+        <item>The Mutual Disillusion</item>
+        <item>The Divorce</item>
+        <item>The Prohibtiion</item>
+        <item>The Sovereignty</item>
+        <item>The Pen</item>
+        <item>The Reality</item>
+        <item>The Ascending Stairways</item>
+        <item>Noah</item>
+        <item>The Jinn</item>
+        <item>The Enshrouded One</item>
+        <item>The Cloaked One</item>
+        <item>The Resurrection</item>
+        <item>The Man</item>
+        <item>The Emissaries</item>
+        <item>The Tidings</item>
+        <item>Those who drag forth</item>
+        <item>He Frowned</item>
+        <item>The Overthrowing</item>
+        <item>The Cleaving</item>
+        <item>The Defrauding</item>
+        <item>The Sundering</item>
+        <item>The Mansions of the Stars</item>
+        <item>The Nightcommer</item>
+        <item>The Most High</item>
+        <item>The Overwhelming</item>
+        <item>The Dawn</item>
+        <item>The City</item>
+        <item>The Sun</item>
+        <item>The Night</item>
+        <item>The Morning Hours</item>
+        <item>The Relief</item>
+        <item>The Fig</item>
+        <item>The Clot</item>
+        <item>The Power</item>
+        <item>The Clear Proof</item>
+        <item>The Earthquake</item>
+        <item>The Courser</item>
+        <item>The Calamity</item>
+        <item>The Rivalry in world increase</item>
+        <item>The Declining Day</item>
+        <item>The Traducer</item>
+        <item>The Elephant</item>
+        <item>Quraysh</item>
+        <item>The Small Kindnesses</item>
+        <item>The Abundance</item>
+        <item>The Disbelievers</item>
+        <item>The Divine Support</item>
+        <item>The Palm Fiber, Flame</item>
+        <item>The Sincerity</item>
+        <item>The Daybreak</item>
+        <item>The Mankind</item>
+    </string-array>
+
     <string name="dualist_title">Dua</string>
+    <string name="surah">Surah</string>
+    <string name="surahNumber">Surah No:</string>
+    <string name="ayahNumber">Ayahs:</string>
+    <string name="revelation">Revelation:</string>
+    <string name="date">Date</string>
+    <string name="number">Number</string>
+    <string name="makki">Makki</string>
+    <string name="ayahs">Ayahs</string>
+    <string name="sajda">Sajda</string>
+    <string name="use_surah_name">Use Surah Name as Keyword</string>
+    <string name="status">status</string>
+    <string name="ready_to_play">Ready to Play</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="paused">Paused</string>
 
 
 </resources>

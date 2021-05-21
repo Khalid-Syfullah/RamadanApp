@@ -79,7 +79,6 @@ public class ChecklistFragment extends Fragment implements CompoundButton.OnChec
 
         date = simpleDateFormat.format(Calendar.getInstance().getTime());
 
-        Toast.makeText(getActivity().getApplicationContext(), date, Toast.LENGTH_LONG).show();
         dailyData = getChecklist(date);
 
         fajrCheckbox.setChecked(dailyData[0]);
@@ -100,7 +99,6 @@ public class ChecklistFragment extends Fragment implements CompoundButton.OnChec
                 Calendar calendar=new GregorianCalendar(i, i1, i2);
                 date = simpleDateFormat.format(calendar.getTime());
 
-                Toast.makeText(getActivity().getApplicationContext(), date, Toast.LENGTH_LONG).show();
                 dailyData = getChecklist(date);
 
                 changeFlag = false;

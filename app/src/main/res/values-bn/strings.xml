@@ -169,5 +169,19 @@
     <string name="are_you_fasting">আজকে রোজা রেখেছেন?</string>
     <string name="have_you_read_quran">আজকে কোরআন পড়েছেন?</string>
     <string name="dualist_title">দুআ</string>
+    <string name="surah">সূরা</string>
+    <string name="surahNumber">সূরা নংঃ</string>
+    <string name="ayahNumber">আয়াতঃ</string>
+    <string name="revelation">অবতীর্ণঃ</string>
+    <string name="date">তারিখ</string>
+    <string name="number">নং</string>
+    <string name="makki">মাক্কী</string>
+    <string name="ayahs">আয়াত</string>
+    <string name="sajda">সিজদাহ</string>
+    <string name="use_surah_name">সূরার নাম দিন</string>
+    <string name="status">অবস্থা</string>
+    <string name="ready_to_play">শুনুন</string>
+    <string name="now_playing">এখন চলছে</string>
+    <string name="paused">থামানো</string>
 
 </resources>
