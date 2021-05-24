@@ -2045,6 +2045,322 @@
         <item>The Mankind</item>
     </string-array>
 
+    <string-array name="names_arabic">
+
+        <item>ٱلْرَّحْمَـانُ</item>
+        <item>ٱلْرَّحِيْمُ</item>
+        <item>ٱلْمَلِكُ</item>
+        <item>ٱلْقُدُّوسُ</item>
+        <item>ٱلْسَّلَامُ</item>
+        <item>ٱلْمُؤْمِنُ</item>
+        <item>ٱلْمُهَيْمِنُ</item>
+        <item>ٱلْعَزِيزُ</item>
+        <item>ٱلْجَبَّارُ</item>
+        <item>ٱلْمُتَكَبِّرُ</item>
+        <item>ٱلْخَالِقُ</item>
+        <item>ٱلْبَارِئُ</item>
+        <item>ٱلْمُصَوِّرُ</item>
+        <item>ٱلْغَفَّارُ</item>
+        <item>ٱلْقَهَّارُ</item>
+        <item>ٱلْوَهَّابُ</item>
+        <item>ٱلْرَّزَّاقُ</item>
+        <item>ٱلْفَتَّاحُ</item>
+        <item>ٱلْعَلِيمُ</item>
+        <item>ٱلْقَابِضُ</item>
+        <item>ٱلْبَاسِطُ</item>
+        <item>ٱلْخَافِضُ</item>
+        <item>ٱلْرَّافِعُ</item>
+        <item>ٱلْمُعِزُّ</item>
+        <item>ٱلْمُذِلُّ</item>
+        <item>ٱلْسَّمِيعُ</item>
+        <item>ٱلْبَصِيرُ</item>
+        <item>ٱلْحَكَمُ</item>
+        <item>ٱلْعَدْلُ</item>
+        <item>ٱلْلَّطِيفُ</item>
+        <item>ٱلْخَبِيرُ</item>
+        <item>ٱلْحَلِيمُ</item>
+        <item>ٱلْعَظِيمُ</item>
+        <item>ٱلْغَفُورُ</item>
+        <item>ٱلْشَّكُورُ</item>
+        <item>ٱلْعَلِيُّ</item>
+        <item>ٱلْكَبِيرُ</item>
+        <item>ٱلْحَفِيظُ</item>
+        <item>ٱلْمُقِيتُ</item>
+        <item>ٱلْحَسِيبُ</item>
+        <item>ٱلْجَلِيلُ</item>
+        <item>ٱلْكَرِيمُ</item>
+        <item>ٱلْرَّقِيبُ</item>
+        <item>ٱلْمُجِيبُ</item>
+        <item>ٱلْوَاسِعُ</item>
+        <item>ٱلْحَكِيمُ</item>
+        <item>ٱلْوَدُودُ</item>
+        <item>ٱلْمَجِيدُ</item>
+        <item>ٱلْبَاعِثُ</item>
+        <item>ٱلْشَّهِيدُ</item>
+        <item>ٱلْحَقُّ</item>
+        <item>ٱلْوَكِيلُ</item>
+        <item>ٱلْقَوِيُّ</item>
+        <item>ٱلْمَتِينُ</item>
+        <item>ٱلْوَلِيُّ</item>
+        <item>ٱلْحَمِيدُ</item>
+        <item>ٱلْمُحْصِيُ</item>
+        <item>ٱلْمُبْدِئُ</item>
+        <item>ٱلْمُعِيدُ</item>
+        <item>ٱلْمُحْيِى</item>
+        <item>ٱلْمُمِيتُ</item>
+        <item>ٱلْحَىُّ</item>
+        <item>ٱلْقَيُّومُ</item>
+        <item>ٱلْوَاجِدُ</item>
+        <item>ٱلْمَاجِدُ</item>
+        <item>ٱلْوَاحِدُ</item>
+        <item>ٱلْأَحَد</item>
+        <item>ٱلْصَّمَدُ</item>
+        <item>ٱلْقَادِرُ</item>
+        <item>ٱلْمُقْتَدِرُ</item>
+        <item>ٱلْمُقَدِّمُ</item>
+        <item>ٱلْمُؤَخِّرُ</item>
+        <item>ٱلأَوَّلُ</item>
+        <item>ٱلْآخِرُ</item>
+        <item>ٱلْظَّاهِرُ</item>
+        <item>ٱلْبَاطِنُ</item>
+        <item>ٱلْوَالِي</item>
+        <item>ٱلْمُتَعَالِي</item>
+        <item>ٱلْبَرُّ</item>
+        <item>ٱلْتَّوَّابُ</item>
+        <item>ٱلْمُنْتَقِمُ</item>
+        <item>ٱلْعَفُوُّ</item>
+        <item>ٱلْرَّؤُفُ</item>
+        <item>مَالِكُ ٱلْمُلْكُ</item>
+        <item>ذُو ٱلْجَلَالِ وَٱلْإِكْرَامُ</item>
+        <item>ٱلْمُقْسِطُ</item>
+        <item>ٱلْجَامِعُ</item>
+        <item>ٱلْغَنيُّ</item>
+        <item>ٱلْمُغْنِيُّ</item>
+        <item>ٱلْمَانِعُ</item>
+        <item>ٱلْضَّارُ</item>
+        <item>ٱلْنَّافِعُ</item>
+        <item>ٱلْنُّورُ</item>
+        <item>ٱلْهَادِي</item>
+        <item>ٱلْبَدِيعُ</item>
+        <item>ٱلْبَاقِي</item>
+        <item>ٱلْوَارِثُ</item>
+        <item>ٱلْرَّشِيدُ</item>
+        <item>ٱلْصَّبُورُ</item>
+    </string-array>
+
+    <string-array name="names">
+
+        <item>AR-RAHMAAN</item>
+        <item>AR-RAHEEM</item>
+        <item>AL-MALIK</item>
+        <item>AL-QUDDUS</item>
+        <item>AS-SALAM</item>
+        <item>AL-MU’MIN</item>
+        <item>AL-MUHAYMIN</item>
+        <item>AL-AZEEZ</item>
+        <item>AL-JABBAR</item>
+        <item>AL-MUTAKABBIR</item>
+        <item>AL-KHAALIQ</item>
+        <item>AL-BAARI’</item>
+        <item>AL-MUSAWWIR</item>
+        <item>AL-GHAFFAR</item>
+        <item>AL-QAHHAR</item>
+        <item>AL-WAHHAAB</item>
+        <item>AR-RAZZAAQ</item>
+        <item>AL-FATTAAH</item>
+        <item>AL-‘ALEEM</item>
+        <item>AL-QAABID</item>
+        <item>AL-BAASIT</item>
+        <item>AL-KHAAFIDH</item>
+        <item>AR-RAAFI’</item>
+        <item>AL-MU’IZZ</item>
+        <item>AL-MUZIL</item>
+        <item>AS-SAMEE’</item>
+        <item>AL-BASEER</item>
+        <item>AL-HAKAM</item>
+        <item>AL-‘ADL</item>
+        <item>AL-LATEEF</item>
+        <item>AL-KHABEER</item>
+        <item>AL-HALEEM</item>
+        <item>AL-‘ATHEEM</item>
+        <item>AL-GHAFOOR</item>
+        <item>ASH-SHAKOOR</item>
+        <item>AL-‘ALEE</item>
+        <item>AL-KABEER</item>
+        <item>AL-HAFEEDH</item>
+        <item>AL-MUQEET</item>
+        <item>AL-HASEEB</item>
+        <item>AL-JALEEL</item>
+        <item>AL-KAREEM</item>
+        <item>AR-RAQEEB</item>
+        <item>AL-MUJEEB</item>
+        <item>AL-WAASI’</item>
+        <item>AL-HAKEEM</item>
+        <item>AL-WADOOD</item>
+        <item>AL-MAJEED</item>
+        <item>AL-BA’ITH</item>
+        <item>ASH-SHAHEED</item>
+        <item>AL-HAQQ</item>
+        <item>AL-WAKEEL</item>
+        <item>AL-QAWIYY</item>
+        <item>AL-MATEEN</item>
+        <item>AL-WALIYY</item>
+        <item>AL-HAMEED</item>
+        <item>AL-MUHSEE</item>
+        <item>AL-MUBDI</item>
+        <item>AL-MU’ID</item>
+        <item>AL-MUHYEE</item>
+        <item>AL-MUMEET</item>
+        <item>AL-HAYY</item>
+        <item>AL-QAYYOOM</item>
+        <item>AL-WAAJID</item>
+        <item>AL-MAAJID</item>
+        <item>AL-WAAHID</item>
+        <item>AL-AHAD</item>
+        <item>AS-SAMAD</item>
+        <item>AL-QADIR</item>
+        <item>AL-MUQTADIR</item>
+        <item>AL-MUQADDIM</item>
+        <item>AL-MU’AKHKHIR</item>
+        <item>AL-AWWAL</item>
+        <item>AL-AAKHIR</item>
+        <item>AZ-DHAAHIR</item>
+        <item>AL-BAATIN</item>
+        <item>AL-WAALI</item>
+        <item>AL-MUTA’ALI</item>
+        <item>AL-BARR</item>
+        <item>AT-TAWWAB</item>
+        <item>AL-MUNTAQIM</item>
+        <item>AL-‘AFUWW</item>
+        <item>AR-RA’OOF</item>
+        <item>MAALIK-UL-MULK</item>
+        <item>DHUL-JALAALI WAL-IKRAAM</item>
+        <item>AL-MUQSIT</item>
+        <item>AL-JAAMI’</item>
+        <item>AL-GHANIYY</item>
+        <item>AL-MUGHNI</item>
+        <item>AL-MANI’</item>
+        <item>AD-DHARR</item>
+        <item>AN-NAFI’</item>
+        <item>AN-NUR</item>
+        <item>AL-HAADI</item>
+        <item>AL-BADEE’</item>
+        <item>AL-BAAQI</item>
+        <item>AL-WAARITH</item>
+        <item>AR-RASHEED</item>
+        <item>AS-SABOOR</item>
+    </string-array>
+
+    <string-array name="names_translation">
+        <item>The Most or Entirely Merciful</item>
+        <item>The Bestower of Mercy</item>
+        <item>The King and Owner of Dominion</item>
+        <item>The Absolutely Pure</item>
+        <item>The Perfection and Giver of Peace</item>
+        <item>The One Who gives Emaan and Security</item>
+        <item>The Guardian, The Witness, The Overseer</item>
+        <item>The All Mighty</item>
+        <item>The Compeller, The Restorer</item>
+        <item>The Supreme, The Majestic</item>
+        <item>The Creator, The Maker</item>
+        <item>The Originator</item>
+        <item>The Fashioner</item>
+        <item>The All- and Oft-Forgiving</item>
+        <item>The Subduer, The Ever-Dominating</item>
+        <item>The Giver of Gifts</item>
+        <item>The Provider</item>
+        <item>The Opener, The Judge</item>
+        <item>The All-Knowing, The Omniscient</item>
+        <item>The Withholder</item>
+        <item>The Extender</item>
+        <item>The Reducer, The Abaser</item>
+        <item>The Exalter, The Elevator</item>
+        <item>The Honourer, The Bestower</item>
+        <item>The Dishonourer, The Humiliator</item>
+        <item>The All-Hearing</item>
+        <item>The All-Seeing</item>
+        <item>The Judge, The Giver of Justice</item>
+        <item>The Utterly Just</item>
+        <item>The Subtle One, The Most Gentle</item>
+        <item>The Acquainted, the All-Aware</item>
+        <item>The Most Forbearing</item>
+        <item>The Magnificent, The Supreme</item>
+        <item>The Forgiving, The Exceedingly Forgiving</item>
+        <item>The Most Appreciative</item>
+        <item>The Most High, The Exalted</item>
+        <item>The Greatest, The Most Grand</item>
+        <item>The Preserver, The All-Heedful and All-Protecting</item>
+        <item>The Sustainer</item>
+        <item>The Reckoner, The Sufficient </item>
+        <item>The Majestic</item>
+        <item>The Most Generous, The Most Esteemed</item>
+        <item>The Watchful</item>
+        <item>The Responsive One</item>
+        <item>The All-Encompassing, the Boundless</item>
+        <item>The All-Wise</item>
+        <item>The Most Loving</item>
+        <item>The Glorious, The Most Honorable</item>
+        <item>The Resurrector, The Raiser of the Dead</item>
+        <item>The All- and Ever Witnessing</item>
+        <item>The Absolute Truth</item>
+        <item>The Trustee, The Disposer of Affairs</item>
+        <item>The All-Strong</item>
+        <item>The Firm, The Steadfast</item>
+        <item>The Protecting Associate</item>
+        <item>The Praiseworthy</item>
+        <item>The All-Enumerating, The Counter</item>
+        <item>The Originator, The Initiator</item>
+        <item>The Restorer, The Reinstater</item>
+        <item>The Giver of Life</item>
+        <item>The Bringer of Death, the Destroyer</item>
+        <item>The Ever-Living</item>
+        <item>The Sustainer, The Self-Subsisting</item>
+        <item>The Perceiver</item>
+        <item>The Illustrious, the Magnificent</item>
+        <item>The One</item>
+        <item>The Unique, The Only One </item>
+        <item>The Eternal, Satisfier of Needs</item>
+        <item>The Capable, The Powerful</item>
+        <item>The Omnipotent</item>
+        <item>The Expediter, The Promoter</item>
+        <item>The Delayer, the Retarder</item>
+        <item>The First </item>
+        <item>The Last </item>
+        <item>The Manifest</item>
+        <item>The Hidden One, Knower of the Hidden</item>
+        <item>The Governor, The Patron</item>
+        <item>The Self Exalted</item>
+        <item>The Source of Goodness, the Kind Benefactor</item>
+        <item>The Ever-Pardoning, The Relenting</item>
+        <item>The Avenger</item>
+        <item>The Pardoner</item>
+        <item>The Most Kind</item>
+        <item>Master of the Kingdom, Owner of the Dominion</item>
+        <item>Possessor of Glory and Honour, Lord of Majesty and Generosity</item>
+        <item>The Equitable, the Requiter</item>
+        <item>The Gatherer, the Uniter</item>
+        <item>The Self-Sufficient, The Wealthy</item>
+        <item>The Enricher</item>
+        <item>The Withholder</item>
+        <item>The Distresser</item>
+        <item>The Propitious, the Benefactor</item>
+        <item>The Light, The Illuminator </item>
+        <item>The Guide</item>
+        <item>The Incomparable Originator</item>
+        <item>The Ever-Surviving, The Everlasting</item>
+        <item>The Inheritor, The Heir</item>
+        <item>The Guide, Infallible Teacher</item>
+        <item>The Forbearing, The Patient</item>
+
+    </string-array>
+
+    <string-array name="names_translation_2">
+
+    </string-array>
+
+
+    
+
     <string name="dualist_title">Dua</string>
     <string name="surah">Surah</string>
     <string name="surahNumber">Surah No:</string>
@@ -2060,6 +2376,17 @@
     <string name="ready_to_play">Ready to Play</string>
     <string name="now_playing">Now Playing</string>
     <string name="paused">Paused</string>
+    <string name="zakat_calculator">Zakat Calculator</string>
+    <string name="allah_names">99 Names</string>
+    <string name="personal_wealth">Personal Wealth</string>
+    <string name="self_employed_business">Self-employed Business</string>
+    <string name="joint_venture_partnership">Joint Venture, Partnership (Your share of business)</string>
+    <string name="zakat_eligibility">Zakat Eligibility</string>
+    <string name="total_eligible_wealth_title">Total eligible wealth for Zakat</string>
+    <string name="zero_tk">0 Taka</string>
+    <string name="no_pending_zakat">This year you have no pending zakat</string>
+    <string name="minimum_amount_of_wealth">This year, the minimum amount of eligible wealth for zakat is 0 Taka</string>
+    <string name="total_zakat_this_year">Your total zakat in this year:</string>
 
 
 </resources>

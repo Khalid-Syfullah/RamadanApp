@@ -60,7 +60,7 @@ class SurahListViewHolder extends RecyclerView.ViewHolder implements View.OnClic
 
 public class SurahListAdapter extends RecyclerView.Adapter<SurahListViewHolder>{
 
-    ArrayList<SurahDataModel> surahDataModels, surahDataModelsFiltered;
+    ArrayList<SurahDataModel> surahDataModelsFiltered;
     SurahDataModel surahDataModel;
     Activity activity;
 
@@ -74,7 +74,7 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListViewHolder>{
     @Override
     public SurahListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(activity.getApplicationContext()).inflate(R.layout.recyclerview_quran_list,parent,false);
+        View view = LayoutInflater.from(activity).inflate(R.layout.recyclerview_quran_list,parent,false);
         SurahListViewHolder surahListViewHolder = new SurahListViewHolder(view,activity);
         return surahListViewHolder;
     }
@@ -98,7 +98,7 @@ public class SurahListAdapter extends RecyclerView.Adapter<SurahListViewHolder>{
 
     public void surahListFilter(String query) {
 
-        surahDataModels = new ArrayList<>();
+        ArrayList<SurahDataModel> surahDataModels = new ArrayList<>();
         surahDataModels.addAll(surahDataModelsFiltered);
         Log.d("Response", "SurahDataModels : "+surahDataModels.size());
         Log.d("Response", "SurahDataModelsFiltered : "+surahDataModelsFiltered.size());

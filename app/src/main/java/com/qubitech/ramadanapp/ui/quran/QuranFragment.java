@@ -96,14 +96,6 @@ public class QuranFragment extends Fragment {
 
         new surahTask().execute();
 
-//        ViewPager viewPager = view.findViewById(R.id.viewpager2);
-//
-//        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getActivity().getSupportFragmentManager());
-//        viewPager.setAdapter(myPagerAdapter);
-//
-//        TabLayout tabLayout = view.findViewById(R.id.view_pager_tab);
-//        tabLayout.setupWithViewPager(viewPager);
-
 
         return view;
     }

@@ -176,12 +176,333 @@
     <string name="date">তারিখ</string>
     <string name="number">নং</string>
     <string name="makki">মাক্কী</string>
-    <string name="ayahs">আয়াত</string>
+    <string name="ayahs">আয়াত</string>`
     <string name="sajda">সিজদাহ</string>
     <string name="use_surah_name">সূরার নাম দিন</string>
     <string name="status">অবস্থা</string>
     <string name="ready_to_play">শুনুন</string>
     <string name="now_playing">এখন চলছে</string>
     <string name="paused">থামানো</string>
+    <string name="zakat_calculator">যাকাত ক্যালকুলেটর</string>
+    <string name="allah_names">আল্লাহর ৯৯ নাম</string>
+    <string name="personal_wealth">ব্যক্তিগত সম্পদ</string>
+    <string name="self_employed_business">Self-employed Business</string>
+    <string name="joint_venture_partnership">Joint Venture, Partnership (Your share of business)</string>
+    <string name="zakat_eligibility">Zakat Eligibility</string>
+    <string name="total_eligible_wealth_title">Total eligible wealth for Zakat</string>
+    <string name="zero_tk">0 Taka</string>
+    <string name="no_pending_zakat">This year you have no pending zakat</string>
+    <string name="minimum_amount_of_wealth">This year, the minimum amount of eligible wealth for zakat is 0 Taka</string>
+    <string name="total_zakat_this_year">Your total zakat in this year:</string>
+
+
+    <string-array name="names">
+        <item>আর রাহমান</item>
+        <item>আর রহিম</item>
+        <item>আল মালিক</item>
+        <item>আল কুদ্দুস</item>
+        <item>আস সালাম</item>
+        <item>আল মুমিন</item>
+        <item>আল মুহাইমিন</item>
+        <item>আল আজিজ</item>
+        <item>আল জাব্বার</item>
+        <item>আল মুতাকাব্বির</item>
+        <item>আল খালিক</item>
+        <item>আল বারী</item>
+        <item>আল মুসাউইর</item>
+        <item>আল গাফ্ফার</item>
+        <item>আল ক্বাহার</item>
+        <item>আল ওয়াহ্হাব</item>
+        <item>আর রাজ্জাক</item>
+        <item>আল ফাত্তাহ</item>
+        <item>আল আলীম</item>
+        <item>আল কাবিদ্ব</item>
+        <item>আল বাসিত</item>
+        <item>আল খাফিদ</item>
+        <item>আর রাফী</item>
+        <item>আল মুজিব</item>
+        <item>আল মুদ্বিল্ল</item>
+        <item>আস সামি</item>
+        <item>আল বাসীর</item>
+        <item>আল হাকাম</item>
+        <item>আল আদল</item>
+        <item>আল লতিফ</item>
+        <item>আল খাবির</item>
+        <item>আল হালিম</item>
+        <item>আল আজিম</item>
+        <item>আল গফুর</item>
+        <item>আস শাকুর</item>
+        <item>আল আলী</item>
+        <item>আল কাবিইর</item>
+        <item>আল হাফীজ</item>
+        <item>আল মুক্বিত</item>
+        <item>আল হাসিব</item>
+        <item>আল জলীল</item>
+        <item>আল কারীম</item>
+        <item>আল রাক্বীব</item>
+        <item>আল মুজীব</item>
+        <item>আল ওয়াসি</item>
+        <item>আল হাকীম</item>
+        <item>আল ওয়াদুদ</item>
+        <item>আল মাজীদ</item>
+        <item>আল বাইস</item>
+        <item>আশ শাহীদ</item>
+        <item>আল হাক্ব</item>
+        <item>আল ওয়াকিল</item>
+        <item>আল ক্বাউইউ</item>
+        <item>আল মাতীন</item>
+        <item>আল ওয়ালীইউ</item>
+        <item>আল হামীদ</item>
+        <item>আল মুহসি</item>
+        <item>আল মুব্দি</item>
+        <item>আল মুঈদ</item>
+        <item>আল মুহয়ি</item>
+        <item>আল মুমীত</item>
+        <item>আল হাইয়্যু</item>
+        <item>আল ক্বাইয়ূম</item>
+        <item>আল ওয়াজীদ</item>
+        <item>আল মাজীদ</item>
+        <item>আল ওয়া’হিদ</item>
+        <item>আল আহাদ</item>
+        <item>আস সামাদ</item>
+        <item>আল ক্বাদীর</item>
+        <item>আল মুক্তাদির</item>
+        <item>আল মুক্বদ্দিম</item>
+        <item>আল মুয়াক্ষীর</item>
+        <item>আল আউয়াল</item>
+        <item>আল আখির</item>
+        <item>আল জাহির</item>
+        <item>আল বাত্বিন</item>
+        <item>আল ওয়ালী</item>
+        <item>আল মুতা’আলী</item>
+        <item>আল বার্</item>
+        <item>আত তাওয়াব</item>
+        <item>আল মুনতাক্বীম</item>
+        <item>আল আফঊ</item>
+        <item>আর রউফ</item>
+        <item>মালিকুল মূলক</item>
+        <item>যুল জালালী ওয়াল ইকরাম</item>
+        <item>আল মুক্বসিত</item>
+        <item>আল জামিই</item>
+        <item>আল গানি</item>
+        <item>আল মুগনিই</item>
+        <item>আল মানিই</item>
+        <item>আয্ যর</item>
+        <item>আন নাফিই’</item>
+        <item>আন নূর</item>
+        <item>আল হাদী</item>
+        <item>আল বাদীই</item>
+        <item>আল বাক্বী</item>
+        <item>আল ওয়ারিস</item>
+        <item>আর রাশীদ</item>
+        <item>আস সাবুর</item>
+    </string-array>
+
+    <string-array name="names_translation">
+        <item>পরম দয়ালু </item>
+        <item>অতিশয় মেহেরবান</item>
+        <item>সর্বকর্তৃত্বময়</item>
+        <item>অতি পবিত্র</item>
+        <item>শান্তি দানকারী </item>
+        <item>নিরাপত্তা ও ঈমান দানকারী </item>
+        <item>পরিপূর্ণ রক্ষণাবেক্ষণকারী </item>
+        <item>পরাক্রমশালী </item>
+        <item>দুর্নিবার </item>
+        <item>নিরঙ্কুশ শ্রেষ্ঠত্বের অধিকারী</item>
+        <item>সৃষ্টিকর্তা </item>
+        <item>সঠিকভাবে সৃষ্টিকারী </item>
+        <item>আকৃতি দানকারী </item>
+        <item>পরম ক্ষমাশীল </item>
+        <item>কঠোর </item>
+        <item>সবকিছু দানকারী </item>
+        <item>রিযিকদাতা</item>
+        <item>বিজয়দানকারী </item>
+        <item>সর্বজ্ঞ </item>
+        <item>সংকীর্ণকারী </item>
+        <item>প্রশস্তকারী </item>
+        <item>অবনতকারী </item>
+        <item>উন্নতকারী </item>
+        <item>সম্মান দানকারী </item>
+        <item>(অবিশ্বাসীদের) বেইজ্জতকারী </item>
+        <item>সর্বশ্রোতা </item>
+        <item>সর্ববিষয় দর্শনকারী </item>
+        <item>অতল বিচারক </item>
+        <item>পরিপূর্ণ ন্যায়বিচারক </item>
+        <item>সকল গোপন বিষয়ে অবগত </item>
+        <item>সকল বিষয়ে জ্ঞাত </item>
+        <item>অত্যন্ত ধর্য্যশীল </item>
+        <item>সর্বত্ত মর্যাদাশীল </item>
+        <item>পরম ক্ষমাশীল </item>
+        <item>গুন্গ্রাহী </item>
+        <item>উচ্চ মর্যাদাশীল</item>
+        <item>সুমহান </item>
+        <item>সংরক্ষণকারী </item>
+        <item>সকলের জীবনোপকরণ দানকারী </item>
+        <item>হিসাব গ্রহণকারী </item>
+        <item>পরম মর্যাদার অধিকারী</item>
+        <item>সুমহান দাতা</item>
+        <item>তত্ত্বাবধায়ক </item>
+        <item>কবুলকারী </item>
+        <item>সর্বত্ত বিরাজমান </item>
+        <item>পরম প্রজ্ঞাময় </item>
+        <item>(বান্দাদের প্রতি) সদয়</item>
+        <item>সকল মর্যাদার অধিকারী</item>
+        <item>পুনরুজ্জীবিতকারী </item>
+        <item>সর্বজ্ঞ স্বাক্ষী </item>
+        <item>পরম সত্য </item>
+        <item>পরম নির্ভরযোগ্য কর্ম-সম্পাদনকারী </item>
+        <item>পরম শক্তির অধিকারী </item>
+        <item>সুদৃঢ়</item>
+        <item>অভিভাবক ও সাহায্যকারী </item>
+        <item>সকল প্রশংসার অধিকারী </item>
+        <item>সকল সৃষ্টির ব্যাপারে অবগত </item>
+        <item>প্রথমবার সৃষ্টিকর্তা </item>
+        <item>পুনরায় সৃষ্টিকর্তা </item>
+        <item>জীবন দানকারী </item>
+        <item>মৃত্যু দানকারী </item>
+        <item>চিরঞ্জীব </item>
+        <item>সমস্ত কিছুর ধারক ও সংরক্ষণকারী </item>
+        <item>অফুরন্ত ভান্ডারের অধিকারী </item>
+        <item>শ্রেষ্ঠত্বের অধিকারী </item>
+        <item>এক ও অদ্বিতীয় </item>
+        <item>এক </item>
+        <item>অমুখাপেক্ষি </item>
+        <item>সর্বশক্তিমান </item>
+        <item>নিরঙ্কুশ সিদ্ধান্তের অধিকারী </item>
+        <item>অগ্রসারক </item>
+        <item>অবকাশ দানকারী </item>
+        <item>অনাদি </item>
+        <item>অনন্ত, সর্বশেষ </item>
+        <item>সম্পূর্ণরূপে প্রকাশিত </item>
+        <item>দৃষ্টি হতে অদৃশ্য </item>
+        <item>সমস্ত কিছুর অভিভাবক </item>
+        <item>সৃষ্টির গুণাবলীর উর্দ্ধে</item>
+        <item>পরম উপকারী </item>
+        <item>তাওবার তৌফিক দানকারী ও কবুলকারী </item>
+        <item>প্রতিশোধ গ্রহণকারী </item>
+        <item>পরম উদার </item>
+        <item>পরম স্নেহশীল</item>
+        <item>সমগ্র জগতের বাদশাহ </item>
+        <item>মহিমান্বিত ও দয়াবান সত্তা </item>
+        <item>হকদারের হোক আদায়কারী </item>
+        <item>একত্রকারী, সমবেতকারী </item>
+        <item>অমুখাপেক্ষি ধনী</item>
+        <item>পরম অভাবমোচনকারী </item>
+        <item>অকল্যাণরোধক </item>
+        <item>ক্ষতিসাধনকারী</item>
+        <item>কল্যাণকারী </item>
+        <item>পরম আলো</item>
+        <item>পথ প্রদর্শক </item>
+        <item>অতুলনীয় </item>
+        <item>চিরস্থায়ী, অবিনশ্বর </item>
+        <item>উত্তরাধিকারী </item>
+        <item>সঠিক পথ প্রদর্শক </item>
+        <item>অত্যাধিক ধর্য্য ধারণকারী</item>
+    </string-array>
+
+
+    <string-array name="names_translation_2">
+        <item>আল্লাহ</item>
+        <item>পরম দাতা ও দয়ালু</item>
+        <item>পরম দাতা ও দয়ালু</item>
+        <item>রাজাধিরাজ</item>
+        <item>সব ত্রুটি থেকে পবিত্র</item>
+        <item>একমাত্র শান্তি দান কারী</item>
+        <item>একমাত্র নিরাপত্তা দান কারী</item>
+        <item>একমাত্র রক্ষণাবেক্ষণকারী</item>
+        <item>মহা সন্মানিত</item>
+        <item>এমন বাদশাহ যিনি যা খুশি তাই করতে পারেন</item>
+        <item>অহংকার এবং গৌরবের একমাত্র মালিক</item>
+        <item>দৃশ্যমান যাবতীয় জিনিষের সৃষ্টিকর্তা</item>
+        <item>রুহ এবং অদৃশ্য যাবতীয় জিনিষের সৃষ্টিকর্তা</item>
+        <item>আকার আকৃতি দান কারী</item>
+        <item>অনেক বড় ক্ষমাশীল</item>
+        <item>প্রভাব বিস্তারকারী মহাশক্তিধর</item>
+        <item>অনেক বড় দাতা</item>
+        <item>রিজিক বা রুজি দানকারী</item>
+        <item>যিনি বন্ধ দরোজা খুলেদেন।বিদ্যা,বুদ্ধি,রুজি ইত্যাদীর</item>
+        <item>সর্বজ্ঞ,যিনি সবকিছু জানেন</item>
+        <item>যিনি সংকীর্ণ বা ছোট করেন</item>
+        <item>যিনি প্রশস্ত বা বড় করেন</item>
+        <item>তিনি অবস্থার অবনতি করেন</item>
+        <item>তিনিই উন্নতি দান করেন</item>
+        <item>তিনি সন্মান দানকারী</item>
+        <item>তিনি অপদস্থ কারী</item>
+        <item>যিনি সবকিছু শুনেন</item>
+        <item>সব কিছু যিনি দেখেন</item>
+        <item>একমাত্র আদেশ দানকারী ও আইন প্রণেতা</item>
+        <item>ন্যায়পরায়ণ ও ন্যয়বিচারক</item>
+        <item>একমাত্র সূক্ষ্মদর্শী</item>
+        <item>যিনি গোপন খবর জানেন</item>
+        <item>অতিশয় ধৈর্যশীল</item>
+        <item>অতি মহান</item>
+        <item>অতিশয় ক্ষমাশীল</item>
+        <item>সঠিক কর্ম সম্পাদনকারী,কৃতজ্ঞতার প্রতিদানকারি</item>
+        <item>অতি বড় মহান</item>
+        <item>সবচেয়ে বড়</item>
+        <item>সবকিছু সংরক্ষণকারী</item>
+        <item>সবার রুজি উপার্যন দানকারী</item>
+        <item>সবার হিসাব গ্রহনকারী</item>
+        <item>অতি বড় মর্যাদাশালী</item>
+        <item>বড় দাতা</item>
+        <item>গোপন ও প্রকাশ্য সবজান্তা</item>
+        <item>করূণ প্রার্থনা শ্রবণকারী</item>
+        <item>যিনি বিশাল,অফুরন্ত</item>
+        <item>সর্বশ্রেষ্ঠ জ্ঞানী</item>
+        <item>প্রেমময়</item>
+        <item>সবচেয়ে সন্মানিত</item>
+        <item>কিয়মত দিবসে পুনরুত্থানকারী</item>
+        <item>প্রত্যক্ষদর্শী সাক্ষ্যদাতা</item>
+        <item>তিনি মহা সত্য</item>
+        <item>একমাত্র কার্যনির্বাহক</item>
+        <item>প্রবল পরাক্রমশালী</item>
+        <item>মহা শক্তিধর</item>
+        <item>বিপদে একমাত্র বন্দু</item>
+        <item>একমাত্র প্রশংসার যোগ্য</item>
+        <item>হিসাব সংরক্ষণকারী</item>
+        <item>সব বস্তুর প্রথম শ্রষ্টা</item>
+        <item>পুনরুত্থানকারী শ্রষ্টা</item>
+        <item>জীবনের শ্রষ্টা</item>
+        <item>মৃত্যু দাতা</item>
+        <item>চিরঞ্জীব</item>
+        <item>চিরস্থায়ী</item>
+        <item>প্রকৃত ধনী,উদ্ভাবনকারী</item>
+        <item>একমাত্র সন্মানীত ও গৌরবান্বিত</item>
+        <item>তিনি এক অদ্বিতীয়</item>
+        <item>তিনি কারো ধার ধারেন না</item>
+        <item>শক্তিমান</item>
+        <item>সর্ব শক্তির উদ্ভাবক</item>
+        <item>তিনি অগ্রগামী করেন</item>
+        <item>তিনি পেছনে ফেলে দেন</item>
+        <item>তিনিই আদি</item>
+        <item>তিনিই অন্ত</item>
+        <item>তিনি প্রকাশ্য</item>
+        <item>তিনিই গোপন</item>
+        <item>তিনিই প্রথম অধিকার বিস্তারকারী বাদশাহ</item>
+        <item>সর্বোচ্চ ক্ষমতাবান</item>
+        <item>পরম বন্ধু</item>
+        <item>তিনি তওবা কবুল কারী</item>
+        <item>শাস্তিদাতা</item>
+        <item>ক্ষমাশীল</item>
+        <item>অতিশয় সদয়</item>
+        <item>বিশ্বজাহানের মালিক</item>
+        <item>সব প্রভাব প্রতিপত্তির মালিক</item>
+        <item>ন্যায় বিচারক</item>
+        <item>সমবেত কারী</item>
+        <item>প্রকৃত ধনী</item>
+        <item>ধনীর শ্রষ্টা</item>
+        <item>ধনী ও নির্ধন সৃষ্টি কারী</item>
+        <item>অনিষ্টের মালিক</item>
+        <item>লাভ দান কারী</item>
+        <item>তিনি আলো</item>
+        <item>তিনি পথ দেখান বা হিদায়াত দানকারী</item>
+        <item>প্রথম অস্তিত্ব দানকারী</item>
+        <item>তিনিই অবশিষ্ট থাকবেন</item>
+        <item>সকল সম্পদের একমাত্র উত্তরাধিকারি</item>
+        <item>তিনি সত্য</item>
+        <item>তিনি ধৈর্যশীল</item>
+
+    </string-array>
+
 
 </resources>

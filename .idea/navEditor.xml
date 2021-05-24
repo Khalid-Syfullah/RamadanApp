@@ -8,6 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="navigation_allah_names">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="582" />
+                            <option name="y" value="313" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="navigation_calendar">
                     <value>
                       <LayoutPositions>
@@ -358,6 +370,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_navigation_quran_to_navigation_surah">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                           </map>
                         </option>
                       </LayoutPositions>
@@ -371,6 +388,15 @@
                             <option name="x" value="-499" />
                             <option name="y" value="282" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_navigation_surah_to_navigation_quran">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -407,6 +433,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="navigation_zakat_calculator">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="390" />
+                            <option name="y" value="321" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

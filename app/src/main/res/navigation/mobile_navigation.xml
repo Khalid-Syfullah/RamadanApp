@@ -190,6 +190,26 @@
             app:popExitAnim="@anim/fade_out"
             app:popUpTo="@id/navigation_quran"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_navigation_extras_to_navigation_zakat_calculator"
+            app:destination="@id/navigation_zakat_calculator"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_zakat_calculator"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_navigation_extras_to_navigation_allah_names"
+            app:destination="@id/navigation_allah_names"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/navigation_allah_names"
+            app:popUpToInclusive="true" />
     </fragment>
     
 
@@ -490,6 +510,35 @@
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_zakat_calculator"
+        android:name="com.qubitech.ramadanapp.ui.extras.ZakatCalculatorFragment"
+        android:label="ZakatCalculatorFragment" />
+
+        <action
+            android:id="@+id/action_navigation_zakat_calculator_to_navigation_extras"
+            app:destination="@id/navigation_extras"
+            app:popUpTo="@id/navigation_extras"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
+
+    <fragment
+        android:id="@+id/navigation_allah_names"
+        android:name="com.qubitech.ramadanapp.ui.extras.AllahNamesFragment"
+        android:label="AllahNamesFragment" />
+
+        <action
+            android:id="@+id/action_navigation_allah_names_to_navigation_extras"
+            app:destination="@id/navigation_extras"
+            app:popUpTo="@id/navigation_extras"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"/>
 
 
 </navigation>

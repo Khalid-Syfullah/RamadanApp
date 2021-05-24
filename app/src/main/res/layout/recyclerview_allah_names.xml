@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recyclerView_allah_names_constraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/recyclerView_allah_names_imageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/star"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_allah_names_main" />
+
+    <TextView
+        android:id="@+id/recyclerView_allah_names_main"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="@string/allah_names"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/recyclerView_allah_names_arabic"
+        app:layout_constraintStart_toEndOf="@+id/recyclerView_allah_names_imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recyclerView_allah_names_translation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="@string/allah_names"
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toStartOf="@+id/recyclerView_allah_names_arabic"
+        app:layout_constraintStart_toEndOf="@+id/recyclerView_allah_names_imageView"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_allah_names_main" />
+
+    <TextView
+        android:id="@+id/recyclerView_allah_names_arabic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="@string/allah_names"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="36sp"
+        android:textStyle="normal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/recyclerView_allah_names_main"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_allah_names_main" />
+
+    <TextView
+        android:id="@+id/recyclerView_allah_names_no"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/alegreya_sc"
+        android:text="@string/zero"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerView_allah_names_imageView"
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView_allah_names_imageView"
+        app:layout_constraintStart_toStartOf="@+id/recyclerView_allah_names_imageView"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView_allah_names_imageView" />
+
+    <View
+        android:id="@+id/recyclerView_allah_names_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/divider"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView_allah_names_translation" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,6 +50,7 @@
                 android:closeIcon="@drawable/abc_ic_clear_material"
                 android:commitIcon="@drawable/abc_ic_commit_search_api_mtrl_alpha"
                 android:goIcon="@drawable/abc_ic_go_search_api_material"
+                android:iconifiedByDefault="false"
                 android:queryHint="@string/use_surah_name"
                 android:searchHintIcon="@drawable/search_icon"
                 android:searchIcon="@drawable/search_icon"

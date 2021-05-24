@@ -2,6 +2,7 @@ package com.qubitech.ramadanapp.ui.dua;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -10,6 +11,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -17,13 +19,25 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.qubitech.ramadanapp.R;
 import com.qubitech.ramadanapp.ui.dua.dataModel.DuaDataModel;
 import com.qubitech.ramadanapp.ui.dua.recyclerView.DuaAdapter;
+import com.qubitech.ramadanapp.ui.quran.dataModel.SurahDataModel;
+import com.qubitech.ramadanapp.ui.quran.recyclerView.SurahAyahAdapter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 
 public class DuaListFragment extends Fragment {
@@ -34,7 +48,12 @@ public class DuaListFragment extends Fragment {
     RecyclerView duaRecyclerView;
     TextView duaListTitle;
     ImageView closeBtn, backBtn;
-
+    ProgressBar duaProgressBar;
+    String duaUrl;
+    String duaType="", duaTitle="", duaBody="";
+    ArrayList<DuaDataModel> duaDataModels;
+    DuaDataModel duaDataModel;
+    DuaAdapter duaAdapter;
 
     public DuaListFragment() {
         // Required empty public constructor
@@ -61,6 +80,7 @@ public class DuaListFragment extends Fragment {
 
         duaListCardView = view.findViewById(R.id.dualist_cardView);
         duaListTitle = view.findViewById(R.id.dualist_title);
+        duaProgressBar = view.findViewById(R.id.dualist_progressBar);
         backBtn = view.findViewById(R.id.dualist_backBtn);
         closeBtn = view.findViewById(R.id.dualist_closeBtn);
         duaRecyclerView = view.findViewById(R.id.dualist_dua_recyclerView);
@@ -68,65 +88,36 @@ public class DuaListFragment extends Fragment {
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
-
-        ArrayList<DuaDataModel> duaDataModels = new ArrayList<>();
-        DuaDataModel duaDataModel;
+        duaRecyclerView.setVisibility(View.VISIBLE);
+        duaRecyclerView.setLayoutManager(linearLayoutManager);
 
         if (getArguments() != null) {
             arg = getArguments().getString("fragment");
 
             if(arg.equals("salah")){
 
+                duaUrl = "https://api.sunnah.com/v1/collections/bukhari/books/8/hadiths";
                 duaListTitle.setText(getResources().getString(R.string.dua_salah_title));
-
-                duaDataModel = new DuaDataModel("salah","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।");
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
             }
             else if(arg.equals("siyam")){
 
+                duaUrl = "https://api.sunnah.com/v1/collections/bukhari/books/30/hadiths";
                 duaListTitle.setText(getResources().getString(R.string.dua_fasting_title));
 
-                duaDataModel = new DuaDataModel("siyam","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।");
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
             }
             else if(arg.equals("misc")){
 
+                duaUrl = "https://api.sunnah.com/v1/collections/riyadussalihin/books/16/hadiths";
                 duaListTitle.setText(getResources().getString(R.string.dua_misc_title));
-
-                duaDataModel = new DuaDataModel("misc","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।");
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-
-
             }
             else if(arg.equals("zikir")){
 
+                duaUrl = "https://api.sunnah.com/v1/collections/riyadussalihin/books/15/hadiths";
                 duaListTitle.setText(getResources().getString(R.string.dua_zikir_title));
-
-                duaDataModel = new DuaDataModel("zikir","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু","অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।অর্থহীন লেখা যার মাঝে আছে অনেক কিছু। অর্থহীন লেখা যার মাঝে আছে অনেক কিছু।");
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-                duaDataModels.add(duaDataModel);
-
             }
 
+            new duaTask().execute();
 
-
-            DuaAdapter duaAdapter = new DuaAdapter(getActivity(), duaDataModels);
-            duaRecyclerView.setVisibility(View.VISIBLE);
-            duaRecyclerView.setLayoutManager(linearLayoutManager);
-            duaRecyclerView.setAdapter(duaAdapter);
         }
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +137,93 @@ public class DuaListFragment extends Fragment {
         return view;
 
     }
+
+    private class duaTask extends AsyncTask<Void,Void,Void> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            duaProgressBar.setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try{
+
+
+            //API call for Quran Fragment
+            OkHttpClient client = new OkHttpClient();
+
+            Request request = new Request.Builder()
+                    .url(duaUrl)
+                    .addHeader("X-API-Key","SqD712P3E82xnwOAEOkGd5JZH8s9wRR24TqNFzjk")
+                    .build();
+
+                Response response = client.newCall(request).execute();
+
+
+                //Getting Surah Metadata from API
+                if(response.body() != null){
+
+                    duaDataModels = new ArrayList<>();
+
+                    JSONObject jsonObject = new JSONObject(response.body().string());
+                    JSONArray jsonArray = jsonObject.getJSONArray("data");
+
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject2 = jsonArray.getJSONObject(i);
+                        JSONObject jsonObject3 = jsonObject2.getJSONArray("hadith").getJSONObject(0);
+
+                        duaType = arg;
+                        duaTitle = jsonObject3.getString("chapterTitle");
+                        duaBody = jsonObject3.getString("body");
+                        duaBody = duaBody.replaceAll("<p>","");
+                        duaBody = duaBody.replaceAll("</p>","");
+                        duaBody = duaBody.replaceAll("<br/>","");
+                        duaBody = duaBody.replaceAll("<b>","");
+                        duaBody = duaBody.replaceAll("</b>","");
+                        duaBody = duaBody.replaceAll("[\\t\\n\\r]+","");
+
+                        duaDataModel = new DuaDataModel(duaType, duaTitle, duaBody);
+                        duaDataModels.add(duaDataModel);
+
+                        Log.d("Response","DuaType: "+duaType+" DuaTitle: "+duaTitle+" DuaBody"+duaBody);
+
+                    }
+
+                }
+
+
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+                duaProgressBar.setVisibility(View.GONE);
+
+            }
+
+
+
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+            duaProgressBar.setVisibility(View.GONE);
+
+            if(duaDataModels != null) {
+                //Update the UI on UI thread
+
+                duaAdapter = new DuaAdapter(getActivity(), duaDataModels);
+                duaRecyclerView.setAdapter(duaAdapter);
+            }
+        }
+
+    }
+
 
     private void hideFAB(View view) {
 

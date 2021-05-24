@@ -92,7 +92,7 @@ public class SurahFragment extends Fragment {
 
 
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -415,6 +415,8 @@ public class SurahFragment extends Fragment {
 
             isMediaActive = false;
             isMediaReset = true;
+
+            updateSurahPreferences();
 
             if(mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {

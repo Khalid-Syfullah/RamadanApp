@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.setOnClickListener(this);
 
 
-        updateSurahPreferences();
+        readSurahPreferences();
         updateMediaUi();
 
         mainMediaPlayerStartView.setOnClickListener(new View.OnClickListener() {
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void updateSurahPreferences(){
+    private void readSurahPreferences(){
         surahPreferences = getSharedPreferences(surahPref, Context.MODE_PRIVATE);
 
         if(surahPreferences.contains("mediaTitle")){
@@ -380,6 +380,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             isMediaReset = surahPreferences.getBoolean("isMediaReset",true);
         }
     }
+
+    private void updateSurahPreferences(){
+        surahPreferences = getSharedPreferences(surahPref, Context.MODE_PRIVATE);
+        surahPreferencesEditor = surahPreferences.edit();
+
+        surahPreferencesEditor.putString("mediaTitle", mediaTitle);
+        surahPreferencesEditor.putString("mediaStatus", mediaStatus);
+        surahPreferencesEditor.putString("mediaUrl", mediaUrl);
+        surahPreferencesEditor.putBoolean("isMediaActive", isMediaActive);
+        surahPreferencesEditor.putBoolean("isMediaReset", isMediaReset);
+
+        surahPreferencesEditor.apply();
+    }
+
 
     private void updateMediaUi(){
         if(isMediaActive) {
@@ -418,6 +432,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mainMediaPlayerStatusView.setText(mediaStatus);
             isMediaActive = true;
 
+            updateSurahPreferences();
+
             if (isMediaReset) {
                 prepareMedia();
                 mediaPlayer.start();
@@ -448,6 +464,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mainMediaPlayerStatusView.setText(mediaStatus);
             isMediaActive = false;
 
+            updateSurahPreferences();
+
             if(mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {
                     mediaPlayer.pause();
@@ -472,6 +490,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mainMediaPlayerStatusView.setText(mediaStatus);
             isMediaActive = false;
             isMediaReset = true;
+
+            updateSurahPreferences();
+
 
             if(mediaPlayer != null) {
                 if (mediaPlayer.isPlaying()) {

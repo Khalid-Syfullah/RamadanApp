@@ -181,5 +181,16 @@
     <string name="ready_to_play">Ready to Play</string>
     <string name="now_playing">Now Playing</string>
     <string name="paused">Paused</string>
+    <string name="zakat_calculator">Zakat Calculator</string>
+    <string name="allah_names">99 Names</string>
+    <string name="personal_wealth">Personal Wealth</string>
+    <string name="self_employed_business">Self-employed Business</string>
+    <string name="joint_venture_partnership">Joint Venture, Partnership (Your share of business)</string>
+    <string name="zakat_eligibility">Zakat Eligibility</string>
+    <string name="total_eligible_wealth_title">Total eligible wealth for Zakat</string>
+    <string name="zero_tk">0 Taka</string>
+    <string name="no_pending_zakat">This year you have no pending zakat</string>
+    <string name="minimum_amount_of_wealth">This year, the minimum amount of eligible wealth for zakat is 0 Taka</string>
+    <string name="total_zakat_this_year">Your total zakat in this year:</string>
 
 </resources>

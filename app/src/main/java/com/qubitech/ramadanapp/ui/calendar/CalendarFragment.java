@@ -41,7 +41,7 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        materialhijricalendarview = view.findViewById(R.id.materialHijriCalendarView);
+        materialhijricalendarview = view.findViewById(R.id.hijri_calendarView);
         currentDateView = view.findViewById(R.id.calendar_currentDate);
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
