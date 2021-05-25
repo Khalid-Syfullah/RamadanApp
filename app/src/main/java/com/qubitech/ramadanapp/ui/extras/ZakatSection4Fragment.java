@@ -70,19 +70,22 @@ public class ZakatSection4Fragment extends Fragment {
 
     public static void updateZakatViews(){
 
-        getTotalSum();
+        try {
+            getTotalSum();
 
-        zakatEligibilityText.setText(totalSum+ " Taka");
-        totalZakatText.setText(totalZakat+ " Taka");
+            zakatEligibilityText.setText(totalSum + " Taka");
+            totalZakatText.setText(totalZakat + " Taka");
 
 
-        if(totalSum < totalSumMinimum){
-            zakatNotRequried.setVisibility(View.VISIBLE);
-            zakatRequired.setVisibility(View.GONE);
-        }
-        else{
-            zakatNotRequried.setVisibility(View.GONE);
-            zakatRequired.setVisibility(View.VISIBLE);
+            if (totalSum < totalSumMinimum) {
+                zakatNotRequried.setVisibility(View.VISIBLE);
+                zakatRequired.setVisibility(View.GONE);
+            } else {
+                zakatNotRequried.setVisibility(View.GONE);
+                zakatRequired.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

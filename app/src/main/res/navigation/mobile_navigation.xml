@@ -225,6 +225,8 @@
             app:destination="@id/navigation_dashboard"
             app:popUpTo="@id/navigation_dashboard"
             app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
 
@@ -270,6 +272,8 @@
             app:destination="@id/navigation_dashboard"
             app:popUpTo="@id/navigation_dashboard"
             app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
 
@@ -315,6 +319,8 @@
             app:destination="@id/navigation_dashboard"
             app:popUpTo="@id/navigation_dashboard"
             app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
 
@@ -359,6 +365,8 @@
             app:destination="@id/navigation_dashboard"
             app:popUpTo="@id/navigation_dashboard"
             app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
 
@@ -412,6 +420,8 @@
             app:destination="@id/navigation_dashboard"
             app:popUpTo="@id/navigation_dashboard"
             app:popUpToInclusive="true"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
 
@@ -473,12 +483,41 @@
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_navigation_dualist_to_navigation_calendar"
+            app:destination="@id/navigation_calendar"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_dualist_to_navigation_quran"
+            app:destination="@id/navigation_quran"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quran"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_dualist_to_navigation_extras"
+            app:destination="@id/navigation_extras"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_extras"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/navigation_duadetails"
         android:name="com.qubitech.ramadanapp.ui.dua.DuaDetailsFragment"
         android:label="fragment_dua_details"
         tools:layout="@layout/fragment_dua_details" >
+
         <action
             android:id="@+id/action_navigation_duadetails_to_navigation_dualist"
             app:destination="@id/navigation_dualist"
@@ -495,6 +534,34 @@
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_navigation_duadetails_to_navigation_calendar"
+            app:destination="@id/navigation_calendar"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_duadetails_to_navigation_quran"
+            app:destination="@id/navigation_quran"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quran"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_duadetails_to_navigation_extras"
+            app:destination="@id/navigation_extras"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_extras"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/navigation_surah"
@@ -509,11 +576,70 @@
             app:popUpToInclusive="true"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+
+        <action
+            android:id="@+id/action_navigation_surah_to_navigation_calendar"
+            app:destination="@id/navigation_calendar"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_surah_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_surah_to_navigation_extras"
+            app:destination="@id/navigation_extras"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_extras"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/navigation_zakat_calculator"
         android:name="com.qubitech.ramadanapp.ui.extras.ZakatCalculatorFragment"
         android:label="ZakatCalculatorFragment" />
+
+
+
+        <action
+            android:id="@+id/action_navigation_zakat_calculator_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_zakat_calculator_to_navigation_calendar"
+            app:destination="@id/navigation_calendar"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_navigation_zakat_calculator_to_navigation_quran"
+            app:destination="@id/navigation_quran"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quran"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_navigation_zakat_calculator_to_navigation_extras"
@@ -529,6 +655,35 @@
         android:id="@+id/navigation_allah_names"
         android:name="com.qubitech.ramadanapp.ui.extras.AllahNamesFragment"
         android:label="AllahNamesFragment" />
+
+        <action
+            android:id="@+id/action_navigation_allah_names_to_navigation_dashboard"
+            app:destination="@id/navigation_dashboard"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_navigation_allah_names_to_navigation_calendar"
+            app:destination="@id/navigation_calendar"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_calendar"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_navigation_allah_names_to_navigation_quran"
+            app:destination="@id/navigation_quran"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out"
+            app:popUpTo="@id/navigation_quran"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_navigation_allah_names_to_navigation_extras"

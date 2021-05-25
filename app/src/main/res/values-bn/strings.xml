@@ -131,7 +131,7 @@
     <string name="total_eligible_wealth_title">আপনার যাকাত যোগ্য সম্পদের পরিমাণ</string>
     <string name="zero_tk">0 Taka</string>
     <string name="no_pending_zakat">এ বছর আপনার কোন যাকাত আসেনি</string>
-    <string name="minimum_amount_of_wealth">রেফারেন্সঃ এবছর ন্যূনতম যাকাতযোগ্য সম্পদের পরিমাণ, ০ টাকা, যাকাতের পরিমাণ ২.৫০% হারে</string>
+    <string name="minimum_amount_of_wealth">রেফারেন্সঃ এবছর ন্যূনতম যাকাতযোগ্য সম্পদের পরিমাণ, ৩২৫০০ টাকা, যাকাতের পরিমাণ ২.৫০% হারে</string>
     <string name="total_zakat_this_year">এ বছর আপনার মোট যাকাতঃ</string>
 
     <string-array name="names">

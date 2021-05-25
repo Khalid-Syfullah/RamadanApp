@@ -46,7 +46,7 @@ public class QuranFragment extends Fragment {
     ArrayList<SurahDataModel> surahDataModels;
     SurahDataModel surahDataModel;
     SurahListAdapter surahListAdapter;
-    String surahUrl = "http://api.alquran.cloud/v1/meta",surahTitle="",surahArabicTitle="", surahNo="", ayah="";
+    String surahUrl = "http://api.alquran.cloud/v1/meta",surahTitle="",surahArabicTitle="", surahNo="", ayah="",ayahNumber="";
     SharedPreferences localePreferences;
     String [] surahs_bn,surahs_en;
     ProgressBar progressBar;
@@ -66,7 +66,7 @@ public class QuranFragment extends Fragment {
         localePreferences = getActivity().getSharedPreferences("Language", Context.MODE_PRIVATE);
         surahs_bn = getResources().getStringArray(R.array.surahs_bn);
         surahs_en = getResources().getStringArray(R.array.surahs_en);
-
+        ayahNumber = getResources().getString(R.string.ayahNumber);
         progressBar.setVisibility(View.VISIBLE);
 
         surahDataModels = new ArrayList<>();
@@ -144,7 +144,7 @@ public class QuranFragment extends Fragment {
                         surahTitle = jsonObject3.getString("englishName");
                         surahArabicTitle = jsonObject3.getString("name");
                         surahArabicTitle = surahArabicTitle.replace("سُورَةُ ","");
-                        ayah = getResources().getString(R.string.ayahNumber) + " "+ jsonObject3.getString("numberOfAyahs");
+                        ayah = ayahNumber + " "+ jsonObject3.getString("numberOfAyahs");
 
                         if(localePreferences.contains("Current_Language")) {
                             String locale = localePreferences.getString("Current_Language", "");

@@ -131,7 +131,7 @@
     <string name="total_eligible_wealth_title">Total eligible wealth for Zakat</string>
     <string name="zero_tk">0 Taka</string>
     <string name="no_pending_zakat">This year you have no pending zakat</string>
-    <string name="minimum_amount_of_wealth">Reference: This year, the minimum amount of eligible wealth for zakat is 0 Taka</string>
+    <string name="minimum_amount_of_wealth">Reference: This year, the minimum amount of eligible wealth for zakat is 32500 Taka</string>
     <string name="total_zakat_this_year">Your total zakat in this year:</string>
 
     <string-array name="division_en">

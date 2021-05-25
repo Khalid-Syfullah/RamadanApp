@@ -79,11 +79,11 @@
 
 
     <style name="ConstraintLayoutLight">
-        <item name="android:background">@color/white</item>
+        <item name="android:background">@color/transparent_lime</item>
     </style>
 
     <style name="ConstraintLayoutDark">
-        <item name="android:background">@color/color_two</item>
+        <item name="android:background">@color/transparent_lime_2</item>
     </style>
 
 

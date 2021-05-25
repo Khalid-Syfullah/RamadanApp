@@ -147,8 +147,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
 
-
-
                 if(nv == R.id.navigation_calendar){
                     if(id == R.id.navigation_dashboard){
                         navController.navigate(R.id.action_navigation_calendar_to_navigation_dashboard);
@@ -175,6 +173,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 }
 
+                if(nv == R.id.navigation_surah){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_surah_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_surah_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_surah_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_surah_to_navigation_extras);
+                    }
+
+                }
+
+
                 if(nv == R.id.navigation_extras){
                     if(id == R.id.navigation_dashboard){
                         navController.navigate(R.id.action_navigation_extras_to_navigation_dashboard);
@@ -189,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 if(nv == R.id.navigation_mosques){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_mosques_to_navigation_dashboard);
+                    }
                     if(id == R.id.navigation_quran){
                         navController.navigate(R.id.action_navigation_mosques_to_navigation_quran);
                     }
@@ -201,6 +219,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 if(nv == R.id.navigation_tasbih){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_tasbih_to_navigation_dashboard);
+                    }
                     if(id == R.id.navigation_quran){
                         navController.navigate(R.id.action_navigation_tasbih_to_navigation_quran);
                     }
@@ -213,6 +234,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 if(nv == R.id.navigation_checklist){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_checklist_to_navigation_dashboard);
+                    }
                     if(id == R.id.navigation_quran){
                         navController.navigate(R.id.action_navigation_checklist_to_navigation_quran);
                     }
@@ -225,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 if(nv == R.id.navigation_dua){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_dua_to_navigation_dashboard);
+                    }
                     if(id == R.id.navigation_quran){
                         navController.navigate(R.id.action_navigation_dua_to_navigation_quran);
                     }
@@ -233,6 +260,67 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                     if(id == R.id.navigation_extras){
                         navController.navigate(R.id.action_navigation_dua_to_navigation_extras);
+                    }
+                }
+
+
+                if(nv == R.id.navigation_dualist){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_dualist_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_dualist_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_dualist_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_dualist_to_navigation_extras);
+                    }
+                }
+
+                if(nv == R.id.navigation_duadetails){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_duadetails_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_duadetails_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_duadetails_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_duadetails_to_navigation_extras);
+                    }
+                }
+
+                if(nv == R.id.navigation_zakat_calculator){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_zakat_calculator_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_zakat_calculator_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_zakat_calculator_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_zakat_calculator_to_navigation_extras);
+                    }
+                }
+
+                if(nv == R.id.navigation_allah_names){
+                    if(id == R.id.navigation_dashboard){
+                        navController.navigate(R.id.action_navigation_allah_names_to_navigation_dashboard);
+                    }
+                    if(id == R.id.navigation_calendar){
+                        navController.navigate(R.id.action_navigation_allah_names_to_navigation_calendar);
+                    }
+                    if(id == R.id.navigation_quran){
+                        navController.navigate(R.id.action_navigation_allah_names_to_navigation_quran);
+                    }
+                    if(id == R.id.navigation_extras){
+                        navController.navigate(R.id.action_navigation_allah_names_to_navigation_extras);
                     }
                 }
 

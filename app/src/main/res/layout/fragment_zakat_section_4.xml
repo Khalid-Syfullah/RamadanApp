@@ -39,12 +39,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/zakat_eligibility_title">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/ConstraintLayoutLight"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -91,12 +91,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/zakat_eligibility_1_cardView">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/ConstraintLayoutLight"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
@@ -143,12 +143,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/zakat_eligibility_2_cardView">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    style="@style/ConstraintLayoutLight"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
