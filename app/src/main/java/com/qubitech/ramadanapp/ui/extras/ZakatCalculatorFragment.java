@@ -18,22 +18,29 @@ import com.qubitech.ramadanapp.ui.mosques.MosquesFragment;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 public class ZakatCalculatorFragment extends Fragment {
 
 
-    ViewPager viewPager;
-
+    private ViewPager viewPager;
+    private TabLayout tabLayout;
+    public static ZakatCalculatorPagerAdapter zakatCalculatorPagerAdapter;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_zakat_calculator, container, false);
         viewPager = view.findViewById(R.id.zakat_calculator_viewpager);
+        tabLayout = view.findViewById(R.id.zakat_calculator_tablayout);
 
-        ZakatCalculatorPagerAdapter zakatCalculatorPagerAdapter = new ZakatCalculatorPagerAdapter(getActivity().getSupportFragmentManager());
+
+        zakatCalculatorPagerAdapter = new ZakatCalculatorPagerAdapter(getActivity(),getActivity().getSupportFragmentManager());
+
         viewPager.setAdapter(zakatCalculatorPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
-//        TabLayout tabLayout = view.findViewById(R.id.view_pager_tab);
-//        tabLayout.setupWithViewPager(viewPager);
+
+
         return view;
     }
 
@@ -47,10 +54,8 @@ public class ZakatCalculatorFragment extends Fragment {
     public static ZakatCalculatorFragment newInstance(){
 
         ZakatCalculatorFragment zakatCalculatorFragment = new ZakatCalculatorFragment();
-        Bundle args = new Bundle();
-        args.putInt("someInt", 1);
-        zakatCalculatorFragment.setArguments(args);
         return zakatCalculatorFragment;
 
     }
+
 }

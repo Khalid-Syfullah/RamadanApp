@@ -49,7 +49,39 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/zakat_calculator_title" />
+                app:layout_constraintTop_toBottomOf="@+id/zakat_calculator_title">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/zakat_calculator_tablayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/zakat_calculator_tabitem1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/personal_wealth" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/zakat_calculator_tabitem2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/business_1" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/zakat_calculator_tabitem3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/business_2" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:id="@+id/zakat_calculator_tabitem4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/zakat_eligibility" />
+                </com.google.android.material.tabs.TabLayout>
+            </androidx.viewpager.widget.ViewPager>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
