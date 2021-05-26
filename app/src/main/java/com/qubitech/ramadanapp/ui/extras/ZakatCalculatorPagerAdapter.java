@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 
-public class ZakatCalculatorPagerAdapter extends FragmentPagerAdapter {
+public class ZakatCalculatorPagerAdapter extends FragmentStatePagerAdapter {
 
     private String [] page;
     public static int totalSum = 0, totalSum1 = 0, totalSum2 = 0, totalSum3 = 0;

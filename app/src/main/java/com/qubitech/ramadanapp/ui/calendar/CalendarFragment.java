@@ -33,7 +33,6 @@ public class CalendarFragment extends Fragment {
 
 
     MaterialHijriCalendarView materialhijricalendarview;
-    TextView currentDateView;
     String calendarUrl = "",hijriDate = "",selectedDate="";
     SimpleDateFormat simpleDateFormat;
 
@@ -42,14 +41,12 @@ public class CalendarFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         materialhijricalendarview = view.findViewById(R.id.hijri_calendarView);
-        currentDateView = view.findViewById(R.id.calendar_currentDate);
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
         materialhijricalendarview.setDateSelected(Calendar.getInstance().getTime(),true);
         selectedDate = materialhijricalendarview.getSelectedDate().toString();
         selectedDate = selectedDate.replace("CalendarDay{","");
         selectedDate = selectedDate.replace("}","");
-        currentDateView.setText(selectedDate);
 
         return view;
     }
@@ -66,7 +63,7 @@ public class CalendarFragment extends Fragment {
                 selectedDate = date.toString();
                 selectedDate = selectedDate.replace("CalendarDay{","");
                 selectedDate = selectedDate.replace("}","");
-                currentDateView.setText(selectedDate);
+                //currentDateView.setText(selectedDate);
             }
         });
     }

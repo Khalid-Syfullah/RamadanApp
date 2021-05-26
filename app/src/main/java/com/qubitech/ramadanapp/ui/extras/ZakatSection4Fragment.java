@@ -62,6 +62,7 @@ public class ZakatSection4Fragment extends Fragment {
     }
 
     private static void getTotalSum(){
+
         totalSum = totalSum1 + totalSum2 + totalSum3;
         totalZakat = totalSum * 2.5 / 100;
 

@@ -127,9 +127,8 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        gotoDashboard();
-//        startService(locationIntent);
-//        registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+        startService(locationIntent);
+        registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
     }
 
     @Override

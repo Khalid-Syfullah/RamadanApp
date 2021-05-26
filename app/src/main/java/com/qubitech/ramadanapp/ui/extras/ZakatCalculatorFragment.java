@@ -20,6 +20,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static com.qubitech.ramadanapp.ui.extras.ZakatCalculatorPagerAdapter.totalSum;
+import static com.qubitech.ramadanapp.ui.extras.ZakatCalculatorPagerAdapter.totalSum1;
+import static com.qubitech.ramadanapp.ui.extras.ZakatCalculatorPagerAdapter.totalSum2;
+import static com.qubitech.ramadanapp.ui.extras.ZakatCalculatorPagerAdapter.totalSum3;
+import static com.qubitech.ramadanapp.ui.extras.ZakatCalculatorPagerAdapter.totalZakat;
+
 public class ZakatCalculatorFragment extends Fragment {
 
 
@@ -34,11 +40,9 @@ public class ZakatCalculatorFragment extends Fragment {
         tabLayout = view.findViewById(R.id.zakat_calculator_tablayout);
 
 
-        zakatCalculatorPagerAdapter = new ZakatCalculatorPagerAdapter(getActivity(),getActivity().getSupportFragmentManager());
-
+        zakatCalculatorPagerAdapter = new ZakatCalculatorPagerAdapter(getActivity(),getChildFragmentManager());
         viewPager.setAdapter(zakatCalculatorPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
 
 
         return view;
@@ -47,6 +51,12 @@ public class ZakatCalculatorFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        totalSum = 0;
+        totalZakat = 0;
+        totalSum1 = 0;
+        totalSum2 = 0;
+        totalSum3 = 0;
 
 
     }
