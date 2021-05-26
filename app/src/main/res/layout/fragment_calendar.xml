@@ -27,18 +27,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/calendar_tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/calendar_tab_hijri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/hijri" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/calendar_tab_gregorian"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gregorian" />
+
+        </com.google.android.material.tabs.TabLayout>
+
         <com.github.eltohamy.materialhijricalendarview.MaterialHijriCalendarView
             android:id="@+id/hijri_calendarView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/calendar_tabLayout"
             app:mcv_selectionColor="@color/lime"
             app:mcv_showOtherDates="all" />
+
+        <CalendarView
+            android:id="@+id/gregorian_calendarView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calendar_tabLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

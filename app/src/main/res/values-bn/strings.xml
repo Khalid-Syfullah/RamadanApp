@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">মুসলিম ভাই</string>
+    <string name="full_name">মুসলিম ভার্চুয়াল এইড</string>
 
     <string name="dashboard">আজকের সূচী</string>
     <string name="calendar">ক্যালেন্ডার</string>
@@ -37,7 +38,7 @@
     <string name="maghrib">মাগরিব</string>
     <string name="isha">ইশা</string>
     <string name="today">আজ</string>
-    <string name="app_bar_title">Muslim VAi</string>
+    <string name="app_bar_title">Muslim Virtual Aid</string>
 
     <string name="underdevelopment">ডেভলপমেন্ট চলছে</string>
     <string name="nearby_mosques">নিকটবর্তী মসজিদ</string>
@@ -50,7 +51,7 @@
     <string name="alarm">অ্যালার্ম</string>
     <string name="next_iftar">পরবর্তী ইফতারের শুরু</string>
     <string name="time_remaining">সময় বাকি</string>
-    <string name="nav_header_subtitle">অ্যাপটির ডেভলপমেন্ট চলছে</string>
+    <string name="nav_header_subtitle">কিউবিটেক সল্যুশনস</string>
     <string name="slash_33">/৩৩</string>
     <string name="zero">০</string>
     <string name="loop_no">লুপ নংঃ </string>
@@ -133,6 +134,9 @@
     <string name="no_pending_zakat">এ বছর আপনার কোন যাকাত আসেনি</string>
     <string name="minimum_amount_of_wealth">রেফারেন্সঃ এবছর ন্যূনতম যাকাতযোগ্য সম্পদের পরিমাণ, ৩২৫০০ টাকা, যাকাতের পরিমাণ ২.৫০% হারে</string>
     <string name="total_zakat_this_year">এ বছর আপনার মোট যাকাতঃ</string>
+    <string name="retry">পুনরায় চেষ্টা করুন</string>
+    <string name="gregorian">গ্রেগরীয়</string>
+    <string name="hijri">হিজরী</string>
 
     <string-array name="names">
         <item>আর রাহমান</item>

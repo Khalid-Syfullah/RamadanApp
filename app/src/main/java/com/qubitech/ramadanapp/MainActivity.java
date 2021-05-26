@@ -1,13 +1,11 @@
 package com.qubitech.ramadanapp;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.AudioManager;
@@ -22,7 +20,6 @@ import android.view.ViewAnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.behavior.SwipeDismissBehavior;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
@@ -33,12 +30,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -77,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawerLayout = findViewById(R.id.drawer_layout);
         drawerNavigationView = findViewById(R.id.nav_drawer_view);
         bottomNavigationView = findViewById(R.id.nav_view);
-        menu = findViewById(R.id.imageView12);
+        menu = findViewById(R.id.main_app_bar_menu);
         mainMediaCardView = findViewById(R.id.main_media_cardView);
         mainMediaPlayerTitleView = findViewById(R.id.main_media_title);
         mainMediaPlayerStatusView = findViewById(R.id.main_media_status);
@@ -384,8 +377,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else if (id == R.id.shareApp){
                     Intent shareIntent=new Intent((Intent.ACTION_SEND));
                     shareIntent.setType("text/plain");
-                    String shareBody="RamadanApp: +\n http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName();
-                    String shareSub="RamadanApp+";
+                    String shareBody="Muslim Virtual Aid: +\n http://play.google.com/store/apps/details?id=" + getApplicationContext().getPackageName();
+                    String shareSub="Muslim Virtual Aid+";
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
                     shareIntent.putExtra(Intent.EXTRA_TEXT,shareBody);
                     startActivity(Intent.createChooser(shareIntent,"Share Using"));
@@ -394,8 +387,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 else if (id == R.id.emailUs){
 
                     String email = "qubitechsolutions@gmail.com";
-                    String subject = "Contact Us";
-                    String body = "Please share your valuable thoughts with us.";
+                    String subject = "Muslim Virtual Aid - User";
+                    String body = "[REPLACE THE TEXT HERE]";
                     Intent intent = new Intent(Intent.ACTION_SENDTO);
                     intent.setData(Uri.parse("mailto:"));
                     intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email});
@@ -405,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
 
                 else if(id == R.id.sendReview){
-                    Uri uri = Uri.parse("https://docs.google.com/forms/d/e/98sd9f8s9f8sd9f8v89s8df/viewform?usp=sf_link");
+                    Uri uri = Uri.parse("https://docs.google.com/forms/d/e/1FAIpQLSd3RqJLIIQ5iot2rqdhBJIEogKZQj8h484rMWbAF4spy1fWBQ/viewform?usp=sf_link");
                     Intent review = new Intent(Intent.ACTION_VIEW, uri);
                     startActivity(review);
                 }
@@ -435,7 +428,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch(view.getId()){
-            case R.id.imageView12:
+            case R.id.main_app_bar_menu:
 
                 if(!drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.openDrawer(GravityCompat.START);

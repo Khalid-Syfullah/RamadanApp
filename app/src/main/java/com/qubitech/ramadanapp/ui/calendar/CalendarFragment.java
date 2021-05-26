@@ -11,11 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CalendarView;
 
 import com.github.eltohamy.materialhijricalendarview.CalendarDay;
 import com.github.eltohamy.materialhijricalendarview.MaterialHijriCalendarView;
 import com.github.eltohamy.materialhijricalendarview.OnDateSelectedListener;
+import com.google.android.material.tabs.TabLayout;
 import com.qubitech.ramadanapp.R;
 
 import org.json.JSONException;
@@ -32,7 +33,9 @@ import okhttp3.Response;
 public class CalendarFragment extends Fragment {
 
 
-    MaterialHijriCalendarView materialhijricalendarview;
+    MaterialHijriCalendarView hijriCalendarView;
+    CalendarView gregorianCalendarView;
+    TabLayout tabLayout;
     String calendarUrl = "",hijriDate = "",selectedDate="";
     SimpleDateFormat simpleDateFormat;
 
@@ -40,11 +43,16 @@ public class CalendarFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
-        materialhijricalendarview = view.findViewById(R.id.hijri_calendarView);
+        hijriCalendarView = view.findViewById(R.id.hijri_calendarView);
+        gregorianCalendarView = view.findViewById(R.id.gregorian_calendarView);
+        tabLayout = view.findViewById(R.id.calendar_tabLayout);
+
+        gregorianCalendarView.setVisibility(View.GONE);
+
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        materialhijricalendarview.setDateSelected(Calendar.getInstance().getTime(),true);
-        selectedDate = materialhijricalendarview.getSelectedDate().toString();
+        hijriCalendarView.setDateSelected(Calendar.getInstance().getTime(),true);
+        selectedDate = hijriCalendarView.getSelectedDate().toString();
         selectedDate = selectedDate.replace("CalendarDay{","");
         selectedDate = selectedDate.replace("}","");
 
@@ -57,13 +65,37 @@ public class CalendarFragment extends Fragment {
 
         new CalendarTask().execute();
 
-        materialhijricalendarview.setOnDateChangedListener(new OnDateSelectedListener() {
+        hijriCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialHijriCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 selectedDate = date.toString();
                 selectedDate = selectedDate.replace("CalendarDay{","");
                 selectedDate = selectedDate.replace("}","");
                 //currentDateView.setText(selectedDate);
+            }
+        });
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(tabLayout.getSelectedTabPosition() == 0){
+                    hijriCalendarView.setVisibility(View.VISIBLE);
+                    gregorianCalendarView.setVisibility(View.GONE);
+                }
+                else if(tabLayout.getSelectedTabPosition() == 1){
+                    hijriCalendarView.setVisibility(View.GONE);
+                    gregorianCalendarView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
     }

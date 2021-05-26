@@ -22,17 +22,19 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.qubitech.ramadanapp.location.LocationService;
 import com.qubitech.ramadanapp.staticdata.StaticData;
-import com.qubitech.ramadanapp.ui.dashboard.DashboardFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,13 +77,16 @@ public class SplashActivity extends AppCompatActivity {
     HandlerThread backgroundThread;
     SimpleDateFormat simpleDateFormat;
     ImageView imageView;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        imageView = findViewById(R.id.imageView2);
+        imageView = findViewById(R.id.splash_logo);
+        progressBar = findViewById(R.id.splash_progressBar);
+
         locationIntent = new Intent(SplashActivity.this, LocationService.class);
 
         simpleDateFormat = new SimpleDateFormat("HH:mm");
@@ -98,20 +103,24 @@ public class SplashActivity extends AppCompatActivity {
         upazilla_bn = getResources().getStringArray(R.array.upazilla_bn);
         upazilla_en = getResources().getStringArray(R.array.upazilla_en);
 
-        ObjectAnimator animation = ObjectAnimator.ofFloat(imageView, "rotationY", 180f, 360f);
-        animation.setDuration(600);
-        animation.setInterpolator(new AccelerateDecelerateInterpolator());
-        animation.start();
-        animation.setRepeatCount(0);
-        animation.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                imageView.setImageResource(R.drawable.mainicon);
-                Animation rotateAnimation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.accelerate_rotate);
-                imageView.startAnimation(rotateAnimation);
-            }
-        });
+
+        Animation rotateAnimation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.accelerate_rotate);
+        imageView.startAnimation(rotateAnimation);
+
+//        ObjectAnimator animation = ObjectAnimator.ofFloat(imageView, "rotationY", 180f, 360f);
+//        animation.setDuration(600);
+//        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+//        animation.start();
+//        animation.setRepeatCount(0);
+//        animation.addListener(new AnimatorListenerAdapter() {
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                super.onAnimationEnd(animation);
+//                imageView.setImageResource(R.drawable.mainicon);
+//                Animation rotateAnimation = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.accelerate_rotate);
+//                imageView.startAnimation(rotateAnimation);
+//            }
+//        });
 
 
         //locationServiceStatusCheck();
@@ -169,30 +178,6 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-
-    private void gotoDashboard(){
-        Handler handler =new Handler(Looper.getMainLooper());
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-
-                SharedPreferences localePreferences = getSharedPreferences("Language", MODE_PRIVATE);
-
-                if(localePreferences.contains("Current_Language")){
-                    setLocale(localePreferences.getString("Current_Language",""), localePreferences);
-                }
-                else{
-                    setLocale("bn", localePreferences);
-                }
-
-                Intent intent =new Intent(SplashActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-
-            }
-        },600);
-    }
-
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -208,6 +193,30 @@ public class SplashActivity extends AppCompatActivity {
 
     };
 
+
+    private void gotoDashboard(){
+        Handler handler =new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                SharedPreferences localePreferences = getSharedPreferences("Language", MODE_PRIVATE);
+
+                if(localePreferences.contains("Current_Language")){
+                    setLocale(localePreferences.getString("Current_Language",""), localePreferences);
+                }
+                else{
+                    setLocale("bn", localePreferences);
+                }
+                progressBar.setVisibility(View.GONE);
+                Intent intent =new Intent(SplashActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+        },600);
+    }
+
     private void checkConnection(){
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -215,7 +224,7 @@ public class SplashActivity extends AppCompatActivity {
         if (null != activeNetwork) {
             if(activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
 
-
+                progressBar.setVisibility(View.VISIBLE);
                 getLatLng();
 
                 backgroundThread = new HandlerThread("locationThread");
@@ -249,6 +258,8 @@ public class SplashActivity extends AppCompatActivity {
                                     locationTask.execute();
                                 }
                                 else{
+                                    progressBar.setVisibility(View.GONE);
+                                    retryDialogOnServerIssue();
                                     return;
                                 }
                             }
@@ -258,11 +269,13 @@ public class SplashActivity extends AppCompatActivity {
                 });
             }
             else{
+                progressBar.setVisibility(View.GONE);
                 retryDialog();
             }
 
         }
         else{
+            progressBar.setVisibility(View.GONE);
             retryDialog();
         }
     }
@@ -296,6 +309,38 @@ public class SplashActivity extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    //Ask to turn on location service
+    private void retryDialogOnServerIssue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No response from server")
+                .setMessage("Tap retry or try again after a while")
+                .setCancelable(false)
+                .setPositiveButton("Retry", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        checkConnection();
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        if(locationIntent != null) {
+                            stopService(locationIntent);
+                        }
+                        if(broadcastReceiver != null){
+                            unregisterReceiver(broadcastReceiver);
+                        }
+                        finish();
+                        dialogInterface.dismiss();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
 
     private void getLatLng(){
 
@@ -431,6 +476,9 @@ public class SplashActivity extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
+            progressBar.setVisibility(View.GONE);
+            retryDialog();
+
         }
         Log.d("Dashboard","Response: "+bool);
         return bool;

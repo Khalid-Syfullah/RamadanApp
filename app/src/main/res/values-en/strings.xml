@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Muslim VAi</string>
+    <string name="full_name">Muslim Virtual Aid</string>
 
     <string name="dashboard">Dashboard</string>
     <string name="calendar">Calendar</string>
@@ -35,7 +36,7 @@
     <string name="maghrib">Maghrib</string>
     <string name="isha">Isha</string>
     <string name="today">Today</string>
-    <string name="app_bar_title">Muslim VAi</string>
+    <string name="app_bar_title">Muslim Virtual Aid</string>
 
     <string name="underdevelopment">Under Development</string>
     <string name="nearby_mosques">Nearby Mosques</string>
@@ -48,7 +49,7 @@
     <string name="alarm">Alarm</string>
     <string name="next_iftar">Start Time for Next Iftar</string>
     <string name="time_remaining">Time Remaining</string>
-    <string name="nav_header_subtitle">Under Development</string>
+    <string name="nav_header_subtitle">By Qubitech Solutions</string>
     <string name="slash_33">/33</string>
     <string name="zero">0</string>
     <string name="loop_no">Loop No: </string>
@@ -131,5 +132,8 @@
     <string name="no_pending_zakat">This year you have no pending zakat</string>
     <string name="minimum_amount_of_wealth">Reference: This year, the minimum amount of eligible wealth for zakat is 0 Taka</string>
     <string name="total_zakat_this_year">Your total zakat in this year:</string>
+    <string name="retry">Retry</string>
+    <string name="gregorian">Gregorian</string>
+    <string name="hijri">Hijri</string>
 
 </resources>

@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/main_app_bar_layout"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:background="@color/white"
@@ -24,17 +24,17 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView11"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:id="@+id/main_app_bar_icon"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/main_app_bar_title"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/headericon" />
+                app:layout_constraintTop_toTopOf="@+id/main_app_bar_title"
+                app:srcCompat="@drawable/splashlogo" />
 
             <ImageView
-                android:id="@+id/imageView12"
+                android:id="@+id/main_app_bar_menu"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="24dp"
@@ -44,17 +44,17 @@
                 app:srcCompat="@drawable/menu_button" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/main_app_bar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/alegreya_sc"
                 android:text="@string/app_bar_title"
-                android:textColor="@color/black"
+                android:textColor="@color/dark_lime"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintStart_toEndOf="@+id/main_app_bar_icon"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -69,7 +69,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+            app:layout_constraintTop_toBottomOf="@+id/main_app_bar_layout"
             app:navGraph="@navigation/mobile_navigation" />
 
         <androidx.cardview.widget.CardView
