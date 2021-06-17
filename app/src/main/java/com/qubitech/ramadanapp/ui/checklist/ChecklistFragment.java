@@ -70,8 +70,8 @@ public class ChecklistFragment extends Fragment implements CompoundButton.OnChec
         fastingCheckbox = view.findViewById(R.id.checklist_fasting_checkbox);
         quranCheckbox = view.findViewById(R.id.checklist_quran_checkbox);
 
-        checkListCalendarView.setDateTextAppearance(getResources().getIdentifier("CalendarDate","style",getActivity().getPackageName()));
-        checkListCalendarView.setWeekDayTextAppearance(getResources().getIdentifier("CalendarWeek","style",getActivity().getPackageName()));
+//        checkListCalendarView.setDateTextAppearance(getResources().getIdentifier("CalendarDate","style",getActivity().getPackageName()));
+//        checkListCalendarView.setWeekDayTextAppearance(getResources().getIdentifier("CalendarWeek","style",getActivity().getPackageName()));
         checkListCalendarView.setFirstDayOfWeek(7);
         checkListCalendarView.setDate(Calendar.getInstance().getTimeInMillis());
 

@@ -5,7 +5,7 @@
 
     <group>
 
-        <item android:title="Change language">
+        <item android:title="@string/change_language">
             <menu>
                 <item
                     android:id="@+id/english"
@@ -20,24 +20,24 @@
     </group>
 
     <group>
-        <item android:title="Contact Us">
+        <item android:title="@string/contact_us">
             <menu>
                 <item
                     android:id="@+id/shareApp"
                     android:icon="@drawable/menu"
-                    android:title="Share App" />
+                    android:title="@string/share_app" />
                 <item
                     android:id="@+id/emailUs"
                     android:icon="@drawable/profile_user"
-                    android:title="Email Us" />
+                    android:title="@string/email_us" />
                 <item
                     android:id="@+id/sendReview"
                     android:icon="@android:drawable/ic_menu_edit"
-                    android:title="Review" />
+                    android:title="@string/review" />
                 <item
                     android:id="@+id/rateApp"
                     android:icon="@android:drawable/btn_star"
-                    android:title="Rate App" />
+                    android:title="@string/rate_app" />
             </menu>
         </item>
     </group>

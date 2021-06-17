@@ -88,21 +88,6 @@ public class LocationService extends Service implements LocationListener {
 
     }
 
-    Runnable locationPermissionRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if(loopCount <= 5) {
-                loopCount++;
-                startLocationUpdates();
-                handler.postDelayed(this, 1000);
-            }
-            else{
-                loopCount = 0;
-                handler.removeCallbacks(this);
-                locationServiceCheck();
-            }
-        }
-    };
 
     @Override
     public void onLocationChanged(Location location) {
@@ -158,15 +143,38 @@ public class LocationService extends Service implements LocationListener {
                 Intent invisibleIntent = new Intent(context, LocationPermissionActivity.class);
                 invisibleIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(invisibleIntent);
+                Log.d("Loop","LoopCount: "+loopCount + " DenyCount: "+denyCount);
+
             }
 
         }
         else{
             locationPermissionRunnable.run();
 
+
         }
 
     }
+
+    Runnable locationPermissionRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(loopCount <= 5) {
+                loopCount++;
+                startLocationUpdates();
+                handler.postDelayed(this, 1000);
+                Log.d("Loop","LoopCount: "+loopCount + " DenyCount: "+denyCount);
+
+            }
+            else{
+                loopCount = 0;
+                handler.removeCallbacks(this);
+                locationServiceCheck();
+                Log.d("Loop","LoopCount: "+loopCount + " DenyCount: "+denyCount);
+
+            }
+        }
+    };
 
 
 

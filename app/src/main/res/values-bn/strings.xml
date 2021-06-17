@@ -137,6 +137,11 @@
     <string name="retry">পুনরায় চেষ্টা করুন</string>
     <string name="gregorian">গ্রেগরীয়</string>
     <string name="hijri">হিজরী</string>
+    <string name="share_app">শেয়ার অ্যাপ</string>
+    <string name="email_us">ইমেইল</string>
+    <string name="review">রিভিউ দিন</string>
+    <string name="rate_app">রেটিং করুন</string>
+    <string name="contact_us">যোগাযোগ</string>
 
     <string-array name="names">
         <item>আর রাহমান</item>

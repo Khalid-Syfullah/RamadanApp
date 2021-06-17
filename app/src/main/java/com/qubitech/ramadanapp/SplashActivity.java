@@ -130,23 +130,22 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        startService(locationIntent);
+        registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        startService(locationIntent);
-        registerReceiver(broadcastReceiver, new IntentFilter(LocationService.str_receiver));
+
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
 
-        if(locationIntent != null) {
-            stopService(locationIntent);
-        }
+
     }
 
 
@@ -154,6 +153,9 @@ public class SplashActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+        if(locationIntent != null) {
+            stopService(locationIntent);
+        }
         if(backgroundThread != null) {
             backgroundThread.quit();
         }

@@ -410,10 +410,14 @@ public class MosquesFragment extends Fragment {
             mosqueMarker.setIcon(bitmapDescriptorFromVector(getActivity().getApplicationContext(), R.drawable.mosque_marker));
         }
 
-        nearbyMosqueTextView.setText(name.get(0));
-        mosqueNameTextView.setText(name.get(0));
-        mosqueLocationTextView.setText(vicinity.get(0));
-        mosqueDistanceTextView.setText("Distance: " + distanceInMeters + " m");
+        try {
+            nearbyMosqueTextView.setText(name.get(0));
+            mosqueNameTextView.setText(name.get(0));
+            mosqueLocationTextView.setText(vicinity.get(0));
+            mosqueDistanceTextView.setText("Distance: " + distanceInMeters + " m");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if(getActivity() == null)
             return;
@@ -541,12 +545,13 @@ public class MosquesFragment extends Fragment {
         if(getActivity() == null || lat == null){
             return;
         }
-        //Execute Directions API request
-        GeoApiContext context = new GeoApiContext.Builder()
-                .apiKey(getResources().getString(R.string.google_maps_key))
-                .build();
-        DirectionsApiRequest req = DirectionsApi.getDirections(context, latitude + "," + longitude, lat.get(0) + "," + lng.get(0));
         try {
+
+            //Execute Directions API request
+            GeoApiContext context = new GeoApiContext.Builder()
+                    .apiKey(getResources().getString(R.string.google_maps_key))
+                    .build();
+            DirectionsApiRequest req = DirectionsApi.getDirections(context, latitude + "," + longitude, lat.get(0) + "," + lng.get(0));
             DirectionsResult res = req.await();
 
             //Loop through legs and steps to get encoded polylines of each step
